@@ -1,0 +1,325 @@
+body {
+	margin: 0px;
+}
+
+p {
+	margin: 0px;
+	font-family: 'Roboto', sans-serif;
+}
+
+span {
+	font-family: 'Roboto', sans-serif;
+	display: inline-block;
+}
+
+a {
+	font-size: 16px;
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+input[type="button"] {
+    -webkit-border-radius: 4;
+    -moz-border-radius: 4;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 14px;
+    padding: 6px 12px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+
+input[type="button"]:hover {
+	text-decoration: none;
+}
+	
+::-webkit-scrollbar {
+ 	width: 5px; 
+}
+
+::-webkit-scrollbar-track {
+ 	background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}
+	
+.listing {
+	/*width: 90%;*/
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.filters {
+	margin-bottom:20px;
+}
+
+.filteringOptions {
+	height: 200px;
+}
+
+#addFilters, #getUsersGists, #getAllPublicGists {
+	color: black;
+}
+
+#addFilters:hover, #getUsersGists:hover, #getAllPublicGists:hover  {
+ 	background: #A9A4A4;
+}
+
+
+/*Vasen content - gistien listaus*/
+.contentLeft {
+	float: left;
+	width: 30%;
+	height: 850px;
+}
+
+
+.listGists {
+	height: 100%;
+	overflow: scroll;
+	background-color: #d4dde0;
+	list-style-type: none;
+	padding:0;
+	margin:0;
+}
+
+
+.singleGist {
+	/*height: 100px;*/
+	cursor: pointer;
+	/*border-style: solid;*/
+	word-break: break-all;
+	background-color: white;
+	margin-top: 2px;
+}
+
+.contentWrapper {
+	padding: 10px;
+	min-height: 100px;
+}
+
+
+.listing .description {
+	display: block;
+	min-height: 40px;
+}
+
+
+.active {
+	background-color: wheat;
+}
+
+
+.singleGist a {
+	font-size: 16px;
+}
+
+.gistOwner {
+	font-size: 16px;
+}
+
+
+.singleGist .description {
+	font-size: 14px;
+}
+
+#loadMore {
+    font-size: 16px;
+    color: black;
+    background-color: lightblue;
+    width: 96%;
+    margin-left: 2%;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+}
+
+
+
+/*Oikea content - yksittainen gist*/
+.contentRight {
+	background-color: #D4DDE0;
+	width: 70%;
+	height: 850px;
+	margin-left: 30%;
+}
+
+
+
+.contentRight a {
+	font-size: 14px
+}
+
+.showActiveGist {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+/*
+.showActiveGist:hover {
+	overflow-y: scroll;
+}
+*/
+
+.gistInfo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+	height: 100px;	
+}
+
+
+
+
+.nameOwnerButtons img{
+	height: 40px;
+	background: wheat;
+}
+
+.desc {
+	background: wheat;
+	padding: 5px;
+	width: 99%;
+}
+
+.desc a {
+	font-size: 16px;
+}
+
+
+
+
+
+
+
+
+
+#viewGist {
+	font-size: 16px;
+    margin-top: 8px;
+    margin-left: 10px;
+    float: left;
+}
+
+.fileInfo {
+	padding: 4px;
+}
+
+
+
+.actions {
+	float: right;
+}
+
+#editGist {
+	margin-right: 6px;
+    background: #21e054;
+}
+
+#editGist:hover {
+ 	background: #0dbf3d;
+}
+	
+
+#deleteGist {
+    background: #db4141;
+}
+
+#deleteGist:hover {
+ 	background: #b30d0d;
+}
+	
+	
+#forkGist {
+	color: black;
+}
+
+#forkGist:hover {
+	background: #A9A4A4;
+}
+
+.gistFirstFile {
+	width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+	/*border-style: solid;
+	border-width: 1px;
+	background-color: #e6e6e6;*/
+	border-radius: 4px;
+	background-color: white;
+	padding-bottom: 4px;
+	margin-bottom: 20px;
+}
+
+.showActiveGist .gistFiles {
+	/*overflow-y: scroll;
+	height: 80%;*/
+}
+
+.showActiveGist .gistFile {
+	width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+	/*border-style: solid;
+	border-width: 1px;
+	background-color: #e6e6e6;*/
+	border-radius: 4px;
+	background-color: white;
+	padding-bottom: 4px;
+	margin-bottom: 10px;
+}
+
+.showActiveGist div[id^="editor"] {
+	width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 2px;
+    /*border-style: solid;
+    border-width: 1px;*/
+}
+
+.loading {
+	/*background: url(http://localhost:9090/Opinnaytetyo_spring_react/images/loading.gif) no-repeat center center;*/
+	background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
+	height: 90%;
+}
+
+
+
+.language {
+	display: inline;
+    float: right;
+    background: orange;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.created {
+	display: inline;
+    float: left;
+	font-size: 14px;
+	margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

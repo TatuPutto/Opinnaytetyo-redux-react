@@ -1,0 +1,24 @@
+export const SELECT_GIST = 'SELECT_GIST';
+
+/**
+ * Action typet
+ */
+
+//Käyttäjätietojen hakeminen
+export const FETCH_USER_INFO_REQUEST = 'FETCH_USER_INFO_REQUEST';
+export const FETCH_USER_INFO_SUCCESS = 'FETCH_USER_INFO_SUCCESS';
+export const FETCH_USER_INFO_FAILURE = 'FETCH_USER_INFO_FAILURE';
+
+//Gistien hakeminen
+export const FETCH_GISTS_REQUEST = 'FETCH_GISTS_REQUEST';
+export const FETCH_GISTS_SUCCESS = 'FETCH_GISTS_SUCCESS';
+export const FETCH_GISTS_FAILURE = 'FETCH_GISTS_FAILURE';
+
+//Aktiivisen gistin asettaminen
+export const FETCH_ACTIVE_GIST_REQUEST = 'FETCH_ACTIVE_GIST_REQUEST';
+export const FETCH_ACTIVE_GIST_SUCCESS = 'FETCH_ACTIVE_GIST_SUCCESS';
+export const FETCH_ACTIVE_GIST_FAILURE = 'FETCH_ACTIVE_GIST_FAILURE';
+
+//Gistien filtteröinti
+export const SORT_OLDEST_TO_NEWEST = 'SORT_OLDEST_TO_NEWEST';
+export const SORT_NEWEST_TO_OLDEST = 'SORT_NEWEST_TO_OLDEST';

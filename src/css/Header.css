@@ -1,0 +1,76 @@
+.header {
+	 background-color: lightblue;
+	 height: 50px;
+}
+
+
+.userInfo {
+	float: left;
+	width: 200px;
+	/*height: 100%;*/
+	margin: 14px;
+}
+
+.userInfo img {
+	position: absolute;
+	float: left;
+	width: 30px;
+	height: 30px; 
+	margin-top: -5px;
+}
+
+.userInfo p {
+	margin-left: 35px;
+}
+
+
+.search {
+	float: left;
+	margin-top: 4px;
+}
+
+#searchField {
+	font-family: 'Roboto', sans-serif;
+	height: 25px;
+    width: 350px;
+    border-radius: 4px;
+    padding-left: 5px;
+}
+
+#doSearch {
+	-webkit-border-radius: 4;
+    -moz-border-radius: 4;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    font-size: 14px;
+    padding: 6px 12px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.navmenu {
+	float: right;
+	margin-right: 10px;
+}
+
+ul.navmenu {
+    padding: 0;
+}
+
+ul.navmenu li {
+    display: inline;
+}
+
+ul.navmenu li a {
+    padding: 10px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+ul.navmenu li a:hover {
+    background-color: white;
+}
+

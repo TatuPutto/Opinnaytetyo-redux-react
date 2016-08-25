@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Gist from '../presentational/single/Gist';
-
 import { fetchSelectedGist } from '../../actions/actions';
 
 
@@ -10,7 +9,7 @@ import { fetchSelectedGist } from '../../actions/actions';
 function mapStateToProps(state) {
 	return {
 		activeGist: state.default.activeGist,
-		isLoading: state.default.isLoadingActive
+		isLoading: state.default.isLoadingSelectedGist
 	}
 }
 

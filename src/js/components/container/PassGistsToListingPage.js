@@ -26,9 +26,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		setActive: (id) => {
-			if(id !== activeId) {
+			//if(id !== activeId) {
 				dispatch(fetchSelectedGist(id));
-			}
+			//}
 		},
 		sortByDate: (gists, chronologicalOrder) => {
 			if(chronologicalOrder) {

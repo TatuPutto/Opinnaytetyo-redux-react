@@ -31,15 +31,14 @@ class GistList extends React.Component {
 	
 	
 	render() {
-		//Näytetään latausindikaattori jos lataus on kesken
-		if(this.props.isLoading === true || this.props.gists === null) {
+		//Renderöidään latausindikaattori jos lataus on kesken
+		if(this.props.isLoading === true || this.props.gists == null) {
     		return <div className='loading'></div>; 
 		}
-		/*Puretaan gistit sisältävä taulukko ja 
-		 *luodaan arvojen pohjalta singlegist komponentteja
-		 */
     	else {
-    		var gists = this.props.gists.map(gist => {
+    		//Käydään gistien tiedot sisältävä taulukko läpi ja 
+    		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
+    		const gists = this.props.gists.map(gist => {
     			return (
 					<GistListItem 
 						key={gist.id} 
@@ -48,7 +47,7 @@ class GistList extends React.Component {
 						description={gist.description} 
 						language={gist.files[0].language}
 						color={this.getColorCode(gist.files[0].language)}
-						created={gist.formattedTime}
+						updatedAt={gist.formattedTime}
 						url={gist.viewUrl}
 						owner={gist.owner.login} 
 						activeGistId={this.props.activeGistId}
@@ -57,24 +56,13 @@ class GistList extends React.Component {
     			);
     		}, this); 
 			
-    		if(this.props.fetchMethod !== 'all') {
-				return (
-					<ul className='listGists'>
-						{gists}
-					</ul>
-				);
-    		}
-    		else {
-    			return (
-					<ul className='listGists'>
-						{gists}
-						<input type='button' id='loadMore' value='Lataa lisaa' />
-					</ul>
-				);
-    		}
-    	}
-    	
-	    
+    		//Renderöidään lista ja asetetaan <li>-elementit listan sisällöksi
+			return (
+				<ul className='listGists'>
+					{gists}
+				</ul>
+			);
+    	}	    
 	}
 		
 }

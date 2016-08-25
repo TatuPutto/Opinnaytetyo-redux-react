@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import { parseSingleGistJson, parseMultipleGistsJson, 
 		parseFiles, parseFilesWithSource } from '../utility/parseGistsJson';
+import { storeUserInfo, getUserInfoFromStorage } from '../utility/persistUserInfo';
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -12,8 +13,7 @@ export function requestUserInfo() {
 	};
 }
 
-export function receivedUserInfo(userInfoJson) {
-	console.log(userInfoJson)
+export function receiveUserInfo(userInfoJson) {
 	return {
 		type: types.FETCH_USER_INFO_SUCCESS,
 		userLogin: userInfoJson.user.login,
@@ -30,75 +30,39 @@ export function userInfoFetchFailed() {
 
 
 export function fetchUserInfo() {
-	//var accessToken = getAccessToken();
-	var accessToken = '';
-					   
-	const url = 'https://api.github.com/applications/566fea61a0cebae27268/tokens/' + 
-		'2877a0ee8d6f0ae9225090fc51022a094b4a7700';
-				 
-	var authString = '566fea61a0cebae27268:87454f258250d9170e31a8f13b51e6a612bd6545';	 
-	var encodedAuthString = window.btoa(authString); 
-	
-	var fetchInit = {
-		method: 'get',
-		headers: {
-			'Accept': 'application/json',
-       		'Content-Type': 'application/json',
-       		'Authorization': 'Basic ' + encodedAuthString
-		},
-	};
 	
 	return dispatch => {
-	    dispatch(requestUserInfo())
-	    return fetch(url, fetchInit)
-	    .then(response => {														     
-	    	if(response.ok) {
-	    		response.json().then(json => dispatch(receivedUserInfo(json)))
-	    	}
-	    	else {
-	    	    const error = new Error(
-	    	    		response.status + ' ' + response.statusText);
-	    	    error.response = response;
-	    	    throw error;
-	    	}
-	    }).catch(error => {
-	    	  console.log('Haku ei onnistunut: ' + error.message);
-	    });
-	};
-	/*
-	return dispatch => {
-	    dispatch(requestUserInfo())
-	    return fetch('http://localhost:8080/Opinnaytetyo_spring_react/userinfo', fetchInit)
-	    .then(response => {
-	    	if(response.ok) {
-	    		response.json().then(json => dispatch(receivedUserInfo(json)))
-	    	}
-	    	else {
-	    	    const error = new Error(
-	    	    		response.status + ' ' + response.statusText);
-	    	    error.response = response;
-	    	    throw error;
-	    	}
-	    }).catch(error => {
-	    	  console.log('Haku ei onnistunut: ' + error.message);
-	    });
-	};*/
+		dispatch(requestUserInfo);
+		
+		const userInfo = getUserInfoFromStorage();
+		
+		if(userInfo != null) {
+			dispatch(receiveUserInfo(userInfo));
+		}
+		else {
+			console.log('localstorage on tyhjä');
+		}
+		
+	}
+	
+	
 }
 
 
 
+export function login() {
+	//Yritetään hakea käyttäjätietoja local storagesta
+	let userInfo = getUserInfoFromStorage();
+
+	window.location.href = 'https://github.com/login/oauth/authorize?client_id=566fea61a0cebae27268&scope=gist';
+}
+	
 
 
 
 
-
-
-
-
-
-
-
-
+export function logout() {
+}
 
 
 
@@ -139,11 +103,11 @@ export function selectedGistFetchFailed() {
  */
 export function fetchSelectedGist(id) {
 	const fetchInit = {
-		method: 'get',
+		method: 'GET',
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token 2877a0ee8d6f0ae9225090fc51022a094b4a7700'
+       		'Authorization': 'token '
 		}
 	};
 	
@@ -173,10 +137,9 @@ export function fetchSelectedGist(id) {
 /////////////////////////////////////////////////////////////////////////
 
 
-/**
- * Aloitetaan gistien haku
- */
-export function requestGists(id) {
+
+ //Aloitetaan gistien hakeminen
+export function requestGists() {
 	return {
 		type: types.FETCH_GISTS_REQUEST,
 		invalidateCurrentList: true,
@@ -216,32 +179,38 @@ export function gistsFetchFailed() {
 export function fetchGists() {
 	console.log('Haetaan gistit')
 	var fetchInit = {
-		method: 'get',
+		method: 'GET',
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token 2877a0ee8d6f0ae9225090fc51022a094b4a7700'
+       		'Authorization': 'token '
 		}
 	};
 	
+	//Lähetetään dispatch-funktio paluuarvona
 	return dispatch => {
-	    dispatch(requestGists());//Loaderit päälle
+		//Lähetetään action, joka ilmoittaa uusien gistien latauksen alkaneen
+	    dispatch(requestGists());
 	    
 	    return fetch('https://api.github.com/users/TatuPutto/gists', fetchInit)
     		.then(response => {
+    			//Jos haku onnistui lähetetään gistien tiedot sisältävä json eteenpäin
 	    		if(response.ok) {
 					response.json().then(json => {
 						dispatch(receiveGists(json));
 						dispatch(fetchSelectedGist(json[0].id));
 					})
 				}
+	    		//Jos haku epäonnistui, heitetään poikkeus
 				else {
-					const error = new Error(
-							response.status + ' ' + response.statusText);
+					const error = new Error(response.status + ' ' + 
+							response.statusText);
 					error.response = response;
 					throw error;
 				}
-			}).catch(error => {
+			})
+			//Ilmoitetaan käyttäjälle miksi haku ei onnistunut
+			.catch(error => {
 				console.log('Haku ei onnistunut: ' + error.message);
 			});
 	}
@@ -300,12 +269,12 @@ export function receiveCreationResult(json) {
 export function createGist(gistJson) {
 	console.log('Luodaan uusi gist')
 	var fetchInit = {
-		method: 'post',
+		method: 'POST',
 		body: gistJson,
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token 2877a0ee8d6f0ae9225090fc51022a094b4a7700'
+       		'Authorization': 'token '
 		}
 	};
 	
@@ -336,12 +305,12 @@ export function createGist(gistJson) {
 export function editGist(gistId, gistJson) {
 	console.log('Muokataan gistiä')
 	var fetchInit = {
-		method: 'patch',
+		method: 'PATCH',
 		body: gistJson,
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token 2877a0ee8d6f0ae9225090fc51022a094b4a7700'
+       		'Authorization': 'token '
 		}
 	};
 	

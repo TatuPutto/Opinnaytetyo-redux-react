@@ -1,6 +1,6 @@
 import { render } from 'react-dom';
 import React from 'react';
-import { Router, Route, IndexRoute, Link, hashHistory, RouterState } from 'react-router';
+import { Router, Route, IndexRoute, Link, hashHistory, RouterState} from 'react-router';
 import { Provider } from 'react-redux';
 
 import { store } from './createStore';
@@ -25,9 +25,9 @@ render(
 						onEnter={fetchGistsOnEnter} />
 				<Route path='/gist/:gistId' component={PassGistToSingle} 
 						onEnter={fetchSelectedGistOnEnter} />
-				<Route path='/create' component={CreateGistContainer} />
 				<Route path='/edit/:gistId' component={PassGistToEdit} 
 						onEnter={fetchSelectedGistOnEnter} />
+				<Route path='/create' component={CreateGistContainer} />
 			</Route>
 		</Router>
 	</Provider>,

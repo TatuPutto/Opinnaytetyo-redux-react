@@ -1,14 +1,29 @@
-import { fetchSelectedGist, fetchGists } from './actions/actions';
+import { fetchSelectedGist, fetchGists, fetchAccessToken } from './actions/actions';
 
 import { store } from './createStore';
 
 export function fetchSelectedGistOnEnter(nextState) {
 	let gistId = nextState.params.gistId;
-	
-	return store.dispatch(fetchSelectedGist(gistId));
+	let state = store.getState();
+
+	if(state.default.activeGistId !== gistId) {
+		return store.dispatch(fetchSelectedGist(gistId));
+	}
+	else {
+		console.log('Valittu gist on jo aktiivinen');
+	}
 }
 
 export function fetchGistsOnEnter() {
 	return store.dispatch(fetchGists());
+}
+
+
+export function exchangeCodeToToken(nextState) {
+	let code = location.href.split('?')[1].split('&')[0].split('=')[1].split('/')[0];
+	code = code.substring(0, code.length - 1);
+	console.log(code);
+	
+	return store.dispatch(fetchAccessToken(code));
 }
 

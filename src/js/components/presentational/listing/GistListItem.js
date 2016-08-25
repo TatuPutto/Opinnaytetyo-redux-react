@@ -3,19 +3,17 @@ import {Link} from 'react-router';
 
 class GistListItem extends React.Component {
 	
-	render() {
-		var description = this.props.description; 
-		if(description !== null && description.length > 150) {
-			description = description.substring(0, 150) + '...';
-		}
+	render() {	
+		//Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri
+		const languageSpanColor = {background: this.props.color};
 		
-		var spanStyle= {background: this.props.color};
-		
-		var active = this.props.activeGistId === this.props.id ? 
+		//Tarkistetaan onko tämä gist asetettu aktiiviseksi
+		const isActive = this.props.activeGistId === this.props.id ? 
 				'singleGist active' : 'singleGist'
-					
+		
+		//Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti
 		return (
-			<li className={active} 
+			<li className={isActive} 
 					id={this.props.id} onClick={this.props.setActive}>
 			
 				<div className='contentWrapper'>
@@ -24,16 +22,13 @@ class GistListItem extends React.Component {
 							<p>{this.props.owner + ' / ' + this.props.name}</p>
 						</Link> 		
 					</span>
-							
 					<span className='description'>
-						{description}
+						{this.props.description}
 					</span>
-					
 					<span className='created'>
-						Päivitetty: {this.props.created}
+						Päivitetty: {this.props.updatedAt}
 					</span>
-					
-					<span className='language' style={spanStyle}>
+					<span className='language' style={languageSpanColor}>
 						{this.props.language}
 					</span>
 				</div>

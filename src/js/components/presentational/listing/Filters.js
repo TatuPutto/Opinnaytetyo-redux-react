@@ -8,7 +8,7 @@ class Filters extends React.Component {
 		return (
 			<div style={spanStyle}>
 				<input type='button' value={this.props.chronologicalOrder ? 
-						'Vanhimmat/uusimmat' : 'Uusimmat/vanhimmat'}
+						'Vanhimmat ensin' : 'Uusimmat ensin'}
 						onClick={() => this.props.sortByDate(
 								this.props.gists, !this.props.chronologicalOrder
 						)}/>

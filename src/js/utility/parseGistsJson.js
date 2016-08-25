@@ -26,10 +26,10 @@ export function parseMultipleGistsJson(gistsJson) {
 
 
 export function parseFiles(json) {
-	var files = [];
+	let files = [];
 	
-	for (var key in json) {
-		var singleFile = {};
+	for(let key in json) {
+		let singleFile = {};
 		singleFile['filename'] = json[key].filename;
 		singleFile['language'] = json[key].language;
 	
@@ -41,15 +41,15 @@ export function parseFiles(json) {
 
 
 export function parseFilesWithSource(json) {
-	var files = [];
+	let files = [];
 	
-	for (var key in json) {
-		var singleFile = {};
-		singleFile['filename'] = json[key].filename;
-		singleFile['description'] = json[key].language;
-		singleFile['content'] = json[key].content;
+	for (let key in json) {
+		let file = {};
+		file['filename'] = json[key].filename;
+		file['description'] = json[key].language;
+		file['content'] = json[key].content;
 		
-		files.push(singleFile);
+		files.push(file);
 	}
 	
 	return files;
@@ -57,12 +57,13 @@ export function parseFilesWithSource(json) {
 
 
 function formatTime(time) {
-	var date = new Date(time);
-	var day = date.getDate();
-	var month = date.getMonth() + 1;
-	var year = date.getFullYear();
-	var hours = date.getHours();
-	var minutes = date.getMinutes(); 
+	let date = new Date(time);
+	
+	let day = date.getDate();
+	let month = date.getMonth() + 1;
+	let year = date.getFullYear();
+	let hours = date.getHours();
+	let minutes = date.getMinutes(); 
 	
 	return day + '.' + month + '.' + year + 
 			', ' + hours + ':' + minutes;

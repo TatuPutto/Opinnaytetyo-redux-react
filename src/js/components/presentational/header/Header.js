@@ -5,43 +5,16 @@ import UserInfo from './UserInfo';
 import NavMenu from './NavMenu';
 
 class Header extends React.Component {
-
-	constructor() {
-		super();
-	}
-/*
-	componentWillMount() {
-		this.getUserInfo = $.ajax({
-			headers: { 
-	        	'Accept': 'application/json',
-	       		'Content-Type': 'application/json' 
-	   		},
-			type: "GET",
-			url: "http://localhost:8080/Opinnaytetyo_spring_react/userinfo",
-			contentType: "application/json",
-			dataType: 'json',
-			success: function(result) {
-		     	this.setState({
-					login: result[0],
-					avatarUrl: result[1]
-				});		
-	  		}.bind(this)			
-		});
-		
-	}
-
-	componentWillUnmount() {
-		this.getUserInfo.abort();
-	}
-*/
-
+	
 	render() {
 		return (
 			<div className='header'>
 				<div className='headerContent'>
-					<UserInfo login={this.props.userLogin} 
-							avatarUrl={this.props.avatarUrl} />
-					<NavMenu />
+					<UserInfo 
+						userLogin={this.props.userLogin} 
+						avatarUrl={this.props.avatarUrl} 
+					/>
+					<NavMenu login={this.props.login}/>
 				</div>	
 			</div>	
 		);

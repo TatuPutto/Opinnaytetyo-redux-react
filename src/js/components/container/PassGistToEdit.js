@@ -8,7 +8,7 @@ import { fetchSelectedGist, editGist } from '../../actions/actions';
 function mapStateToProps(state) {
 	return {
 		activeGist: state.default.activeGist,
-		isLoading: state.default.isLoadingActive 
+		isLoading: state.default.isLoadingSelectedGist 
 	};
 }
 
@@ -16,8 +16,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		edit: (gistJson) => {
-			dispatch(editGist(gistJson));
+		edit: (gistId, gistJson) => {
+			dispatch(editGist(gistId, gistJson));
 		}
 	};
 }

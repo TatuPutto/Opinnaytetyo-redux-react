@@ -7,11 +7,6 @@ import ShowActiveGist from './ShowActiveGist';
 
 class ListingPage extends React.Component {
 	
-	componentDidMount() {
-		$('.contentLeft').css('height', '1015px');
-		$('.contentRight').css('height', '1050px');
-	}
-	
 	render() {
 		return (			
 			<div className='listing'>

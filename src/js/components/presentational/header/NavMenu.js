@@ -8,10 +8,8 @@ class NavMenu extends React.Component {
 			<ul className='navmenu'>
 				<li><Link to='/'>Listaa gistit</Link></li>
 				<li><Link to='create'>Luo uusi gist</Link></li>
-				<li><Link to='https://github.com/login/oauth/authorize?client_id=566fea61a0cebae27268&scope=gist'>Kirjaudu sisään</Link></li>
-				
-			</ul>
-				
+				<li onClick={this.props.login}>Kirjaudu sisään</li>
+			</ul>		
 		);
 	}
 	

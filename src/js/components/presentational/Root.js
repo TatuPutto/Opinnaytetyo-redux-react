@@ -9,7 +9,7 @@ import ListingPage from './listing/ListingPage';
 class Root extends React.Component {
 	
 	render() {
-		return (	
+		return (
 			<div className='content'>
 				<PassInfoToHeader />
 				{this.props.children}

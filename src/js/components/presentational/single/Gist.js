@@ -7,10 +7,6 @@ import { fetchUserInfo, fetchGists, fetchSelectedGist } from '../../../actions/a
 
 class Gist extends React.Component {
 
-	componentWillMount() {
-		//{this.props.getGist()}
-	}
-	
 	render() {
 		const gist = this.props.activeGist;
 		

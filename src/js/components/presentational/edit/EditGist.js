@@ -7,6 +7,8 @@ import Editor from '../Reusable/Editor';
 require('../../../../css/Header.css');
 require('../../../../css/CreateGist.css');
 
+
+var i = 0;
 class EditGist extends React.Component {
 	
 	/**
@@ -15,111 +17,180 @@ class EditGist extends React.Component {
 	constructor() {
 		super();
 		this.addFile = this.addFile.bind(this);
-		this.editGist = this.editGist.bind(this);
+		//this.editGist = this.editGist.bind(this);
 		this.removeFile = this.removeFile.bind(this);
+		this.saveFilename = this.saveFilename.bind(this);
+		this.saveCurrentValuesOfForm = this.saveCurrentValuesOfForm.bind(this);
 		this.state = {
 			editorsCreated: 0,
-			files: null
+			files: null,
+			renderInitialFiles: true,
+			editors: []
 		};
 		
 	}
 
-	addFile() {
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.activeGist !== null) {
+			let files = nextProps.activeGist.files
+			let unmodifiedFiles = [];
+			let editors = [];
+			
+			for(let i = 0; i < files.length; i++) {
+				files[i].editorId = 'editor' + i;
+				
+				unmodifiedFiles.push({
+					filename: files[i].filename,
+					content: files[i].content
+				});
+			}
+
+			
+			
+			this.setState({
+				unmodifiedFiles,
+				files,
+				//editors,
+				editorsCreated: files.length
+			});
+		}
+	}
+	
+	
+	
+	saveCurrentValuesOfForm() {
+		console.log('jop')
+		var fileFields = $('.gistFile');
+		var filesAfterDelete = [];
+		//Kerätään tiedostonimet ja lähdekoodit tiedosto-kentistä
+		for(var i = 0; i < fileFields.length; i++) {
+			let editor = $(fileFields[i]).find('div')[1];
+			var source = ace.edit($(editor).attr('id')).getValue();
+			var filename = $(fileFields[i]).find('input:text').val();
+			/*var filename = $(fileFields[i]).find('input:text').val();
+			var source = ace.edit($(fileFields[i].attr('id'))).getValue();
+				
+			*/var file = {filename: filename, content: source, editorId: 'editor' + i};
+			filesAfterDelete.push(file);
+		}
+		
+		console.log(filesAfterDelete)
+		
+		
 		this.setState({
-			files: this.state.files.concat({filename: '', content: ''}),
+			files: filesAfterDelete
+		});	
+		
+	}
+	
+	
+	
+	
+	addFile() {
+		this.saveCurrentValuesOfForm();
+		
+		this.setState({
+			files: this.state.files.concat({filename: ' ', content: ' ', editorId: 'editor' + this.state.editorsCreated}),
+			editors: this.state.editors.concat(
+					{editor: 'editor' + this.state.editorsCreated}),
 			editorsCreated: this.state.editorsCreated + 1,
 		});
 	}
 	
 	
 	removeFile(id) {
-		var updatedEditors = this.state.files;
-		updatedEditors.splice(updatedEditors.indexOf(id), 1);
+		this.saveCurrentValuesOfForm();
+		var filesAfterDelete = this.state.files;
+			
+		for(let i = 0; i < filesAfterDelete.length; i++) {
+			for(let key in filesAfterDelete[i]) {
+				if(key === 'editorId') {
+					console.log(filesAfterDelete[i][key])
+					let containsId = filesAfterDelete[i][key].indexOf(id) !== -1
+					console.log(containsId)
+					if(containsId) {
+						console.log(filesAfterDelete[i])
+						
+						filesAfterDelete.splice(i, 1);
+						console.log('löytyi');
+					}
+				}
+			}	
+		}
 		
 		this.setState({
-			editors: updatedEditors
+			files: filesAfterDelete
+		});	
+	}
+	
+	
+	saveFilename() {
+		console.log('kii');
+		this.setState({
+			files
 		});	
 	}
 	
 	
 	
-	editGist(isPublic) {
-		var gist = {};
-		var files = {};
-		var description = $('.description').val();
-		var fileFields = $('.gistFile');
-		
-		
-		for(var i = 0; i < fileFields.length; i++) {
-			var filename = $(fileFields[i]).find('input:text').val();
-			var source = ace.edit(this.state.editors[i]).getValue();
-				
-			var file = {filename: filename, content: source};
-			files[filename] = file;
-		}
-		
-	
-		gist['description'] = description;
-		gist['ispublic'] = isPublic;
-		gist['files'] = files;
-		console.log(JSON.stringify(gist));
-		
-		
-		
-	}
-	
-	componentWillReceiveProps(nextProps) {
-		if(nextProps.activeGist !== null) {
-			this.setState({
-				unmodifiedFiles: nextProps.activeGist.files,
-				files: nextProps.activeGist.files,
-				editorsCreated: nextProps.activeGist.files.length
-			});
-		}
-	}
-	
 	render() {
-		if(this.props.isLoading === true || this.props.activeGist === null || this.state.unmodifiedFiles === null) {
+		if(this.props.isLoading === true || this.props.activeGist === null ||
+				this.state.unmodifiedFiles === null) {
 			return <div className='loading'></div>; 
 		}
 		else {
-			console.log(this.state.files)
-			//var fileFields = this.state.editors.map((editor, index) => {
-			var fileFields = this.state.files.map((file, index) => {
-				
+			let fileFields = this.state.files.map((file, index) => {
 				return (
 					<div className='gistFile' key={'file' + index} >
 						<FileInfo 
 							key={'info' + index}
-							id={'editor' + index}
+							id={file.editorId}
 							remove={this.removeFile} 
 							filename={file.filename}
+							onChange={this.saveFilename}
 						/>
 									
 						<Editor 
-							key={'editor' + index} 
-							editorId={'editor' + index} 
+							key={file.editorId} 
+							editorId={file.editorId} 
 							isReadOnly={false}
 							value={file.content}
 						/>
-					</div>	
+					</div>			
 				);
-			}, this); 
+			}, this);
+			
 		
-	
 			return (		
 				<div className='create'>
-					<input type='text' className='description' placeholder='Kuvaus' />
-					<div className='files'>
-						{fileFields}
-					</div>
-					
-					<input type='button' id='addFile' value='Lisää tiedosto' 
-							onClick={this.addFile} />
-					<input type='button' id='createSecret' value='Luo salainen gist' 
-							onClick={() => this.createGist(false)} />
-					<input type='button' id='createPublic' value='Luo julkinen gist'
-							onClick={() => this.createGist(true)} />
+					<div className='wrapper'>
+						<input type='text'
+							className='description' 
+							placeholder='Kuvaus' 
+							defaultValue={this.props.activeGist.description}
+						/>
+						
+						<div className='files'>
+							{fileFields}
+						</div>
+						
+						<input
+							type='button' 
+							id='addFile' 
+							value='Lisää tiedosto' 
+							onClick={this.addFile} 
+						/>
+						{/*<input type='button' id='createSecret' value='Luo salainen gist' 
+								onClick={() => this.createGist(false)} />
+						<input type='button' id='createPublic' value='Luo julkinen gist'
+								onClick={() => this.createGist(true)} />*/}
+						<input 
+							type='button' 
+							id='createSecret' 
+							value='Luo salainen gist' 
+							onClick={() => this.editGist(false)} 
+						/>
+					</div>					
 				</div>
 			);
 		}

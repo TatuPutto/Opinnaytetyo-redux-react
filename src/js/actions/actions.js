@@ -2,7 +2,7 @@ import * as types from './actionTypes';
 import { parseSingleGistJson, parseMultipleGistsJson, 
 		parseFiles, parseFilesWithSource } from '../utility/parseGistsJson';
 import { storeUserInfo, getUserInfoFromStorage } from '../utility/persistUserInfo';
-
+import { showFetchError } from '../utility/InfoWindow';
 
 /////////////////////////////////////////////////////////////////////////
 //Käyttäjätietojen hakeminen////////////////////////////////////////////
@@ -76,24 +76,24 @@ export function logout() {
 /////////////////////////////////////////////////////////////////////////
 export function requestSelectedGist(activeGistId) {
 	return {
-		type: types.FETCH_ACTIVE_GIST_REQUEST,
+		type: 'FETCH_SELECTED_GIST_REQUEST',
 		activeGistId,
 		isLoading: true
 	};
 }
 
 export function receiveSelectedGist(json) {
-	
 	return {
-		type: types.FETCH_ACTIVE_GIST_SUCCESS,
+		type: 'FETCH_SELECTED_GIST_SUCCESS',
 		activeGist: parseSingleGistJson(json),
 		isLoading: false
 	};
 }
 
-export function selectedGistFetchFailed() {
+export function gistFetchFailed(error) {
 	return {
-	    type: types.FETCH_ACTIVE_GIST_FAILURE,
+	    type: 'FETCH_GIST_FAILURE',
+	    activeGist: null,
 	    isLoading: false
 	}
 }
@@ -112,21 +112,27 @@ export function fetchSelectedGist(id) {
 	};
 	
 	return dispatch => {
-		console.log('Haetaan gist - ' + id);
+		//Ilmoitetaan haun alkamisesta
 	    dispatch(requestSelectedGist(id))
+	    
+	    //Lähetetetään pyyntö ja jäädään odottamaan vastausta (Promise - pending)
 	    return fetch('https://api.github.com/gists/' + id, fetchInit)
+	    //Käsitellään promise
 	    .then(response => {
+	    	//(Promise - fulfill) Jos haku onnistui, lähetetään vastaus käsiteltäväksi
 	    	if(response.ok) {
 	    		response.json().then(json => dispatch(receiveSelectedGist(json)))
 	    	}
+	    	//(Promise - reject) Jos haku epäonnistui heitetään error
 	    	else {
 	    	    const error = new Error(
 	    	    		response.status + ' ' + response.statusText);
-	    	    error.response = response;
 	    	    throw error;
 	    	}
+	    //Otetaan heitetty error kiinni ja ilmoitetaan haun epäonnistumisesta
 	    }).catch(error => {
-	    	  console.log('Haku ei onnistunut: ' + error.message);
+	    	  dispatch(gistFetchFailed());
+	    	  showFetchError(error.message);
 	    });
 	}
 }
@@ -138,12 +144,12 @@ export function fetchSelectedGist(id) {
 
 
 
- //Aloitetaan gistien hakeminen
+//Ilmoitetaan gistien haun alkamisesta
 export function requestGists() {
 	return {
-		type: types.FETCH_GISTS_REQUEST,
+		type: 'FETCH_GISTS_REQUEST',
 		invalidateCurrentList: true,
-		isLoading: true		
+		isLoading: true	
 	}
 }
 
@@ -153,7 +159,7 @@ export function requestGists() {
  */
 export function receiveGists(json) {
 	return {
-	    type: types.FETCH_GISTS_SUCCESS,
+	    type: 'FETCH_GISTS_SUCCESS',
 	    gists: parseMultipleGistsJson(json),
 	    isLoading: false
 	}

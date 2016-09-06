@@ -46,31 +46,30 @@ class CreateGist extends React.Component {
 		});
 	}
 	
-	
 	//Poistetaan valittu tiedosto-kenttä
 	removeFile(id) {
-		var updatedEditors = this.state.editors;
-		updatedEditors.splice(updatedEditors.indexOf(id), 1);
+		let editors = this.state.editors;
+		editors.splice(editors.indexOf(id), 1);
 		
 		this.setState({
-			editors: updatedEditors
+			editors
 		});
 	}
 	
 	
 	//Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin 
 	createGist(isPublic) {
-		var gist = {};
-		var files = {};
-		var description = $('.description').val();
-		var fileFields = $('.gistFile');
+		let gist = {};
+		let files = {};
+		const description = $('.description').val();
+		const fileFields = $('.gistFile');
 		
 		//Kerätään tiedostonimet ja lähdekoodit tiedosto-kentistä
 		for(var i = 0; i < fileFields.length; i++) {
-			var filename = $(fileFields[i]).find('input:text').val();
-			var source = ace.edit(this.state.editors[i]).getValue();
+			const filename = $(fileFields[i]).find('input:text').val();
+			const source = ace.edit(this.state.editors[i]).getValue();
 				
-			var file = {filename: filename, content: source};
+			const file = {filename: filename, content: source};
 			files[filename] = file;
 		}
 	
@@ -90,43 +89,44 @@ class CreateGist extends React.Component {
 			return <div className='loading'></div>
 		}
 		else {
-			var isRemovable = this.state.editors.length === 1 ? false : true;
-			var fileFields = this.state.editors.map((editor, index) => {
+			//Jos tiedosto-kenttiä on enemmän kuin 1,
+			//mahdollistetaan kenttien poistaminen
+			const isRemovable = this.state.editors.length === 1 ? false : true;
+			
+			//Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedosto-kenttä
+			const fileFields = this.state.editors.map((editorId, index) => {
 				return (
-					<div className='gistFile' key={'file' + editor} >
+					<div className='gistFile' key={'file' + index}>
 						<FileInfo 
-							key={'info' + editor} id={editor}
+							key={'info' + index}
+							id={editor}
 							isRemovable={isRemovable} 
 							remove={this.removeFile}
-						/>
-									
+						/>	
 						<Editor 
-							key={editor} 
-							editorId={editor} 
+							key={editorId} 
+							editorId={editorId} 
 							isReadOnly={false}
 						/>
 					</div>	
 				);
 			}, this); 
 		
-	
 			return (
 				<div className='create'>
-					<div className='wrapper'>
-						<input type='text' className='description' placeholder='Kuvaus' />
-						
-						<div className='files'>
-							{fileFields}
-						</div>
-						
-						<div className='buttons'>
-							<input type='button' id='addFile' value='Lisää tiedosto' 
-									onClick={this.addFile} />
-							<input type='button' id='createSecret' value='Luo salainen gist' 
-									onClick={() => this.createGist(false)} />
-							<input type='button' id='createPublic' value='Luo julkinen gist'
-									onClick={() => this.createGist(true)} />
-						</div>
+					<input type='text' className='description' placeholder='Kuvaus' />
+					
+					<div className='files'>
+						{fileFields}
+					</div>
+					
+					<div className='buttons'>
+						<input type='button' id='addFile' value='Lisää tiedosto' 
+								onClick={this.addFile} />
+						<input type='button' id='createSecret' value='Luo salainen gist' 
+								onClick={() => this.createGist(false)} />
+						<input type='button' id='createPublic' value='Luo julkinen gist'
+								onClick={() => this.createGist(true)} />
 					</div>
 				</div>
 			);	

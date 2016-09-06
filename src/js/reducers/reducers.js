@@ -27,40 +27,48 @@ const initialState = {
 };
 
 
-//Gisteihin liittyvät actionit
-const gists = (state = initialState, action) => {
+//Reducer-funktio gistien hallintaan
+function gistsReducer(state = initialState, action) {
 	switch(action.type) {
-		//Gistit listaa varten
-		case types.FETCH_GISTS_REQUEST:
+		//Gistien hakeminen aloitettiin
+		case 'FETCH_GISTS_REQUEST':
 			return Object.assign({}, state, {
+				//invalidateList: action.invalidateList,
 				isLoadingList: action.isLoading
 			});
 			break;
-		case types.FETCH_GISTS_SUCCESS:
-			return Object.assign({}, state, {
-				gists: action.gists,
-				isLoadingList: action.isLoading,
-			});
-			break;
-		case types.FETCH_GISTS_FAILURE:
+		//Gistien hakeminen onnistui
+		case 'FETCH_GISTS_SUCCESS':
 			return Object.assign({}, state, {
 				gists: action.gists,
 				isLoadingList: action.isLoading
 			});
 			break;
-			//Yksittäinen gist
-		case types.FETCH_ACTIVE_GIST_REQUEST:
+		//Gistien hakeminen epäonnistui
+		case 'FETCH_GISTS_FAILURE':
+			return Object.assign({}, state, {
+				gists: action.gists,
+				isLoadingList: action.isLoading
+			});
+			break;
+		//Yksittäinen gist
+		case 'FETCH_SELECTED_GIST_REQUEST':
 			return Object.assign({}, state, {
 				activeGistId: action.activeGistId,
 				isLoadingSelectedGist: action.isLoading
 			});
 			break;
-		case types.FETCH_ACTIVE_GIST_SUCCESS:
+		case 'FETCH_SELECTED_GIST_SUCCESS':
 			return Object.assign({}, state, {
 				activeGist: action.activeGist,
 				isLoadingSelectedGist: action.isLoading
 			});
 			break;
+		case 'FETCH__GIST_FAILURE': 
+			return Object.assign({}, state, {
+				activeGist: action.activeGist,
+				isLoadingSelectedGist: action.isLoading
+			});
 		//Käyttäjätiedot
 		case types.FETCH_USER_INFO_SUCCESS:
 			return Object.assign({}, state, {
@@ -93,4 +101,4 @@ const gists = (state = initialState, action) => {
 }
 
 
-export default gists;
+export default gistsReducer;

@@ -10,8 +10,6 @@ require('../../../css/Listing.css');
 let activeId = null;
 
 function mapStateToProps(state) {
-	activeId = state.default.activeGistId;
-	
 	return {
 		gists: state.default.gists,
 		activeGist: state.default.activeGist,
@@ -26,9 +24,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		setActive: (id) => {
-			//if(id !== activeId) {
+			if(id !== activeId) {
 				dispatch(fetchSelectedGist(id));
-			//}
+			}
 		},
 		sortByDate: (gists, chronologicalOrder) => {
 			if(chronologicalOrder) {

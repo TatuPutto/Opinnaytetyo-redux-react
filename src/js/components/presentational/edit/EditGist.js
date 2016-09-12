@@ -131,7 +131,7 @@ class EditGist extends React.Component {
 		});	
 	}
 	
-	
+
 	
 	render() {
 		if(this.props.isLoading === true || this.props.activeGist === null ||

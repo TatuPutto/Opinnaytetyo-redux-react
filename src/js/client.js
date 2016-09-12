@@ -8,7 +8,7 @@ import { fetchSelectedGistOnEnter, fetchGistsOnEnter } from './hooks';
 import { fetchUserInfo } from './actions/actions';
 
 import Root from './components/presentational/Root';
-import PassGistsToListingPage from './components/container/PassGistsToListingPage';
+import ConnectListingPage from './components/container/ConnectListingPage';
 import PassGistToSingle from './components/container/PassGistToSingle';
 import CreateGistContainer from './components/container/CreateGistContainer';
 import PassGistToEdit from './components/container/PassGistToEdit';
@@ -21,7 +21,7 @@ render(
 	<Provider store={store}>
 		<Router history={hashHistory}>
 			<Route path='/' component={Root}>
-				<IndexRoute component={PassGistsToListingPage} 
+				<IndexRoute component={ConnectListingPage} 
 						onEnter={fetchGistsOnEnter} />
 				<Route path='/gist/:gistId' component={PassGistToSingle} 
 						onEnter={fetchSelectedGistOnEnter} />

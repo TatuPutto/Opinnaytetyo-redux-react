@@ -9,9 +9,13 @@ require('../../../css/Header.css');
 
 
 function mapStateToProps(state) {
+	console.log(state.user.userLogin)
+	console.log(state.user.avatarUrl)
 	return {
-		userLogin: state.default.userLogin,
-		avatarUrl: state.default.avatarUrl
+		userLogin: state.user.userLogin,
+		avatarUrl: state.user.avatarUrl
+		//userLogin: 'TatuPutto',
+		//avatarUrl: 'https://avatars.githubusercontent.com/u/408570?v=3'
 	};
 }
 

@@ -1,9 +1,11 @@
 //Tallennetaan käyttäjätiedot local storageen
 export function storeUserInfo(userInfo, accessToken) {
 	if (typeof(Storage) !== 'undefined') {
-		localStorage.setItem('userLogin', userInfo.user.login);
-		localStorage.setItem('userAvatar', userInfo.user.avatar_url);
-		localStorage.setItem('accessToken', accessToken);
+		//localStorage.setItem('userLogin', userInfo.user.login);
+		//localStorage.setItem('userAvatar', userInfo.user.avatar_url);
+		localStorage.setItem('userLogin', 'TatuPutto');
+		localStorage.setItem('userAvatar', 'https://avatars.githubusercontent.com/u/408570?v=3');
+		localStorage.setItem('accessToken', '');
 	} 
 	else {
 	    alert('Selaimesi ei tue HTML5 local storage toiminnallisuutta.');

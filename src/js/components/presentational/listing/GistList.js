@@ -1,5 +1,5 @@
 import React from 'react';
-
+import $ from 'jquery';
 import GistListItem from './GistListItem';
 
 
@@ -12,7 +12,6 @@ class GistList extends React.Component {
 		super();
 		this.getColorCode = this.getColorCode.bind(this);
 	}
-
 	
 	/**
 	 * Haetaan kielelle määrietty värikoodi
@@ -31,14 +30,16 @@ class GistList extends React.Component {
 	
 	
 	render() {
+		const {gists, isLoading, activeGistId, setActive} = this.props;
+		
 		//Renderöidään latausindikaattori jos lataus on kesken
-		if(this.props.isLoading === true || this.props.gists == null) {
+		if(isLoading === true || gists.length < 1) {
     		return <div className='loading'></div>; 
 		}
     	else {
     		//Käydään gistien tiedot sisältävä taulukko läpi ja 
     		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
-    		const gists = this.props.gists.map(gist => {
+    		const listItems = gists.map(gist => {
     			return (
 					<GistListItem 
 						key={gist.id} 
@@ -50,8 +51,8 @@ class GistList extends React.Component {
 						updatedAt={gist.formattedTime}
 						url={gist.viewUrl}
 						owner={gist.owner.login} 
-						activeGistId={this.props.activeGistId}
-						setActive={() => this.props.setActive(gist.id)}
+						activeGistId={activeGistId}
+						setActive={() => setActive(gist.id)}
 					/>
     			);
     		}, this); 
@@ -59,7 +60,7 @@ class GistList extends React.Component {
     		//Renderöidään lista ja asetetaan <li>-elementit listan sisällöksi
 			return (
 				<ul className='listGists'>
-					{gists}
+					{listItems}
 				</ul>
 			);
     	}	    

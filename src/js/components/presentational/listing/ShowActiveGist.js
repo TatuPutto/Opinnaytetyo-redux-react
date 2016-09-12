@@ -1,20 +1,47 @@
 import React from 'react';
+import $ from 'jquery';
+
 
 import GistInfo from '../reusable/GistInfo';
 import GistFile from '../reusable/GistFile';
 
 class ShowActiveGist extends React.Component {
+	constructor() {
+		super();
+		this.toggleInfo = this.toggleInfo.bind(this);
+		this.state = {
+			infoVisible: true
+		};
+	}
 	
+	toggleInfo() {
+		if($('.showActiveGist').scrollTop() > 10) {
+			this.setState({
+				infoVisible: false
+			});
+		}
+		else {
+			this.setState({
+				infoVisible: true
+			});
+		}
+		
+	}
+	
+	componentDidMount() {
+		//document.querySelector('.showActiveGist').addEventListener('scroll', console.log('adfssfd'));
+		
+	}
 
 	render() {
 		//Jos listan lataaminen on valmis ja aktiivisen gistin lataaminen on käynnissä
 		//näytetään latausindikaattori
-		if(this.props.isLoadingList === false && 
+		if(this.props.isLoadingGists === false && 
 				this.props.isLoadingSelectedGist === true) {	
 			return <div className='loading'></div>;	
 		}
 		//Jos lista ja aktiivinen gist on ladattu renderöidään aktiivinen gist
-		else if(this.props.isLoadingList === false &&
+		else if(this.props.isLoadingGists === false &&
 				this.props.isLoadingSelectedGist === false &&
 				this.props.gist !== null) {	
 			const gist = this.props.gist; 
@@ -36,7 +63,7 @@ class ShowActiveGist extends React.Component {
 			//Sisällöksi asetetaan inforuutu, joka sisältää gistin tiedot, sekä
 			//tiedostot sisältävät <div>-elementit
 			return (
-				<div className='showActiveGist'>
+				<div className='showActiveGist' onScroll={this.toggleInfo}>
 					<GistInfo 
 						id={this.props.id} 
 						name={gist.files[0].filename} 
@@ -44,7 +71,8 @@ class ShowActiveGist extends React.Component {
 						editUrl={gist.editUrl} 
 						deleteUrl={gist.deleteUrl}
 						owner={gist.owner.login} 
-						avatarUrl={gist.owner.avatar_url} 
+						avatarUrl={gist.owner.avatar_url}
+						visible={this.state.infoVisible}
 					/>
 		
 					<div className='gistFiles'>

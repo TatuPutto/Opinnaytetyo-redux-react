@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+ 
 import * as types from '../actions/actionTypes';
 
 const SAMPLEDATA = [
@@ -24,75 +26,39 @@ const initialState = {
 	isLoadingSelectedGist: false,
 	chronologicalOrder: false,
 	creating: false
-};
+}
 
 
-//Reducer-funktio gistien hallintaan
-function gistsReducer(state = initialState, action) {
+function filters(state = {
+	items: [],
+	itemsBeforeFiltering: [],
+	itemsAfterFiltering: [],
+	filters: {
+		chronologicalOrder: false,
+		language: 'Java'
+	}
+	
+}, action) {
 	switch(action.type) {
-		//Gistien hakeminen aloitettiin
-		case 'FETCH_GISTS_REQUEST':
-			return Object.assign({}, state, {
-				//invalidateList: action.invalidateList,
-				isLoadingList: action.isLoading
-			});
-			break;
-		//Gistien hakeminen onnistui
-		case 'FETCH_GISTS_SUCCESS':
-			return Object.assign({}, state, {
-				gists: action.gists,
-				isLoadingList: action.isLoading
-			});
-			break;
-		//Gistien hakeminen epäonnistui
-		case 'FETCH_GISTS_FAILURE':
-			return Object.assign({}, state, {
-				gists: action.gists,
-				isLoadingList: action.isLoading
-			});
-			break;
-		//Yksittäinen gist
-		case 'FETCH_SELECTED_GIST_REQUEST':
-			return Object.assign({}, state, {
-				activeGistId: action.activeGistId,
-				isLoadingSelectedGist: action.isLoading
-			});
-			break;
-		case 'FETCH_SELECTED_GIST_SUCCESS':
-			return Object.assign({}, state, {
-				activeGist: action.activeGist,
-				isLoadingSelectedGist: action.isLoading
-			});
-			break;
-		case 'FETCH__GIST_FAILURE': 
-			return Object.assign({}, state, {
-				activeGist: action.activeGist,
-				isLoadingSelectedGist: action.isLoading
-			});
-		//Käyttäjätiedot
-		case types.FETCH_USER_INFO_SUCCESS:
+		
+		default:
+			return state;
+	}
+}
+
+
+
+//Reducer-funktio käyttäjätietojen hallintaan
+export function user(state = {
+	userLogin: 'Anonyymi',
+	avatarUrl: 'https://avatars.githubusercontent.com/u/408570?v=3'
+}, action) {
+	switch(action.type) {
+		case 'FETCH_USER_INFO_SUCCESS':
+			console.log(action.userLogin + ' action ' + action.type);
 			return Object.assign({}, state, {
 				userLogin: action.userLogin,
 				avatarUrl: action.avatarUrl
-			});
-			break;
-		//Näytetään gistit vanhimmasta uusimpaan
-		case types.SORT_OLDEST_TO_NEWEST:
-			return Object.assign({}, state, {
-				chronologicalOrder: action.chronologicalOrder,
-				gists: action.gists
-			});
-			break;
-		//Näytetään gistit uusimmasta vanhimpaan
-		case types.SORT_NEWEST_TO_OLDEST:
-			return Object.assign({}, state, {
-				chronologicalOrder: action.chronologicalOrder,
-				gists: action.gists
-			});
-			break;
-		case types.CREATE_GIST:
-			return Object.assign({}, state, {
-				newGist: action.newGist
 			});
 			break;
 		default:
@@ -100,5 +66,86 @@ function gistsReducer(state = initialState, action) {
 	}
 }
 
+//Reducer-funktio aktiivisen gistin hallintaan
+function activeGist(state = {
+	gist: null,
+	gistId: null,
+	isFetching: false
+}, action) {
+	switch(action.type) {
+		case 'FETCH_SELECTED_GIST_REQUEST':
+			return Object.assign({}, state, {
+				gistId: action.activeGistId,
+				isFetching: action.isLoading
+			});
+			break;
+		case 'FETCH_SELECTED_GIST_SUCCESS':
+			return Object.assign({}, state, {
+				gist: action.activeGist,
+				isFetching: action.isLoading
+			});
+			break;
+		case 'FETCH__GIST_FAILURE': 
+			return Object.assign({}, state, {
+				gist: action.activeGist,
+				isFetching: action.isLoading
+		});
+			break;
+		default:
+			return state;
+	}
+}
 
-export default gistsReducer;
+
+//Reducer-funktio gistien hallintaan
+function gists(state = {items: [], isFetching: false}, action) {
+	switch(action.type) {
+		//Gistien hakeminen aloitettiin
+		case 'FETCH_GISTS_REQUEST':
+			return Object.assign({}, state, {
+				isFetching: action.isFetching
+			});
+			break;
+		//Gistien hakeminen onnistui
+		case 'FETCH_GISTS_SUCCESS':
+			return Object.assign({}, state, {
+				items: action.gists,
+				isFetching: action.isFetching
+			});
+			break;
+		//Gistien hakeminen epäonnistui
+		case 'FETCH_GISTS_FAILURE':
+			return Object.assign({}, state, {
+				items: action.gists,
+				isFetching: action.isFetching
+			});
+			break;
+		//Palautetaan vakioarvot tai nykyinen tila gistien osalta, 
+		//jos action ei vastannut yhtäkään case-tapausta
+		default:
+			return state;
+	}
+}
+
+//Yhdistetään reducerien paluuarvot yhdeksi olioksi
+export const gistsManagementApp = combineReducers({
+	user, 
+	gists, 
+	activeGist,
+	filters
+});
+
+
+/*
+export function gistsManagementApp(state = { }, action) {
+  return {
+    gists: gists(state.gists, action),
+    isLoadingList: gists(state.isLoadingList, action),
+    isLoadingSelectedGist: activeGist(state.isLoadingSelectedGist, action),
+    activeGist: activeGist(state.activeGist, action),
+    activeGistId: activeGist(state.activeGistId, action),
+    userLogin: user(state.userLogin, action),
+    avatarUrl: user(state.avatarUrl, action)
+  }
+}*/
+

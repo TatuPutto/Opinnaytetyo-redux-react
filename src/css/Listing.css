@@ -33,7 +33,7 @@ input[type="button"] {
     text-decoration: none;
     border: 1px solid transparent;
     cursor: pointer;
-    margin-top: 5px;
+   /* margin-top: 5px;*/
 }
 
 
@@ -59,13 +59,37 @@ input[type="button"]:hover {
     margin-left: auto;
 }
 
-.filters {
-	margin-bottom:20px;
+
+
+/*Vasen content - gistien listaus*/
+.contentLeft {
+	float: left;
+	width: 30%;
+	height: 100%;
 }
+
+
+/*Filtterir*/
+.filters {
+	heigth: 35px;
+	background: grey;	
+	
+}
+
+
+.filters input[type='button'] {
+	color: black;
+	background: white;	
+	border-radius: 2px;
+	margin: 2px 1px;
+	width: 49%;
+}
+
 
 .filteringOptions {
 	height: 200px;
 }
+
 
 #addFilters, #getUsersGists, #getAllPublicGists {
 	color: black;
@@ -76,16 +100,10 @@ input[type="button"]:hover {
 }
 
 
-/*Vasen content - gistien listaus*/
-.contentLeft {
-	float: left;
-	width: 30%;
-	height: 850px;
-}
 
-
+/*Gist lista*/
 .listGists {
-	height: 100%;
+	height: 96%;
 	overflow: scroll;
 	background-color: #d4dde0;
 	list-style-type: none;
@@ -154,7 +172,7 @@ input[type="button"]:hover {
 .contentRight {
 	background-color: #D4DDE0;
 	width: 70%;
-	height: 850px;
+	height: 100%;
 	margin-left: 30%;
 }
 
@@ -184,6 +202,23 @@ input[type="button"]:hover {
 	padding-bottom: 10px;
 }
 
+.anchor {
+	height: 100px;
+}
+
+.fixed {
+	position: fixed;
+	top: 50px; 
+	z-index: 10;
+	background: #D4DDE0;
+	width: 69%;
+	height: 25px;
+}
+
+.fixed .title img {
+	 width: 30px;
+	 margin-left: 10px;
+}
 
 
 .title img {

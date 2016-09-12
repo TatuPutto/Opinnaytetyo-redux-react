@@ -4,6 +4,13 @@ import { parseSingleGistJson, parseMultipleGistsJson,
 import { storeUserInfo, getUserInfoFromStorage } from '../utility/persistUserInfo';
 import { showFetchError } from '../utility/InfoWindow';
 
+
+
+var userInfo = {};
+
+
+
+
 /////////////////////////////////////////////////////////////////////////
 //Käyttäjätietojen hakeminen////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
@@ -14,6 +21,7 @@ export function requestUserInfo() {
 }
 
 export function receiveUserInfo(userInfoJson) {
+	console.log(userInfoJson);
 	return {
 		type: types.FETCH_USER_INFO_SUCCESS,
 		userLogin: userInfoJson.user.login,
@@ -34,7 +42,8 @@ export function fetchUserInfo() {
 	return dispatch => {
 		dispatch(requestUserInfo);
 		
-		const userInfo = getUserInfoFromStorage();
+		//const userInfo = getUserInfoFromStorage();
+		userInfo = getUserInfoFromStorage();
 		
 		if(userInfo != null) {
 			dispatch(receiveUserInfo(userInfo));
@@ -107,7 +116,7 @@ export function fetchSelectedGist(id) {
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token '
+       		'Authorization': 'token ' + userInfo.user.accessToken
 		}
 	};
 	
@@ -182,14 +191,27 @@ export function gistsFetchFailed() {
 /**
  * Suoritetaan gistien hakeminen
  */
-export function fetchGists() {
+export function fetchGists(fetchBy = 'usersGists') {
 	console.log('Haetaan gistit')
+	
+	
+	let url = '';
+	if(fetchBy === 'usersGists') {
+		url = 'https://api.github.com/users/TatuPutto/gists';
+	}
+	else if(fetchBy === 'starred') {
+		url = 'https://api.github.com/gists/starred';
+	}
+	else {
+		url = 'https://api.github.com/gists/public';
+	}
+	
 	var fetchInit = {
 		method: 'GET',
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token '
+       		'Authorization': 'token ' + userInfo.user.accessToken
 		}
 	};
 	
@@ -198,7 +220,7 @@ export function fetchGists() {
 		//Lähetetään action, joka ilmoittaa uusien gistien latauksen alkaneen
 	    dispatch(requestGists());
 	    
-	    return fetch('https://api.github.com/users/TatuPutto/gists', fetchInit)
+	    return fetch(url, fetchInit)
     		.then(response => {
     			//Jos haku onnistui lähetetään gistien tiedot sisältävä json eteenpäin
 	    		if(response.ok) {
@@ -222,10 +244,34 @@ export function fetchGists() {
 	}
 }
 
+export function filterByLanguage(language, gists) {
+	let filteredGists = [];
+	
+	gists.forEach((gist) => {
+		if(gist.files[0].language.toLowerCase() === language.toLowerCase()) {
+			filteredGists.push(gist);
+		}
+	})
+	
+	return {
+	    type: 'FILTER_BY_LANGUAGE',
+	    language,
+	    gists: filteredGists
+	}
+}
+
+
+export function removeFilter() {
+	return {
+	    type: 'REMOVE_FILTER'
+	}
+}
+
+
 
 //Järjestetään gistit vanhimmasta uusimpaan
 export function sortOldestToNewest(gists) {
-	var sorted = gists.sort(function(a, b) {
+	var sorted = gists.sort((a, b) => {
 		var dateA = new Date(a.updated_at);
 		var dateB = new Date(b.updated_at);
 		
@@ -241,7 +287,7 @@ export function sortOldestToNewest(gists) {
 
 //Järjestetään gistit uusimmasta vanhimpaan
 export function sortNewestToOldest(gists) {
-	var sorted = gists.sort(function(a, b) {
+	var sorted = gists.sort((a, b) => {
 		var dateA = new Date(a.updated_at);
 		var dateB = new Date(b.updated_at);
 		
@@ -280,7 +326,7 @@ export function createGist(gistJson) {
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token '
+       		'Authorization': 'token ' + userInfo.user.accessToken
 		}
 	};
 	
@@ -316,7 +362,7 @@ export function editGist(gistId, gistJson) {
 		headers: {
 			'Accept': 'application/json',
        		'Content-Type': 'application/json',
-       		'Authorization': 'token '
+       		'Authorization': 'token ' + userInfo.user.accessToken
 		}
 	};
 	
@@ -342,10 +388,3 @@ export function editGist(gistId, gistJson) {
 		});
 	}
 }
-
-
-
-
-
-
-

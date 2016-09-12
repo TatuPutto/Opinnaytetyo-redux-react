@@ -14,18 +14,25 @@ export function parseMultipleGistsJson(gistsJson) {
 	let gists = [];
 	
 	gistsJson.forEach(gist => {
-		gists.push(Object.assign({}, gist, {
-			viewUrl: '/gist/' + gist.id,
-			files: parseFiles(gist.files),
-			formattedTime: formatTime(gist.updated_at)
-		}));
+		let files = parseFiles(gist.files);
+		let gistOwner = parseOwnerInfo(gist.owner);
+		
+		if(files != null && gistOwner.login != null) {
+			gists.push(Object.assign({}, gist, {
+				viewUrl: '/gist/' + gist.id,
+				files: parseFiles(gist.files),
+				owner: parseOwnerInfo(gist.owner),
+				formattedTime: formatTime(gist.updated_at)
+			}));
+		}
 	})
 	
 	return gists;
 }
 
 
-export function parseFiles(json) {
+
+function parseFiles(json) {
 	let files = [];
 	
 	for(let key in json) {
@@ -40,7 +47,7 @@ export function parseFiles(json) {
 }
 
 
-export function parseFilesWithSource(json) {
+function parseFilesWithSource(json) {
 	let files = [];
 	
 	for (let key in json) {
@@ -54,6 +61,28 @@ export function parseFilesWithSource(json) {
 	
 	return files;
 }
+
+
+function parseOwnerInfo(ownerJson) {
+	let owner = {};
+	
+	try {
+		if(ownerJson == null) {
+			throw 'Anonyymi käyttäjä';
+		}
+		else {
+			owner['login'] = ownerJson.login;
+			owner['avatarUrl'] = ownerJson.avatar_url;
+		}
+	}
+	catch(error) {
+		console.log(error);
+	}
+	finally {
+		return owner;
+	}
+}
+
 
 
 function formatTime(time) {

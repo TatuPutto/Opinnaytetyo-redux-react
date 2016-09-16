@@ -31,5 +31,5 @@ render(
 			</Route>
 		</Router>
 	</Provider>,
-	application
+	document.getElementById('container')
 );

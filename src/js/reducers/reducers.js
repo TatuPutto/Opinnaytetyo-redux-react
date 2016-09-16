@@ -55,7 +55,6 @@ export function user(state = {
 }, action) {
 	switch(action.type) {
 		case 'FETCH_USER_INFO_SUCCESS':
-			console.log(action.userLogin + ' action ' + action.type);
 			return Object.assign({}, state, {
 				userLogin: action.userLogin,
 				avatarUrl: action.avatarUrl
@@ -76,19 +75,19 @@ function activeGist(state = {
 		case 'FETCH_SELECTED_GIST_REQUEST':
 			return Object.assign({}, state, {
 				gistId: action.activeGistId,
-				isFetching: action.isLoading
+				isFetching: action.isFetching
 			});
 			break;
 		case 'FETCH_SELECTED_GIST_SUCCESS':
 			return Object.assign({}, state, {
 				gist: action.activeGist,
-				isFetching: action.isLoading
+				isFetching: action.isFetching
 			});
 			break;
 		case 'FETCH__GIST_FAILURE': 
 			return Object.assign({}, state, {
 				gist: action.activeGist,
-				isFetching: action.isLoading
+				isFetching: action.isFetching
 		});
 			break;
 		default:
@@ -98,7 +97,16 @@ function activeGist(state = {
 
 
 //Reducer-funktio gistien hallintaan
-function gists(state = {items: [], isFetching: false}, action) {
+function gists(state = {
+	isFetching: false,
+	items: [], 
+	activeItemId: null,
+	itemsBeforeFiltering: [],
+	filters: {
+		chronologicalOrder: false,
+		language: 'Java'
+	}
+}, action) {
 	switch(action.type) {
 		//Gistien hakeminen aloitettiin
 		case 'FETCH_GISTS_REQUEST':
@@ -110,6 +118,7 @@ function gists(state = {items: [], isFetching: false}, action) {
 		case 'FETCH_GISTS_SUCCESS':
 			return Object.assign({}, state, {
 				items: action.gists,
+				itemsBeforeFiltering: action.gists,
 				isFetching: action.isFetching
 			});
 			break;
@@ -120,6 +129,47 @@ function gists(state = {items: [], isFetching: false}, action) {
 				isFetching: action.isFetching
 			});
 			break;
+		case 'FILTER_BY_LANGUAGE':
+			return Object.assign({}, state, {
+				items: action.gists,
+			});
+			break;
+		case 'REMOVE_FILTER':
+			return Object.assign({}, state, {
+				items: state.itemsBeforeFiltering
+			});
+			break;
+		case 'SORT_OLDEST_TO_NEWEST':
+			return Object.assign({}, state, {
+				items: action.gists,
+				chronologicalOrder: action.chronologicalOrder
+			});
+			break;
+		case 'SORT_NEWEST_TO_OLDEST':
+			return Object.assign({}, state, {
+				items: action.gists,
+				chronologicalOrder: action.chronologicalOrder
+			});
+			break;
+			
+		case 'FETCH_SELECTED_GIST_REQUEST':
+			return Object.assign({}, state, {
+			
+				//[state.items[0].active]: true
+				//items.indexOf(
+				//action.activeGistId)
+				//items.indexOf(
+						//action.activeGistId)
+				//isFetching: action.isFetching
+			});
+			break;
+		/*case 'FETCH_SELECTED_GIST_SUCCESS':
+			return Object.assign({}, state, {
+				items: action.activeGist,
+				isFetching: action.isFetching
+			});
+			break;
+			*/
 		//Palautetaan vakioarvot tai nykyinen tila gistien osalta, 
 		//jos action ei vastannut yhtäkään case-tapausta
 		default:

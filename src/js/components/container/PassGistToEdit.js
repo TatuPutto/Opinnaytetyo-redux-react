@@ -7,8 +7,8 @@ import { fetchSelectedGist, editGist } from '../../actions/actions';
 
 function mapStateToProps(state) {
 	return {
-		activeGist: state.default.activeGist,
-		isLoading: state.default.isLoadingSelectedGist 
+		gist: state.activeGist.gist,
+		isFetching: state.activeGist.isFetching,
 	};
 }
 
@@ -23,6 +23,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-const PassGistToEdit = connect(mapStateToProps, mapDispatchToProps)(EditGist);
+const PassGistToEdit = connect(
+	mapStateToProps,
+	mapDispatchToProps)
+(EditGist);
 
 export default PassGistToEdit;

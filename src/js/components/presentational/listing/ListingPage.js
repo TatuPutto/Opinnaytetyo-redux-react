@@ -18,6 +18,7 @@ class ListingPage extends React.Component {
 					<Filters
 						chronologicalOrder={this.props.chronologicalOrder}
 						filterByLanguage={this.props.filterByLanguage}
+						sortByDate={this.props.sortByDate}
 						removeFilter={this.props.removeFilter}
 						gists={this.props.gists}
 					/>
@@ -25,14 +26,14 @@ class ListingPage extends React.Component {
 						gists={this.props.gists} 
 						activeGistId={this.props.activeGistId}
 						setActive={this.props.setActive}
-						isLoading={this.props.isLoadingGists}
+						isFetchingGists={this.props.isFetchingGists}
 					/>
 				</div>	
 				<div className='contentRight'>	
 					<ShowActiveGist
 						gist={this.props.activeGist}
-						isLoadingGists={this.props.isLoadingGists}
-						isLoadingSelectedGist={this.props.isLoadingSelectedGist}
+						isFetchingGists={this.props.isFetchingGists}
+						isFetchingSelectedGist={this.props.isFetchingSelectedGist}
 					/>
 				</div>	
 			</div>

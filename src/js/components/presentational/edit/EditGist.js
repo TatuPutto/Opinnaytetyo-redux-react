@@ -7,8 +7,6 @@ import Editor from '../Reusable/Editor';
 require('../../../../css/Header.css');
 require('../../../../css/CreateGist.css');
 
-
-var i = 0;
 class EditGist extends React.Component {
 	
 	/**
@@ -17,145 +15,100 @@ class EditGist extends React.Component {
 	constructor() {
 		super();
 		this.addFile = this.addFile.bind(this);
-		//this.editGist = this.editGist.bind(this);
 		this.removeFile = this.removeFile.bind(this);
-		this.saveFilename = this.saveFilename.bind(this);
-		this.saveCurrentValuesOfForm = this.saveCurrentValuesOfForm.bind(this);
+		this.handleOnChange = this.handleOnChange.bind(this);
 		this.state = {
 			editorsCreated: 0,
 			files: null,
-			renderInitialFiles: true,
-			editors: []
+			unmodifiedFiles: null,
 		};
 		
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.activeGist !== null) {
-			let files = nextProps.activeGist.files
+		if(nextProps.gist != null) {
+			let files = nextProps.gist.files;
 			let unmodifiedFiles = [];
-			let editors = [];
 			
-			for(let i = 0; i < files.length; i++) {
+			files.forEach((file, i) => {
 				files[i].editorId = 'editor' + i;
-				
-				unmodifiedFiles.push({
-					filename: files[i].filename,
-					content: files[i].content
-				});
-			}
-
-			
+				files[i].fileId = 'file' + i;
+			});
 			
 			this.setState({
 				unmodifiedFiles,
 				files,
-				//editors,
 				editorsCreated: files.length
 			});
 		}
 	}
-	
-	
-	
-	saveCurrentValuesOfForm() {
-		console.log('jop')
-		var fileFields = $('.gistFile');
-		var filesAfterDelete = [];
-		//Kerätään tiedostonimet ja lähdekoodit tiedosto-kentistä
-		for(var i = 0; i < fileFields.length; i++) {
-			let editor = $(fileFields[i]).find('div')[1];
-			var source = ace.edit($(editor).attr('id')).getValue();
-			var filename = $(fileFields[i]).find('input:text').val();
-			/*var filename = $(fileFields[i]).find('input:text').val();
-			var source = ace.edit($(fileFields[i].attr('id'))).getValue();
-				
-			*/var file = {filename: filename, content: source, editorId: 'editor' + i};
-			filesAfterDelete.push(file);
-		}
-		
-		console.log(filesAfterDelete)
-		
-		
-		this.setState({
-			files: filesAfterDelete
-		});	
-		
-	}
-	
-	
-	
-	
+
+	handleOnChange() {}
+
 	addFile() {
-		this.saveCurrentValuesOfForm();
-		
 		this.setState({
-			files: this.state.files.concat({filename: ' ', content: ' ', editorId: 'editor' + this.state.editorsCreated}),
-			editors: this.state.editors.concat(
-					{editor: 'editor' + this.state.editorsCreated}),
-			editorsCreated: this.state.editorsCreated + 1,
+			files: this.state.files.concat({
+				filename: '', 
+				content: '', 
+				fileId: 'file' + this.state.editorsCreated,
+				editorId: 'editor' + this.state.editorsCreated
+			}),
+			editorsCreated: this.state.editorsCreated + 1
 		});
 	}
 	
 	
+	
 	removeFile(id) {
-		this.saveCurrentValuesOfForm();
-		var filesAfterDelete = this.state.files;
+		if (confirm('Haluatko varmasti poistaa tämän kentän?')) {
+			let filesAfterDelete = this.state.files;
 			
-		for(let i = 0; i < filesAfterDelete.length; i++) {
-			for(let key in filesAfterDelete[i]) {
-				if(key === 'editorId') {
-					console.log(filesAfterDelete[i][key])
-					let containsId = filesAfterDelete[i][key].indexOf(id) !== -1
-					console.log(containsId)
-					if(containsId) {
-						console.log(filesAfterDelete[i])
+			for(let i = 0; i < filesAfterDelete.length; i++) {
+				for(let key in filesAfterDelete[i]) {
+					if(key === 'fileId') {
+						let containsId = filesAfterDelete[i][key].indexOf(id)
 						
-						filesAfterDelete.splice(i, 1);
-						console.log('löytyi');
+						if(containsId !== -1) {
+							filesAfterDelete.splice(i, 1);
+						}
 					}
-				}
-			}	
-		}
-		
-		this.setState({
-			files: filesAfterDelete
-		});	
+				}	
+			}
+			
+			this.setState({
+				files: filesAfterDelete
+			});
+		}	
 	}
-	
-	
-	saveFilename() {
-		console.log('kii');
-		this.setState({
-			files
-		});	
-	}
-	
-
 	
 	render() {
-		if(this.props.isLoading === true || this.props.activeGist === null ||
-				this.state.unmodifiedFiles === null) {
+		const { gist, isFetching } = this.props;
+		const { unmodifiedFiles, files } = this.state
+	
+	
+		if(isFetching || gist == null || 
+				unmodifiedFiles == null) {
 			return <div className='loading'></div>; 
 		}
 		else {
-			let fileFields = this.state.files.map((file, index) => {
+			let fileFields = files.map((file, index) => {
 				return (
-					<div className='gistFile' key={'file' + index} >
+					<div className='gistFile' key={file.fileId}>
 						<FileInfo 
-							key={'info' + index}
-							id={file.editorId}
+							key={'info' + file.fileId}
+							id={file.fileId}
+							isRemovable={true}
 							remove={this.removeFile} 
 							filename={file.filename}
-							onChange={this.saveFilename}
-						/>
+							onChange={this.handleOnChange}>
+						</FileInfo>
 									
 						<Editor 
 							key={file.editorId} 
 							editorId={file.editorId} 
 							isReadOnly={false}
-							value={file.content}
-						/>
+							value={file.content}>
+						</Editor>
 					</div>			
 				);
 			}, this);
@@ -167,8 +120,8 @@ class EditGist extends React.Component {
 						<input type='text'
 							className='description' 
 							placeholder='Kuvaus' 
-							defaultValue={this.props.activeGist.description}
-						/>
+							defaultValue={gist.description}>
+						</input>
 						
 						<div className='files'>
 							{fileFields}
@@ -178,8 +131,8 @@ class EditGist extends React.Component {
 							type='button' 
 							id='addFile' 
 							value='Lisää tiedosto' 
-							onClick={this.addFile} 
-						/>
+							onClick={this.addFile}>
+						</input>
 						{/*<input type='button' id='createSecret' value='Luo salainen gist' 
 								onClick={() => this.createGist(false)} />
 						<input type='button' id='createPublic' value='Luo julkinen gist'
@@ -188,12 +141,13 @@ class EditGist extends React.Component {
 							type='button' 
 							id='createSecret' 
 							value='Luo salainen gist' 
-							onClick={() => this.editGist(false)} 
-						/>
+							onClick={() => this.editGist(false)}>
+						</input>
 					</div>					
 				</div>
 			);
 		}
+		
 	}
 	
 	

@@ -21,7 +21,6 @@ export function requestUserInfo() {
 }
 
 export function receiveUserInfo(userInfoJson) {
-	console.log(userInfoJson);
 	return {
 		type: types.FETCH_USER_INFO_SUCCESS,
 		userLogin: userInfoJson.user.login,
@@ -87,7 +86,7 @@ export function requestSelectedGist(activeGistId) {
 	return {
 		type: 'FETCH_SELECTED_GIST_REQUEST',
 		activeGistId,
-		isLoading: true
+		isFetching: true
 	};
 }
 
@@ -95,7 +94,7 @@ export function receiveSelectedGist(json) {
 	return {
 		type: 'FETCH_SELECTED_GIST_SUCCESS',
 		activeGist: parseSingleGistJson(json),
-		isLoading: false
+		isFetching: false
 	};
 }
 
@@ -103,7 +102,7 @@ export function gistFetchFailed(error) {
 	return {
 	    type: 'FETCH_GIST_FAILURE',
 	    activeGist: null,
-	    isLoading: false
+	    isFetching: false
 	}
 }
 
@@ -111,6 +110,8 @@ export function gistFetchFailed(error) {
  * Haetaan valittu gist
  */
 export function fetchSelectedGist(id) {
+	console.log('Haetaan gist: ' + id)
+	
 	const fetchInit = {
 		method: 'GET',
 		headers: {
@@ -123,7 +124,7 @@ export function fetchSelectedGist(id) {
 	return dispatch => {
 		//Ilmoitetaan haun alkamisesta
 	    dispatch(requestSelectedGist(id))
-	    
+	   
 	    //Lähetetetään pyyntö ja jäädään odottamaan vastausta (Promise - pending)
 	    return fetch('https://api.github.com/gists/' + id, fetchInit)
 	    //Käsitellään promise
@@ -143,6 +144,9 @@ export function fetchSelectedGist(id) {
 	    	  dispatch(gistFetchFailed());
 	    	  showFetchError(error.message);
 	    });
+	    
+	  
+	    
 	}
 }
 
@@ -158,7 +162,7 @@ export function requestGists() {
 	return {
 		type: 'FETCH_GISTS_REQUEST',
 		invalidateCurrentList: true,
-		isLoading: true	
+		isFetching: true	
 	}
 }
 
@@ -170,7 +174,7 @@ export function receiveGists(json) {
 	return {
 	    type: 'FETCH_GISTS_SUCCESS',
 	    gists: parseMultipleGistsJson(json),
-	    isLoading: false
+	    isFetching: false
 	}
 }
 
@@ -182,7 +186,7 @@ export function receiveGists(json) {
 export function gistsFetchFailed() {
 	return {
 	    type: types.FETCH_GISTS_FAILURE,
-	    isLoading: false
+	    isFetching: false
 	}
 }
 
@@ -226,7 +230,7 @@ export function fetchGists(fetchBy = 'usersGists') {
 	    		if(response.ok) {
 					response.json().then(json => {
 						dispatch(receiveGists(json));
-						dispatch(fetchSelectedGist(json[0].id));
+						//dispatch(fetchSelectedGist(json[0].id));
 					})
 				}
 	    		//Jos haku epäonnistui, heitetään poikkeus
@@ -247,8 +251,11 @@ export function fetchGists(fetchBy = 'usersGists') {
 export function filterByLanguage(language, gists) {
 	let filteredGists = [];
 	
-	gists.forEach((gist) => {
+	gists.forEach((gist, i) => {
 		if(gist.files[0].language.toLowerCase() === language.toLowerCase()) {
+			if(i === 0) {
+				gist.active = true;
+			}	
 			filteredGists.push(gist);
 		}
 	})
@@ -256,7 +263,7 @@ export function filterByLanguage(language, gists) {
 	return {
 	    type: 'FILTER_BY_LANGUAGE',
 	    language,
-	    gists: filteredGists
+	    gists: filteredGists,
 	}
 }
 
@@ -279,7 +286,7 @@ export function sortOldestToNewest(gists) {
 	});
 	
 	return {
-	    type: types.SORT_OLDEST_TO_NEWEST,
+	    type: 'SORT_OLDEST_TO_NEWEST',
 	    chronologicalOrder: true,
 	    gists: sorted
 	}
@@ -295,7 +302,7 @@ export function sortNewestToOldest(gists) {
 	});
 	
 	return {
-	    type: types.SORT_NEWEST_TO_OLDEST,
+	    type: 'SORT_NEWEST_TO_OLDEST',
 	    chronologicalOrder: false,
 	    gists: sorted
 	}
@@ -304,14 +311,14 @@ export function sortNewestToOldest(gists) {
 //Uuden gistin luominen
 export function requestCreation(gistJson) {
 	return {
-		type: types.CREATE_GIST,
+		type: 'CREATE_GIST',
 		creating: true
 	};
 }
 
 export function receiveCreationResult(json) {
 	return {
-		type: types.RECEIVE_CREATION_RESULT,
+		type: 'RECEIVE_CREATION_RESULT',
 		creating: false,
 		
 	};

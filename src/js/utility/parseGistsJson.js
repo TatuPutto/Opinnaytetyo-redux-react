@@ -13,7 +13,7 @@ export function parseSingleGistJson(gistJson) {
 export function parseMultipleGistsJson(gistsJson) {
 	let gists = [];
 	
-	gistsJson.forEach(gist => {
+	gistsJson.forEach((gist, i) => {
 		let files = parseFiles(gist.files);
 		let gistOwner = parseOwnerInfo(gist.owner);
 		
@@ -22,7 +22,8 @@ export function parseMultipleGistsJson(gistsJson) {
 				viewUrl: '/gist/' + gist.id,
 				files: parseFiles(gist.files),
 				owner: parseOwnerInfo(gist.owner),
-				formattedTime: formatTime(gist.updated_at)
+				formattedTime: formatTime(gist.updated_at),
+				//active: i === 0 ? true : false
 			}));
 		}
 	})

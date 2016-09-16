@@ -37,9 +37,13 @@ class GistList extends React.Component {
     		return <div className='loading'></div>; 
 		}
     	else {
+    		if(activeGistId == null && !isLoading) {
+    			{setActive(gists[0].id)}
+    		}
+    		
     		//Käydään gistien tiedot sisältävä taulukko läpi ja 
     		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
-    		const listItems = gists.map(gist => {
+    		const listItems = gists.map(gist => {	
     			return (
 					<GistListItem 
 						key={gist.id} 

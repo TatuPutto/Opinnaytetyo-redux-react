@@ -6,45 +6,34 @@ import GistInfo from '../reusable/GistInfo';
 import GistFile from '../reusable/GistFile';
 
 class ShowActiveGist extends React.Component {
+	
 	constructor() {
 		super();
 		this.toggleInfo = this.toggleInfo.bind(this);
-		this.state = {
-			infoVisible: true
-		};
+		this.state = {infoVisible: true};
 	}
 	
 	toggleInfo() {
 		if($('.showActiveGist').scrollTop() > 10) {
-			this.setState({
-				infoVisible: false
-			});
-		}
+			this.setState({infoVisible: false});
+		}	
 		else {
-			this.setState({
-				infoVisible: true
-			});
-		}
-		
+			this.setState({infoVisible: true});
+		}	
 	}
 	
-	componentDidMount() {
-		//document.querySelector('.showActiveGist').addEventListener('scroll', console.log('adfssfd'));
-		
-	}
 
 	render() {
+		const {isFetchingGists, isFetchingSelectedGist, gist} = this.props;
+		
 		//Jos listan lataaminen on valmis ja aktiivisen gistin lataaminen on käynnissä
 		//näytetään latausindikaattori
-		if(this.props.isLoadingGists === false && 
-				this.props.isLoadingSelectedGist === true) {	
+		if(!isFetchingGists && isFetchingSelectedGist) {	
 			return <div className='loading'></div>;	
 		}
 		//Jos lista ja aktiivinen gist on ladattu renderöidään aktiivinen gist
-		else if(this.props.isLoadingGists === false &&
-				this.props.isLoadingSelectedGist === false &&
-				this.props.gist !== null) {	
-			const gist = this.props.gist; 
+		else if(!isFetchingGists &&
+				!isFetchingSelectedGist && gist !== null) {	
     		
 			//Käydään gistin sisältämät tiedostot läpi
 			//luodaan jokaista tiedostoa kohden yksi GistFile-komponentti

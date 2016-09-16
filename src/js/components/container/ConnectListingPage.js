@@ -17,12 +17,16 @@ require('../../../css/Listing.css');
 let activeId = null;
 
 function mapStateToProps(state) {
+	activeId = state.activeGist.gistId;
+	console.log(state.gists);
+	console.log(state.activeGist);
+	
 	return {
 		gists: state.gists.items,
 		activeGist: state.activeGist.gist,
 		activeGistId: state.activeGist.gistId,
-		isLoadingGists: state.gists.isFetching,
-		isLoadingSelectedGist: state.activeGist.isFetching,
+		isFetchingGists: state.gists.isFetching,
+		isFetchingSelectedGist: state.activeGist.isFetching,
 		chronologicalOrder: state.gists.chronologicalOrder,
 		filterByLanguage: state.gists.filterByLanguage
 	}
@@ -53,7 +57,10 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-const ConnectListingPage = connect(mapStateToProps, mapDispatchToProps)(ListingPage);
+const ConnectListingPage = connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(ListingPage);
 
 
 export default ConnectListingPage;

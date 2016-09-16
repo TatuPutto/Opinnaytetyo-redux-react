@@ -6,7 +6,7 @@ export function fetchSelectedGistOnEnter(nextState) {
 	let gistId = nextState.params.gistId;
 	let state = store.getState();
 
-	if(state.default.activeGistId !== gistId) {
+	if(state.activeGist.gistId !== gistId) {
 		return store.dispatch(fetchSelectedGist(gistId));
 	}
 	else {

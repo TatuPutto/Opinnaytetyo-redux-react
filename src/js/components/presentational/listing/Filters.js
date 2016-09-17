@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import { sortOldestToNewest, sortNewestToOldest, 
+	filterByLanguage, removeFilter } from '../../../actions/actions';
 
 class Filters extends React.Component {
 	
 	render() {
-		const {chronologicalOrder, sortByDate, 
-					filterByLanguage, removeFilter, gists} = this.props;
+		const { chronologicalOrder, sortByDate, 
+					filterByLanguage, removeFilter, gists } = this.props;
 		
 		return (
 			<div className='filters'>
@@ -31,4 +35,44 @@ class Filters extends React.Component {
 }
 
 
-export default Filters;
+Filters.propTypes = {
+	gists: PropTypes.array.isRequired,
+	chronologicalOrder: PropTypes.bool.isRequired,
+	sortByDate: PropTypes.func.isRequired,
+	filterByLanguage: PropTypes.func.isRequired,
+	removeFilter: PropTypes.func.isRequired,
+};
+
+
+function mapStateToProps(state) {
+	return {
+		gists: state.gists.items,
+		chronologicalOrder: state.gists.chronologicalOrder,
+		filterByLanguage: state.gists.filterByLanguage
+	}
+}
+
+
+function mapDispatchToProps(dispatch) {
+	return {
+		sortByDate: (gists, chronologicalOrder) => {
+			console.log(chronologicalOrder);
+			
+			if(chronologicalOrder) {
+				dispatch(sortOldestToNewest(gists));
+			}
+			else {
+				dispatch(sortNewestToOldest(gists));
+			}
+		},
+		filterByLanguage: (language, gists) => {
+			dispatch(filterByLanguage(language, gists));
+		},
+		removeFilter: () => {
+			dispatch(removeFilter());
+		}
+	};
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filters);

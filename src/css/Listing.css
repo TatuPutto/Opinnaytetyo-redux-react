@@ -106,11 +106,13 @@ input[type="button"]:hover {
 	height: 96%;
 	overflow: scroll;
 	background-color: #d4dde0;
+}
+
+.listGists ul {
 	list-style-type: none;
 	padding:0;
 	margin:0;
 }
-
 
 .singleGist {
 	/*height: 100px;*/

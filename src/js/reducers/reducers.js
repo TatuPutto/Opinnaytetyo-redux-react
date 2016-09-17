@@ -67,8 +67,8 @@ export function user(state = {
 
 //Reducer-funktio aktiivisen gistin hallintaan
 function activeGist(state = {
-	gist: null,
-	gistId: null,
+	gist: {},
+	gistId: "",
 	isFetching: false
 }, action) {
 	switch(action.type) {
@@ -102,10 +102,8 @@ function gists(state = {
 	items: [], 
 	activeItemId: null,
 	itemsBeforeFiltering: [],
-	filters: {
-		chronologicalOrder: false,
-		language: 'Java'
-	}
+	chronologicalOrder: false,
+	language: 'Java'
 }, action) {
 	switch(action.type) {
 		//Gistien hakeminen aloitettiin

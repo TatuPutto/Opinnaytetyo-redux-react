@@ -1,7 +1,6 @@
 import React from 'react';  
 
 import PassInfoToHeader from '../container/PassInfoToHeader';
-import PassGistsToListingPage from '../container/ConnectListingPage';
 import ListingPage from './listing/ListingPage';
 
 

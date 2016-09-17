@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
 
@@ -24,7 +25,8 @@ class ShowActiveGist extends React.Component {
 	
 
 	render() {
-		const {isFetchingGists, isFetchingSelectedGist, gist} = this.props;
+		const { isFetchingGists, isFetchingSelectedGist, gist } = this.props;
+		
 		
 		//Jos listan lataaminen on valmis ja aktiivisen gistin lataaminen on käynnissä
 		//näytetään latausindikaattori
@@ -33,7 +35,7 @@ class ShowActiveGist extends React.Component {
 		}
 		//Jos lista ja aktiivinen gist on ladattu renderöidään aktiivinen gist
 		else if(!isFetchingGists &&
-				!isFetchingSelectedGist && gist !== null) {	
+				!isFetchingSelectedGist && gist.hasOwnProperty('id')) {	
     		
 			//Käydään gistin sisältämät tiedostot läpi
 			//luodaan jokaista tiedostoa kohden yksi GistFile-komponentti
@@ -43,8 +45,8 @@ class ShowActiveGist extends React.Component {
 						key={file.filename} 
 						filename={file.filename} 
 						content={file.content}
-						editorId={'editor' + index} 
-					/>
+						editorId={'editor' + index}> 
+					</GistFile>
 				);
 			});
 			
@@ -61,8 +63,8 @@ class ShowActiveGist extends React.Component {
 						deleteUrl={gist.deleteUrl}
 						owner={gist.owner.login} 
 						avatarUrl={gist.owner.avatar_url}
-						visible={this.state.infoVisible}
-					/>
+						visible={this.state.infoVisible}>
+					</GistInfo>
 		
 					<div className='gistFiles'>
 						{files}
@@ -71,10 +73,26 @@ class ShowActiveGist extends React.Component {
 	   	 	);
 		}
 		else {
-			return <div className='contentRight'></div>;
+			return <div></div>;
 		}
 	}
 	
 }
 
-export default ShowActiveGist;
+
+ShowActiveGist.propTypes = {
+	gist: PropTypes.object.isRequired,
+	isFetchingGists: PropTypes.bool.isRequired,
+	isFetchingSelectedGist: PropTypes.bool.isRequired
+};
+
+
+function mapStateToProps(state) {
+	return {
+		gist: state.activeGist.gist,
+		isFetchingGists: state.gists.isFetching,
+		isFetchingSelectedGist: state.activeGist.isFetching
+	}
+}
+
+export default connect(mapStateToProps)(ShowActiveGist);

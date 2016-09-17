@@ -5,6 +5,9 @@ import Filters from './Filters';
 import GistList from './GistList';
 import ShowActiveGist from './ShowActiveGist';
 
+
+require('../../../../css/listing.css');
+
 class ListingPage extends React.Component {
 	
 	componentDidMount() {
@@ -12,7 +15,7 @@ class ListingPage extends React.Component {
 	}
 
 	render() {
-		return (			
+		/*return (			
 			<div className='listing'>
 				<div className='contentLeft'>
 					<Filters
@@ -37,7 +40,20 @@ class ListingPage extends React.Component {
 					/>
 				</div>	
 			</div>
+		);*/
+		
+		return (			
+			<div className='listing'>
+				<div className='contentLeft'>
+					<Filters/>
+					<GistList/>
+				</div>	
+				<div className='contentRight'>	
+					<ShowActiveGist/>
+				</div>	
+			</div>
 		);
+	
 	}
 	
 }

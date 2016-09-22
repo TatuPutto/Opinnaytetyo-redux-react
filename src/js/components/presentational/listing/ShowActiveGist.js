@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-
+import { starGist, unstarGist } from '../../../actions/actions';
 import GistInfo from '../reusable/GistInfo';
 import GistFile from '../reusable/GistFile';
 
@@ -25,7 +25,9 @@ class ShowActiveGist extends React.Component {
 	
 
 	render() {
-		const { isFetchingGists, isFetchingSelectedGist, gist } = this.props;
+		const { isFetchingGists, isFetchingSelectedGist, 
+				gist, isCheckingStarredStatus, isStarred, 
+				toggleStarredStatus } = this.props;
 		
 		
 		//Jos listan lataaminen on valmis ja aktiivisen gistin lataaminen on käynnissä
@@ -45,7 +47,8 @@ class ShowActiveGist extends React.Component {
 						key={file.filename} 
 						filename={file.filename} 
 						content={file.content}
-						editorId={'editor' + index}> 
+						editorId={'editor' + index}
+						isReadOnly={true}> 
 					</GistFile>
 				);
 			});
@@ -53,16 +56,18 @@ class ShowActiveGist extends React.Component {
 			//Renderöidään aktiivisen gistin näkymä
 			//Sisällöksi asetetaan inforuutu, joka sisältää gistin tiedot, sekä
 			//tiedostot sisältävät <div>-elementit
+			
 			return (
 				<div className='showActiveGist' onScroll={this.toggleInfo}>
 					<GistInfo 
-						id={this.props.id} 
+						id={gist.id} 
 						name={gist.files[0].filename} 
 						description={gist.description} 
-						editUrl={gist.editUrl} 
-						deleteUrl={gist.deleteUrl}
 						owner={gist.owner.login} 
-						avatarUrl={gist.owner.avatar_url}
+						ownerAvatarUrl={gist.owner.avatar_url}
+						isCheckingStarredStatus={isCheckingStarredStatus}
+						isStarred={isStarred}
+						starGist={toggleStarredStatus}
 						visible={this.state.infoVisible}>
 					</GistInfo>
 		
@@ -82,6 +87,8 @@ class ShowActiveGist extends React.Component {
 
 ShowActiveGist.propTypes = {
 	gist: PropTypes.object.isRequired,
+	isStarred: PropTypes.bool.isRequired,
+	isCheckingStarredStatus: PropTypes.bool.isRequired,
 	isFetchingGists: PropTypes.bool.isRequired,
 	isFetchingSelectedGist: PropTypes.bool.isRequired
 };
@@ -90,9 +97,24 @@ ShowActiveGist.propTypes = {
 function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
+		isStarred: state.activeGist.isStarred,
+		isCheckingStarredStatus: state.activeGist.isChecking,
 		isFetchingGists: state.gists.isFetching,
 		isFetchingSelectedGist: state.activeGist.isFetching
 	}
 }
 
-export default connect(mapStateToProps)(ShowActiveGist);
+function mapDispatchToProps(dispatch) {
+	return {
+		toggleStarredStatus: (isStarred, id) => {
+			if(isStarred) {
+				dispatch(unstarGist(id));
+			}
+			else {
+				dispatch(starGist(id));
+			}
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowActiveGist);

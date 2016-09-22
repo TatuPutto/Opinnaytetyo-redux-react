@@ -6,6 +6,9 @@ import { fetchSelectedGist, editGist } from '../../actions/actions';
 
 
 function mapStateToProps(state) {
+	console.log(state.activeGist.gistId);
+	
+	
 	return {
 		gist: state.activeGist.gist,
 		isFetching: state.activeGist.isFetching,

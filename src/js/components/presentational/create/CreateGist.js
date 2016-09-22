@@ -99,15 +99,16 @@ class CreateGist extends React.Component {
 					<div className='gistFile' key={'file' + index}>
 						<FileInfo 
 							key={'info' + index}
-							id={editor}
+							id={editorId}
 							isRemovable={isRemovable} 
-							remove={this.removeFile}
-						/>	
+							remove={this.removeFile}>
+						</FileInfo>	
+						
 						<Editor 
 							key={editorId} 
 							editorId={editorId} 
-							isReadOnly={false}
-						/>
+							isReadOnly={false}>
+						</Editor>
 					</div>	
 				);
 			}, this); 

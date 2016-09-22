@@ -2,32 +2,43 @@ import React from 'react';
 import { Link } from 'react-router';
 
 
-export default class GistInfo extends React.Component {
+class GistInfo extends React.Component {
 	
 	render() {
-		
-		if(this.props.visible === true) {
+		const { isCheckingStarredStatus, isStarred, starGist,
+				visible, owner, ownerAvatarUrl,
+				id, name, description } = this.props;
+	
+		if(visible === true) {
 			
 			return (
 				<div className='gistInfo'>
 					<span className='title'>
-						<img className='ownerAvatar' src={this.props.avatarUrl} />
-						<a id='viewGist'>{this.props.owner}</a>
+						<img className='ownerAvatar' src={ownerAvatarUrl} />
+						<a id='viewGist'>{owner}</a>
 					</span>
 					
 					<span className='actions'>
-						<Link to={this.props.editUrl}>
+						<input type='button' id='starGist'
+							className={isCheckingStarredStatus ? 
+									'pending' : null}
+							value={isStarred ? 
+									'Poista suosikeista' : 'Aseta suosikiksi'}
+							onClick={() => starGist(isStarred, id)}>
+						</input>
+					
+						<Link to={'/edit/' + id}>
 							<input type='button' id='editGist' value='Muokkaa'/>
 						</Link> 
-						<Link to={this.props.deleteUrl}>
+						<Link to={'/delete/' + id}>
 							<input type='button' id='deleteGist' value='Poista'/>
 						</Link> 
 					</span>
 					
 					<br/>
 					<span className='desc'>
-						<a href={'/gist/' + this.props.id}>{this.props.name}</a>
-						<p className='description'>{this.props.description}</p>
+						<a href={'/gist/' + id}>{name}</a>
+						<p className='description'>{description}</p>
 					</span>	
 	         	</div>
 			);
@@ -38,15 +49,15 @@ export default class GistInfo extends React.Component {
 					<div className='gistInfo anchor'></div>
 					<div className='gistInfo fixed'>
 						<span className='title'>
-							<img className='ownerAvatar' src={this.props.avatarUrl} />
-							<a id='viewGist'>{this.props.owner + ' / '}{this.props.name}</a>
+							<img className='ownerAvatar' src={ownerAvatarUrl} />
+							<a id='viewGist'>{owner + ' / '}{name}</a>
 						</span>
 						
 						<span className='actions'>
-							<Link to={this.props.editUrl}>
+							<Link to={'/edit/' + id}>
 								<input type='button' id='editGist' value='Muokkaa'/>
 							</Link> 
-							<Link to={this.props.deleteUrl}>
+							<Link to={'/delete/' + id}>
 								<input type='button' id='deleteGist' value='Poista'/>
 							</Link> 
 						</span>
@@ -56,5 +67,8 @@ export default class GistInfo extends React.Component {
 		}
 						
 	}
-
+ 
 }
+
+
+export default GistInfo;

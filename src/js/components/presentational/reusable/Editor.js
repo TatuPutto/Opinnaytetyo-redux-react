@@ -6,22 +6,33 @@ class Editor extends React.Component {
 	componentDidMount() {
 		const { editorId, value, isReadOnly } = this.props;
 		
-		console.log(editorId)
-		
-	    let editor = ace.edit(editorId);
-	    editor.$blockScrolling = Infinity
+	    const editor = ace.edit(editorId);
+	    editor.$blockScrolling = Infinity;
 	    editor.setTheme('ace/theme/cobalt');
 		editor.getSession().setMode('ace/mode/java');
 	    editor.setShowPrintMargin(false);
 	    editor.setReadOnly(isReadOnly);
-	    editor.setOptions({minLines: 20});
-	    editor.setOptions({maxLines: 60});
+	   
 	    
-	    
-	    if(value != null) {
+	    if(value) {
+	    	const lines = value.split("\n").length;
 	    	editor.setValue(value);
-		 	editor.selection.moveTo((value.split("\n").length + 1), 0);
-	    }    
+	    	
+		 	if(isReadOnly) {
+		 		editor.setOptions({maxLines: lines});
+		 	}
+		 	else {
+		 		editor.setOptions({minLines: 20});
+				editor.setOptions({maxLines: 60});
+		 	}
+		 	
+		 	editor.selection.moveTo(0);
+	    }
+	    else {
+	    	editor.setOptions({minLines: 20});
+			editor.setOptions({maxLines: 60});
+	    }
+	  
 	}
 	
 	render() {

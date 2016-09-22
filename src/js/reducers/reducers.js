@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
  
 import * as types from '../actions/actionTypes';
 
+
+/*
 const SAMPLEDATA = [
 {'id':'6c8fef654c46d526a1244f0b1c182793','description':'Programming language colors','url':'http://localhost:8080/Opinnaytetyo_spring_react/static/index.html#/gist/6c8fef654c46d526a1244f0b1c182793','owner':{'id':5699778,'login':'TatuPutto','avatarUrl':'https://avatars.githubusercontent.com/u/5699778?v=3','accessToken':null},'createdAt':'2016-07-09T10:51:12Z','files':[{'filename':'colors.json','language':'JSON','rawUrl':'https://gist.githubusercontent.com/TatuPutto/6c8fef654c46d526a1244f0b1c182793/raw/b1dc698101707f107d10bf9c7c562a3b08986e40/colors.json','content':'class HelloWorld\n   def initialize(name)\n      @name = name.capitalize\n   end\n   def sayHi\n      puts \'Hello #{@name}!\'\n   end\nend\n\nhello = HelloWorld.new(\'World\')\nhello.sayHi'}],'ownedByCurrentUser':false},
 {'id':'ac8d3d0b270719ab10106c31f62ec444','description':'Vie parametreja metodikutsussa react lapsikomponentista.','url':'http://localhost:8080/Opinnaytetyo_spring_react/static/index.html#/gist/ac8d3d0b270719ab10106c31f62ec444','owner':{'id':5699778,'login':'TatuPutto','avatarUrl':'https://avatars.githubusercontent.com/u/5699778?v=3','accessToken':null},'createdAt':'2016-07-08T14:17:15Z','files':[{'filename':'PassParameters.js','language':'JavaScript','rawUrl':'https://gist.githubusercontent.com/TatuPutto/ac8d3d0b270719ab10106c31f62ec444/raw/b823d55b2b680a78b6ab47c362db670ad7ed9c8d/PassParameters.js','content':null}],'ownedByCurrentUser':false},
@@ -26,7 +28,7 @@ const initialState = {
 	isLoadingSelectedGist: false,
 	chronologicalOrder: false,
 	creating: false
-}
+}*/
 
 
 function filters(state = {
@@ -68,10 +70,18 @@ export function user(state = {
 //Reducer-funktio aktiivisen gistin hallintaan
 function activeGist(state = {
 	gist: {},
-	gistId: "",
+	gistId: '',
+	isStarred: false,
+	isChecking: false,
 	isFetching: false
 }, action) {
 	switch(action.type) {
+		case 'INVALIDATE_GIST':
+		return Object.assign({}, state, {
+			gistId: action.activeGistId,
+			isFetching: action.isFetching
+		});
+			break;
 		case 'FETCH_SELECTED_GIST_REQUEST':
 			return Object.assign({}, state, {
 				gistId: action.activeGistId,
@@ -88,6 +98,23 @@ function activeGist(state = {
 			return Object.assign({}, state, {
 				gist: action.activeGist,
 				isFetching: action.isFetching
+		});
+			break;	
+		case 'CHECK_STARRED_STATUS': 
+			return Object.assign({}, state, {
+				isChecking: action.isChecking
+		});
+			break;
+		case 'STARRED': 
+			return Object.assign({}, state, {
+				isChecking: action.isChecking,
+				isStarred: action.starred
+		});
+			break;
+		case 'NOT_STARRED': 
+			return Object.assign({}, state, {
+				isChecking: action.isChecking,
+				isStarred: action.starred
 		});
 			break;
 		default:

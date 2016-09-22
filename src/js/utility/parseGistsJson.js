@@ -1,8 +1,5 @@
 export function parseSingleGistJson(gistJson) {
 	let gist = Object.assign({}, gistJson, {
-		viewUrl: '/gist/' + gistJson.id,
-		editUrl: '/edit/' + gistJson.id,
-		deleteUrl: '/delete/' + gistJson.id,
 		files: parseFilesWithSource(gistJson.files),
 		formattedTime: formatTime(gistJson.updated_at)
 	});
@@ -19,7 +16,6 @@ export function parseMultipleGistsJson(gistsJson) {
 		
 		if(files != null && gistOwner.login != null) {
 			gists.push(Object.assign({}, gist, {
-				viewUrl: '/gist/' + gist.id,
 				files: parseFiles(gist.files),
 				owner: parseOwnerInfo(gist.owner),
 				formattedTime: formatTime(gist.updated_at),

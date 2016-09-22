@@ -50,12 +50,11 @@ class GistList extends React.Component {
 				<GistListItem 
 					key={gist.id} 
 					id={gist.id}
-					name={gist.files[0].filename} 
+					filename={gist.files[0].filename} 
 					description={gist.description} 
 					language={gist.files[0].language}
 					color={this.getColorCode(gist.files[0].language)}
 					updatedAt={gist.formattedTime}
-					url={gist.viewUrl}
 					owner={gist.owner.login} 
 					activeGistId={activeGistId}
 					setActive={() => setActive(gist.id)}>
@@ -70,6 +69,10 @@ class GistList extends React.Component {
 					<div className='loading'></div>
 				}
 			
+				{!isFetchingGists && listItems.length === 0 &&
+					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
+				}	
+				
 				{!isFetchingGists && listItems.length > 0 &&
 					<ul>
 						{listItems}

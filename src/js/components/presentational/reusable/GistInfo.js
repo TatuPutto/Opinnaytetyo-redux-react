@@ -5,10 +5,12 @@ import { Link } from 'react-router';
 class GistInfo extends React.Component {
 	
 	render() {
-		const { isCheckingStarredStatus, isStarred, starGist,
+		const { isCheckingStarredStatus, isStarred, starGist, deleteGist,
 				visible, owner, ownerAvatarUrl,
 				id, name, description } = this.props;
 	
+				console.log(isStarred +  isCheckingStarredStatus);
+				
 		if(visible === true) {
 			
 			return (
@@ -30,9 +32,11 @@ class GistInfo extends React.Component {
 						<Link to={'/edit/' + id}>
 							<input type='button' id='editGist' value='Muokkaa'/>
 						</Link> 
-						<Link to={'/delete/' + id}>
-							<input type='button' id='deleteGist' value='Poista'/>
-						</Link> 
+						
+						<input type='button' id='deleteGist' value='Poista'
+							onClick={() => deleteGist(id)}>
+						</input>
+						
 					</span>
 					
 					<br/>

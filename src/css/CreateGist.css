@@ -4,7 +4,7 @@ body {
 
 .create {
 	width: 80%;
-	background-color: #D4DDE0;
+	/*background-color: #D4DDE0;*/
 	padding-top: 50px;
 	padding-bottom: 50px;
 	margin-right: auto;
@@ -19,20 +19,20 @@ body {
 }
 
 .create .description {
-	width: 100%;
+	width: 99.5%;
     height: 25px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 
 .files .gistFile {
-	
-	margin-bottom: 20px;
+	background-color: white;
 	border-style: solid;
-	border-width: 0px;
+    border-width: 1px;
+    border-color: rgb(179, 179, 179);
 	border-radius: 4px;
 	padding-bottom: 4px;
-	background-color: white;
+	margin-bottom: 20px;
 }
 
 .fileInfo {

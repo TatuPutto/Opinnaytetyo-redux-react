@@ -4,9 +4,12 @@ var path = require('path');
 
 
 module.exports = {
-	context: path.join(__dirname, "/src/js"),
+	context: path.join(__dirname, "/src"),
     devtool: debug ? "inline-sourcemap" : null,
-    entry: "./client.js",
+    entry: {
+        javascript: "./js/client.js",
+        html: "./index.html",
+    },
     module: {
         loaders: [{
 	        test: /\.jsx?$/,
@@ -15,22 +18,37 @@ module.exports = {
 	            query: {
 	            	presets: ['react', 'es2015', 'stage-0'],
 	                plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy'],
-	            }
-	    }, 
+	            }, 
+	    },
 	    {
-	        test: /\.css$/, 
+		    test: /\.html$/,
+		    loader: "file?name=[name].[ext]"
+	    },
+	    {
+	    	test: /\.css$/, 
 	        loader: "style-loader!css-loader" 
-		},
-		{ 
+	  	 },
+	  	 { 
 			test: /\.json$/,
 			loader: 'json' 
-		}]	
+	  	 }]	
     },
     output: {
 		path: __dirname + "/src/js",
-		publicPath: "/assets/",
-    	filename: "client.min.js"
-    },
+		//publicPath: "/assets/",
+    	filename: "client.min.js",
+    	
+    },/*
+    devServer: {
+    	contentBase: __dirname + "/src",
+        hot: true,
+        port: 8080,
+        publicPath: '/assets/',
+        historyApiFallback: true
+      },
+    /*historyApiFallback: {
+		  index: '/assets/'
+  	},*/
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),

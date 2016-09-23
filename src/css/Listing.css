@@ -270,32 +270,7 @@ input[type="button"]:hover {
 	float: right;
 }
 
-#editGist {
-	margin-right: 6px;
-    background: #21e054;
-}
 
-#editGist:hover {
- 	background: #0dbf3d;
-}
-	
-
-#deleteGist {
-    background: #db4141;
-}
-
-#deleteGist:hover {
- 	background: #b30d0d;
-}
-	
-	
-#forkGist {
-	color: black;
-}
-
-#forkGist:hover {
-	background: #A9A4A4;
-}
 
 .gistFirstFile {
 	width: 98%;
@@ -322,6 +297,9 @@ input[type="button"]:hover {
 	/*border-style: solid;
 	border-width: 1px;
 	background-color: #e6e6e6;*/
+	border-style: solid;
+    border-width: 1px;
+    border-color: rgb(175, 175, 175);
 	border-radius: 4px;
 	background-color: white;
 	padding-bottom: 4px;
@@ -360,8 +338,82 @@ input[type="button"]:hover {
 	margin-top: 20px;
 }
 
+/*
+#editGist {
+	margin-right: 6px;
+    background: #21e054;
+}
 
+#editGist:hover {
+ 	background: #0dbf3d;
+}
+	
 
+#deleteGist {
+    background: #db4141;
+}
+
+#deleteGist:hover {
+ 	background: #b30d0d;
+}
+	
+	
+#forkGist {
+	color: black;
+}
+
+#forkGist:hover {
+	background: #A9A4A4;
+}
+*/
+
+#editGist {
+	margin-right: 4px;
+    /*background: #d6d9da;*/
+    background: white;
+    color: black;
+    border-style: solid;
+    border-color: rgb(179, 179, 179);
+}
+
+#editGist:hover {
+ 	background: #b3b6b7;
+}
+	
+
+#deleteGist {
+    /*background: #d6d9da;*/
+    background: white;
+    color: black;
+    border-style: solid;
+    border-color: rgb(179, 179, 179);
+}
+
+#deleteGist:hover {
+ 	background: #b3b6b7;
+}
+	
+	
+#forkGist {
+	color: black;
+}
+
+#forkGist:hover {
+	background: #A9A4A4;
+}
+
+#starGist {
+	margin-right: 4px;
+    /*background: #d6d9da;*/
+    background: white;
+    color: black;
+    border-style: solid;
+    border-color: rgb(179, 179, 179);
+}
+
+#starGist:hover {
+	background: #b3b6b7;
+}
 
 
 

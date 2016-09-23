@@ -16,7 +16,7 @@ export function showFetchError(error) {
 	//alert('Haku epäonnistui, ' + errorMessage);
 	
 	
-	$('#container').append("<div class='info' style='position:fixed;width:300px;height:100px;background:black;bottom:40%;left:40%;color:white;cursor:pointer;'><p>Haku epäonnistui, " + errorMessage + "</p></div>");
+	$('#container').append("<div class='info' style='position:fixed;width:300px;height:100px;background:black;left:40%;color:white;cursor:pointer;'><p>Haku epäonnistui, " + errorMessage + "</p></div>");
 	$(document).on('click', '.info', () => {
 		$('.info').hide();
 	});

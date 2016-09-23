@@ -53,14 +53,15 @@ function filters(state = {
 //Reducer-funktio käyttäjätietojen hallintaan
 export function user(state = {
 	userLogin: 'Anonyymi',
-	avatarUrl: 'https://avatars.githubusercontent.com/u/408570?v=3'
+	avatarUrl: 'https://avatars3.githubusercontent.com/u/5699778?v=3&s=40'
 }, action) {
 	switch(action.type) {
 		case 'FETCH_USER_INFO_SUCCESS':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				userLogin: action.userLogin,
 				avatarUrl: action.avatarUrl
-			});
+			}
 			break;
 		default:
 			return state;
@@ -71,51 +72,58 @@ export function user(state = {
 function activeGist(state = {
 	gist: {},
 	gistId: '',
-	isStarred: false,
+	isStarred: null,
 	isChecking: false,
 	isFetching: false
 }, action) {
 	switch(action.type) {
 		case 'INVALIDATE_GIST':
-		return Object.assign({}, state, {
+		return {
+			...state, 
 			gistId: action.activeGistId,
-			isFetching: action.isFetching
-		});
+			isFetching: false
+		}
 			break;
 		case 'FETCH_SELECTED_GIST_REQUEST':
-			return Object.assign({}, state, {
+			return {
+				...state, 
 				gistId: action.activeGistId,
-				isFetching: action.isFetching
-			});
+				isFetching: true
+			}
 			break;
 		case 'FETCH_SELECTED_GIST_SUCCESS':
-			return Object.assign({}, state, {
+			return {
+				...state, 
 				gist: action.activeGist,
-				isFetching: action.isFetching
-			});
+				isFetching: false
+			}
 			break;
 		case 'FETCH__GIST_FAILURE': 
-			return Object.assign({}, state, {
+			return {
+				...state, 
 				gist: action.activeGist,
-				isFetching: action.isFetching
-		});
+				isFetching: false
+			}
 			break;	
 		case 'CHECK_STARRED_STATUS': 
-			return Object.assign({}, state, {
-				isChecking: action.isChecking
-		});
+			return  {
+				...state,
+				isChecking: true
+			}
 			break;
 		case 'STARRED': 
-			return Object.assign({}, state, {
-				isChecking: action.isChecking,
-				isStarred: action.starred
-		});
+			return {
+				...state,
+				isChecking: false,
+				isStarred: true
+			}
 			break;
 		case 'NOT_STARRED': 
-			return Object.assign({}, state, {
-				isChecking: action.isChecking,
-				isStarred: action.starred
-		});
+			return {
+				...state,
+				isChecking: false,
+				isStarred: false
+			}
 			break;
 		default:
 			return state;
@@ -126,6 +134,7 @@ function activeGist(state = {
 //Reducer-funktio gistien hallintaan
 function gists(state = {
 	isFetching: false,
+	fetchError: null,
 	items: [], 
 	activeItemId: null,
 	itemsBeforeFiltering: [],
@@ -133,68 +142,65 @@ function gists(state = {
 	language: 'Java'
 }, action) {
 	switch(action.type) {
+		case 'REMOVE_GIST_FROM_LIST':
+			return  {
+				...state,
+				items: state.items.slice(state.items.map(item => {
+						return item.id;
+					}).indexOf(action.id) + 1)
+			}
+			break;
 		//Gistien hakeminen aloitettiin
 		case 'FETCH_GISTS_REQUEST':
-			return Object.assign({}, state, {
-				isFetching: action.isFetching
-			});
+			return {
+				...state,
+				isFetching: true
+			}
 			break;
 		//Gistien hakeminen onnistui
 		case 'FETCH_GISTS_SUCCESS':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				items: action.gists,
 				itemsBeforeFiltering: action.gists,
-				isFetching: action.isFetching
-			});
+				isFetching: false,	
+			}
 			break;
 		//Gistien hakeminen epäonnistui
 		case 'FETCH_GISTS_FAILURE':
-			return Object.assign({}, state, {
-				items: action.gists,
-				isFetching: action.isFetching
-			});
+			return {
+				...state,
+				items: [],
+				isFetching: false,
+				fetchError: action.error
+			}
 			break;
 		case 'FILTER_BY_LANGUAGE':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				items: action.gists,
-			});
+			}
 			break;
 		case 'REMOVE_FILTER':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				items: state.itemsBeforeFiltering
-			});
+			}
 			break;
 		case 'SORT_OLDEST_TO_NEWEST':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				items: action.gists,
 				chronologicalOrder: action.chronologicalOrder
-			});
+			}
 			break;
 		case 'SORT_NEWEST_TO_OLDEST':
-			return Object.assign({}, state, {
+			return {
+				...state,
 				items: action.gists,
 				chronologicalOrder: action.chronologicalOrder
-			});
+			}
 			break;
-			
-		case 'FETCH_SELECTED_GIST_REQUEST':
-			return Object.assign({}, state, {
-			
-				//[state.items[0].active]: true
-				//items.indexOf(
-				//action.activeGistId)
-				//items.indexOf(
-						//action.activeGistId)
-				//isFetching: action.isFetching
-			});
-			break;
-		/*case 'FETCH_SELECTED_GIST_SUCCESS':
-			return Object.assign({}, state, {
-				items: action.activeGist,
-				isFetching: action.isFetching
-			});
-			break;
-			*/
 		//Palautetaan vakioarvot tai nykyinen tila gistien osalta, 
 		//jos action ei vastannut yhtäkään case-tapausta
 		default:

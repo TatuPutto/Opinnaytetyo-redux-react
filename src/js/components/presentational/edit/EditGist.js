@@ -280,7 +280,7 @@ class EditGist extends React.Component {
 							{fileFields}
 						</div>
 						
-						<input type='button' id='addFile' value='Lisää tiedosto' 
+						<input type='button' id='addFile' value='Lis&#228;&#228; tiedosto' 
 							onClick={this.addFile}>
 						</input>
 						{/*<input type='button' id='createSecret' value='Luo salainen gist' 

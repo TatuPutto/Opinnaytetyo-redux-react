@@ -14,16 +14,11 @@ export function fetchSelectedGistOnEnter(nextState) {
 	}
 }
 
-export function fetchGistsOnEnter() {
-	return store.dispatch(fetchGists());
-}
-
-
-export function exchangeCodeToToken(nextState) {
-	let code = location.href.split('?')[1].split('&')[0].split('=')[1].split('/')[0];
-	code = code.substring(0, code.length - 1);
-	console.log(code);
+export function fetchGistsOnEnter(nextState) {
+	let searchMethod = nextState.params.searchMethod;
+	if(searchMethod == null) {
+		searchMethod = 'gists';
+	}
 	
-	return store.dispatch(fetchAccessToken(code));
+	return store.dispatch(fetchGists(nextState.params.searchMethod));
 }
-

@@ -6,6 +6,18 @@ import { fetchGists, sortOldestToNewest, sortNewestToOldest,
 
 class Filters extends React.Component {
 	
+	constructor() {
+		super();
+		this.fetchStarredGists = this.fetchStarredGists.bind(this);
+	}
+	
+	
+	fetchStarredGists() {
+		this.context.router.push("?fetch=starred");
+		{this.props.fetchStarred()}
+	}
+	
+	
 	render() {
 		const { fetchStarred, chronologicalOrder, sortByDate, 
 					filterByLanguage, removeFilter, gists } = this.props;
@@ -18,7 +30,7 @@ class Filters extends React.Component {
 					onClick={() => sortByDate(gists, !chronologicalOrder)}>
 				</input>
 				<input type='button' value='Suosikit' 
-					onClick={fetchStarred}></input>
+					onClick={this.fetchStarredGists}></input>
 				<input type='button' value='Suodata' 
 					onClick={() => filterByLanguage('Java', gists)}></input>
 				<input type='button' value='Poista suodatin' onClick={removeFilter}></input>
@@ -47,6 +59,11 @@ Filters.propTypes = {
 };
 
 
+Filters.contextTypes = {
+	router: React.PropTypes.object.isRequired
+};
+
+
 function mapStateToProps(state) {
 	return {
 		gists: state.gists.items,
@@ -59,6 +76,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchStarred: () => {
+			console.log('starred');
 			dispatch(fetchGists('starred'));
 		},
 		sortByDate: (gists, chronologicalOrder) => {

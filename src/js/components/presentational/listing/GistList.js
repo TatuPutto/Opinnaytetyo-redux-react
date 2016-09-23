@@ -19,7 +19,8 @@ class GistList extends React.Component {
 	}
 	
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.activeGistId === '') {
+		console.log(nextProps.fetchError);
+		if(nextProps.activeGistId === '' && !nextProps.fetchError) {
 			{this.props.setActive(nextProps.gists[0].id)}
 		}		
 	}
@@ -41,11 +42,12 @@ class GistList extends React.Component {
 	
 	
 	render() {
-		const { gists, isFetchingGists, activeGistId, setActive } = this.props;
+		const { gists, isFetchingGists, fetchError,
+				activeGistId, setActive } = this.props;
 		
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
-		const listItems = gists.map(gist => {	
+		const listItems = gists.map(gist => {
 			return (
 				<GistListItem 
 					key={gist.id} 
@@ -68,7 +70,11 @@ class GistList extends React.Component {
 				{isFetchingGists && 
 					<div className='loading'></div>
 				}
-			
+				
+				{!isFetchingGists && fetchError &&
+					<p>{fetchError}</p>
+				}
+				
 				{!isFetchingGists && listItems.length === 0 &&
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}	
@@ -102,6 +108,7 @@ function mapStateToProps(state) {
 		activeGistId: state.activeGist.gistId,
 		isFetchingGists: state.gists.isFetching,
 		isFetchingSelectedGist: state.activeGist.isFetching,
+		fetchError: state.gists.fetchError,
 		chronologicalOrder: state.gists.chronologicalOrder,
 		filterByLanguage: state.gists.filterByLanguage
 	}

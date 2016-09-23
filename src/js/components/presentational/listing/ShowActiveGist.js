@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-import { starGist, unstarGist } from '../../../actions/actions';
+import { starGist, unstarGist, deleteGist } from '../../../actions/actions';
 import GistInfo from '../reusable/GistInfo';
 import GistFile from '../reusable/GistFile';
 
@@ -27,8 +27,7 @@ class ShowActiveGist extends React.Component {
 	render() {
 		const { isFetchingGists, isFetchingSelectedGist, 
 				gist, isCheckingStarredStatus, isStarred, 
-				toggleStarredStatus } = this.props;
-		
+				toggleStarredStatus, deleteGist } = this.props;
 		
 		//Jos listan lataaminen on valmis ja aktiivisen gistin lataaminen on käynnissä
 		//näytetään latausindikaattori
@@ -68,6 +67,7 @@ class ShowActiveGist extends React.Component {
 						isCheckingStarredStatus={isCheckingStarredStatus}
 						isStarred={isStarred}
 						starGist={toggleStarredStatus}
+						deleteGist={deleteGist}
 						visible={this.state.infoVisible}>
 					</GistInfo>
 		
@@ -113,8 +113,12 @@ function mapDispatchToProps(dispatch) {
 			else {
 				dispatch(starGist(id));
 			}
-		}
-	}
+		},
+		deleteGist: (id) => {
+			console.log('lähetettiin');
+			dispatch(deleteGist(id));
+		} 
+	} 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowActiveGist);

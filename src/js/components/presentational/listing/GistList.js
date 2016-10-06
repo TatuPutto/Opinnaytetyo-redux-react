@@ -19,7 +19,6 @@ class GistList extends React.Component {
 	}
 	
 	componentWillReceiveProps(nextProps) {
-		console.log(nextProps.fetchError);
 		if(nextProps.activeGistId === '' && !nextProps.fetchError) {
 			{this.props.setActive(nextProps.gists[0].id)}
 		}		
@@ -49,18 +48,15 @@ class GistList extends React.Component {
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
 		const listItems = gists.map(gist => {
 			return (
-				<GistListItem 
-					key={gist.id} 
-					id={gist.id}
-					filename={gist.files[0].filename} 
-					description={gist.description} 
-					language={gist.files[0].language}
-					color={this.getColorCode(gist.files[0].language)}
-					updatedAt={gist.formattedTime}
-					owner={gist.owner.login} 
-					activeGistId={activeGistId}
-					setActive={() => setActive(gist.id)}>
-				</GistListItem>
+				<GistListItem key={gist.id} id={gist.id}
+						filename={gist.files[0].filename} 
+						description={gist.description} 
+						language={gist.files[0].language}
+						color={this.getColorCode(gist.files[0].language)}
+						updatedAt={gist.formattedTime}
+						owner={gist.owner.login} 
+						activeGistId={activeGistId}
+						setActive={() => setActive(gist.id)} />
 			);
 		}, this); 
 		

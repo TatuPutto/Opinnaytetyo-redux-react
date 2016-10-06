@@ -3,8 +3,12 @@ import React from 'react';
 
 class Editor extends React.Component {
 	
+	//Muodostetaan editori <div>-elementtiin, 
+	//mikäli komponentti liitettiin onnistuneesti DOM:iin
 	componentDidMount() {
 		const { editorId, value, isReadOnly } = this.props;
+		
+		console.log(editorId);
 		
 	    const editor = ace.edit(editorId);
 	    editor.$blockScrolling = Infinity;
@@ -17,25 +21,28 @@ class Editor extends React.Component {
 	    if(value) {
 	    	const lines = value.split("\n").length;
 	    	editor.setValue(value);
-	    	
+	   
 		 	if(isReadOnly) {
 		 		editor.setOptions({maxLines: lines});
 		 	}
 		 	else {
-		 		editor.setOptions({minLines: 20});
+		 		editor.setOptions({minLines: 10});
 				editor.setOptions({maxLines: 60});
 		 	}
-		 	
 		 	editor.selection.moveTo(0);
 	    }
 	    else {
-	    	editor.setOptions({minLines: 20});
+	    	editor.setOptions({minLines: 10});
 			editor.setOptions({maxLines: 60});
 	    }
 	  
 	}
 	
 	render() {
+		const { editorId, value, isReadOnly } = this.props;
+		console.log(value);
+		
+		
 		return <div id={this.props.editorId}></div>;
 	}
 	

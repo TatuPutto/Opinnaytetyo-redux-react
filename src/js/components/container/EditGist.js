@@ -1,11 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
-import FileInfo from '../Reusable/FileInfo';
-import Editor from '../Reusable/Editor';
+import GistFile from '../presentational/reusable/GistFile';
+//import FileInfo from '../Reusable/FileInfo';
+//import Editor from '../Reusable/Editor';
 
-require('../../../../css/Header.css');
-require('../../../../css/CreateGist.css');
+import FileInfoWithInput from '../presentational/reusable/FileInfoWithInput';
+import Editor from '../presentational/reusable/Editor';
+
+
+
+require('../../../css/Header.css');
+require('../../../css/CreateGist.css');
 
 class EditGist extends React.Component {
 	
@@ -26,6 +33,7 @@ class EditGist extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log('täällä2');
 		const { gist } = this.props;
 	
 		if(gist.hasOwnProperty('id')) {
@@ -50,6 +58,8 @@ class EditGist extends React.Component {
 	
 	
 	componentWillReceiveProps(nextProps) {
+		console.log('täällä');
+		
 		if(nextProps.gist.hasOwnProperty('id')) {
 			let files = nextProps.gist.files;
 			let unmodifiedFiles = files;
@@ -96,17 +106,18 @@ class EditGist extends React.Component {
 			
 			for(let i = 0; i < filesAfterDelete.length; i++) {
 				for(let key in filesAfterDelete[i]) {
-					if(key === 'fileId') {
+					if(key === 'editorId') {
 						let containsId = filesAfterDelete[i][key].indexOf(id)
-					
-						if(containsId !== -1) {
+						
+						if(containsId > -1) {
+						
 							filesAfterDelete.splice(i, 1);
 						}
 					}
 				}	
 			}
 			
-			let unmofied = this.state.unmodifiedFiles;
+			/*let unmofied = this.state.unmodifiedFiles;
 			console.log(unmofied);
 			for(let i = 0; i < unmofied.length; i++) {
 				for(let key in unmofied[i]) {
@@ -122,10 +133,10 @@ class EditGist extends React.Component {
 					}
 				}	
 			}
-			
-			
+			*/
+			console.log(filesAfterDelete);
 			this.setState({
-				unmodifiedFiles: unmofied,
+				//unmodifiedFiles: unmofied,
 				files: filesAfterDelete,
 				
 			});
@@ -218,51 +229,46 @@ class EditGist extends React.Component {
 		 
 		 
 		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
 		/* gist['description'] = description;
 		 gist['ispublic'] = isPublic;
 		 gist['files'] = files;*/
 		 console.log(JSON.stringify(data));
 	}
 	
-	
-	
+
 	render() {
 		const { gist, isFetching } = this.props;
-		const { unmodifiedFiles, files } = this.state
+		const { unmodifiedFiles, files } = this.state;
 	
-	
+		
 		if(isFetching || !gist.hasOwnProperty('id') || 
 				unmodifiedFiles.length < 1) {
 			return <div className='loading'></div>; 
 		}
 		else {
 			let fileFields = files.map((file, index) => {
-				return (
-					<div className='gistFile' key={file.fileId}>
-						<FileInfo 
-							key={'info' + file.fileId}
-							id={file.fileId}
-							isRemovable={true}
-							remove={this.removeFile} 
-							filename={file.filename}
-							onChange={this.handleOnChange}>
-						</FileInfo>
-									
-						<Editor 
-							key={file.editorId} 
-							editorId={file.editorId} 
-							isReadOnly={false}
-							value={file.content}>
-						</Editor>
-					</div>			
+				return (/*
+					<GistFile 
+						key={'file' + index}
+						filename={file.filename}	
+						isRemovable={true} 
+						remove={this.removeFile}
+						onChange={this.handleOnChange}
+						editorId={file.editorId} 
+						isReadOnly={false}
+						value={file.content}>
+					</GistFile>	*/
+						
+					
+					<div className='gistFile'>		
+						<FileInfoWithInput id={file.editorId} 
+								filename={file.filename} isRemovable={true} 
+								remove={this.removeFile} 
+								onChange={this.handleOnChange} />
+	
+						<Editor editorId={file.editorId} isReadOnly={false} 
+								value={file.content} />		
+					</div>
 				);
 			}, this);
 			
@@ -270,37 +276,35 @@ class EditGist extends React.Component {
 			return (		
 				<div className='create'>
 					<div className='wrapper'>
-						<input type='text'
-							className='description' 
+						<input type='text' className='description' 
 							placeholder='Kuvaus' 
-							defaultValue={gist.description}>
-						</input>
+							defaultValue={gist.description} />
 						
 						<div className='files'>
 							{fileFields}
 						</div>
 						
-						<input type='button' id='addFile' value='Lis&#228;&#228; tiedosto' 
-							onClick={this.addFile}>
-						</input>
-						{/*<input type='button' id='createSecret' value='Luo salainen gist' 
-								onClick={() => this.createGist(false)} />
-						<input type='button' id='createPublic' value='Luo julkinen gist'
-								onClick={() => this.createGist(true)} />*/}
-						<input type='button' id='createSecret' value='Luo salainen gist' 
-							onClick={() => this.editGist(false)}>
-						</input>
+						<input type='button' id='addFile' value='Lisää tiedosto' 
+								onClick={this.addFile} />
+					
+						<input type='button' id='createSecret'
+								value='Päivitä' 
+								onClick={() => this.editGist(false)} />
 					</div>					
 				</div>
 			);
 		}
 		
 	}
-	
-	
-
-	
-	
 }
 
-export default EditGist; 
+
+function mapStateToProps(state) {
+	return {
+		gist: state.activeGist.gist,
+		isFetching: state.activeGist.isFetchingSelectedGist
+	};
+}
+
+
+export default connect(mapStateToProps)(EditGist); 

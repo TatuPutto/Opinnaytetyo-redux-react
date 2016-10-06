@@ -1,18 +1,19 @@
 import React from 'react';
-import $ from 'jquery';
 
-class FileInfo extends React.Component {
+
+class FileInfoWithInput extends React.Component {
 
 	render() {
 		const { id, filename, isRemovable, remove, onChange } = this.props; 
-		
+	
 		let filenameField;
 		if(filename) {
 			filenameField = <input 
 				type='text' 
 				className='filename'
 				placeholder='Tiedostonimi, esim. File.java' 
-				value={filename} onChange={onChange}>
+				value={filename} 
+				onChange={onChange}>
 			</input>
 		}
 		else {
@@ -41,4 +42,4 @@ class FileInfo extends React.Component {
 	}
 }
 
-export default FileInfo;
+export default FileInfoWithInput;

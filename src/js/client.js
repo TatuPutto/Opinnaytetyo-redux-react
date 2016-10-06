@@ -7,11 +7,11 @@ import { store } from './createStore';
 import { fetchSelectedGistOnEnter, fetchGistsOnEnter } from './hooks';
 import { fetchUserInfo } from './actions/actions';
 
-import Root from './components/presentational/Root';
+import Root from './components/container/Root';
 import ListingPage from './components/presentational/listing/ListingPage';
-import PassGistToSingle from './components/container/PassGistToSingle';
-import CreateGistContainer from './components/container/CreateGistContainer';
-import PassGistToEdit from './components/container/PassGistToEdit';
+import Gist from './components/container/Gist';
+import CreateGist from './components/container/CreateGist';
+import EditGist from './components/container/EditGist';
 
 store.dispatch(fetchUserInfo());
 
@@ -21,11 +21,11 @@ render(
 			<Route path='/(:searchMethod)' component={Root}>
 				<IndexRoute component={ListingPage} 
 						onEnter={fetchGistsOnEnter}></IndexRoute>
-				<Route path='/gist/:gistId' component={PassGistToSingle} 
+				<Route path='/gist/:gistId' component={Gist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='/edit/:gistId' component={PassGistToEdit} 
+				<Route path='/edit/:gistId' component={EditGist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='/create' component={CreateGistContainer}></Route>
+				<Route path='/create/:id' component={CreateGist}></Route>
 			</Route>
 		</Router>
 	</Provider>,

@@ -1,7 +1,7 @@
 import React from 'react';  
 
-import PassInfoToHeader from '../container/PassInfoToHeader';
-import ListingPage from './listing/ListingPage';
+import PassInfoToHeader from './PassInfoToHeader';
+
 
 
 

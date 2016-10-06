@@ -21,7 +21,7 @@ a {
 a:hover {
 	text-decoration: underline;
 }
-
+/*
 input[type="button"] {
     -webkit-border-radius: 4;
     -moz-border-radius: 4;
@@ -33,11 +33,28 @@ input[type="button"] {
     text-decoration: none;
     border: 1px solid transparent;
     cursor: pointer;
-   /* margin-top: 5px;*/
+}
+*/
+
+
+input[type="button"] {
+    background: white;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    padding: 6px 12px;
+    cursor: pointer;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(179, 179, 179);
 }
 
 
 input[type="button"]:hover {
+	background: #d6d9da;
 	text-decoration: none;
 }
 	
@@ -148,6 +165,11 @@ input[type="button"]:hover {
 
 .gistOwner {
 	font-size: 16px;
+}
+
+.owner img {
+	float: left;
+    width: 35px;
 }
 
 
@@ -377,7 +399,7 @@ input[type="button"]:hover {
 }
 
 #editGist:hover {
- 	background: #b3b6b7;
+ 	background: #d6d9da;
 }
 	
 
@@ -390,7 +412,7 @@ input[type="button"]:hover {
 }
 
 #deleteGist:hover {
- 	background: #b3b6b7;
+ 	background: #d6d9da;
 }
 	
 	
@@ -399,7 +421,7 @@ input[type="button"]:hover {
 }
 
 #forkGist:hover {
-	background: #A9A4A4;
+	background: #d6d9da;
 }
 
 #starGist {
@@ -412,13 +434,22 @@ input[type="button"]:hover {
 }
 
 #starGist:hover {
-	background: #b3b6b7;
+	background: #d6d9da;
 }
 
 
+#forkGist {
+	margin-right: 4px;
+    /*background: #d6d9da;*/
+    background: white;
+    color: black;
+    border-style: solid;
+    border-color: rgb(179, 179, 179);
+}
 
-
-
+#forkGist:hover {
+	background: #d6d9da;
+}
 
 
 

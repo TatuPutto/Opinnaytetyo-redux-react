@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { fetchGists, sortOldestToNewest, sortNewestToOldest, 
 	filterByLanguage, removeFilter } from '../../../actions/actions';
@@ -29,8 +30,13 @@ class Filters extends React.Component {
 							'Vanhimmat ensin' : 'Uusimmat ensin'}
 					onClick={() => sortByDate(gists, !chronologicalOrder)}>
 				</input>
-				<input type='button' value='Suosikit' 
-					onClick={this.fetchStarredGists}></input>
+				{/*}<input type='button' value='Suosikit' 
+					onClick={this.fetchStarredGists}></input>*/}
+				
+				<Link to={'/favorites'}>
+					<input type='button' value='Suosikit'></input>
+				</Link>
+				
 				<input type='button' value='Suodata' 
 					onClick={() => filterByLanguage('Java', gists)}></input>
 				<input type='button' value='Poista suodatin' onClick={removeFilter}></input>

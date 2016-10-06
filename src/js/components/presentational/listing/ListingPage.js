@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 import Filters from './Filters';
 import GistList from './GistList';
-import ShowActiveGist from './ShowActiveGist';
+import ShowActiveGist from '../../container/ShowActiveGist';
 
 
 require('../../../../css/listing.css');

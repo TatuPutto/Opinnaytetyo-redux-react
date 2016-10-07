@@ -3,13 +3,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import GistFile from '../presentational/reusable/GistFile';
-//import FileInfo from '../Reusable/FileInfo';
-//import Editor from '../Reusable/Editor';
-
-import FileInfoWithInput from '../presentational/reusable/FileInfoWithInput';
-import Editor from '../presentational/reusable/Editor';
-
-
+import { editGist } from '../../actions/actions';
 
 require('../../../css/Header.css');
 require('../../../css/CreateGist.css');
@@ -21,122 +15,116 @@ class EditGist extends React.Component {
 	 */
 	constructor() {
 		super();
+		this.initializeFiles = this.initializeFiles.bind(this);
 		this.addFile = this.addFile.bind(this);
 		this.removeFile = this.removeFile.bind(this);
 		this.handleOnChange = this.handleOnChange.bind(this);
 		this.state = {
 			editorsCreated: 0,
 			files: [],
-			unmodifiedFiles: []
+			originalFiles: []
 		};
 		
 	}
 
+	
 	componentDidMount() {
 		const { gist } = this.props;
 	
 		if(gist.hasOwnProperty('id')) {
-			let files = gist.files;
-			let unmodifiedFiles = [];
-			
-			files.forEach((file, i) => {
-				files[i].editorId = 'editor' + i;
-				files[i].fileId = 'file' + i;
-				
-				unmodifiedFiles.push({filename: file.filename, content: file.content })
-			});
-			
-			this.setState({
-				unmodifiedFiles,
-				files,
-				editorsCreated: files.length
-			});		
+			this.initializeFiles(gist.files);
 		}	
 	}
 	
 	
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.gist.hasOwnProperty('id')) {
-			let files = nextProps.gist.files;
-			let unmodifiedFiles = files;
-			
-			
-			
-			files.forEach((file, i) => {
-				files[i].editorId = 'editor' + i;
-				files[i].fileId = 'file' + i;
-				unmodifiedFiles[i].fileId = 'file' + i;
-				unmodifiedFiles[i].removed = false;
-			});
-			console.log(unmodifiedFiles);
-			
-			this.setState({
-				files,
-				unmodifiedFiles,
-				editorsCreated: files.length
-			});
+			this.initializeFiles(nextProps.gist.files);
 		}
 	}
 
 	
+	initializeFiles(files) {
+		let originalFiles = [];
+		
+		//Tallennetaan gistin tiedot renderöintiin käytettävään tiedosto taulukkoon
+		//ja tallennetaan myös gistin alkuperäiset tiedostot toiseen taulukkoon
+		files.forEach((file, i) => {
+			files[i].editorId = 'editor' + i;
+			files[i].isActive = true;
+			files[i].isOriginal = true;
+			
+			originalFiles.push({
+				editorId: 'editor' + i,
+				filename: file.filename, 
+				content: file.content,
+				isActive: true,
+				isOriginal: true
+			});
+		});
+	
+		
+		this.setState({
+			files,
+			originalFiles,
+			editorsCreated: files.length
+		});
+		
+		
+	}
+	
 	handleOnChange() {}
 
+	//Lisätään tiedostokenttä
 	addFile() {
-		this.saveCurrentFormValues();
-		
-		
-		
 		this.setState({
 			files: this.state.files.concat({
 				filename: '', 
 				content: '', 
-				fileId: 'file' + this.state.editorsCreated,
-				editorId: 'editor' + this.state.editorsCreated
+				editorId: 'editor' + this.state.editorsCreated,
+				isActive: true,
+				isOriginal: false
 			}),
 			editorsCreated: this.state.editorsCreated + 1
 		});
 	}
 	
 	
-	
+	//Poistetaan tiedostokenttä
 	removeFile(id) {
 		if (confirm('Haluatko varmasti poistaa tämän kentän?')) {
-			let filesAfterDelete = this.state.files;
+			let { files, originalFiles } = this.state;
 			
-			for(let i = 0; i < filesAfterDelete.length; i++) {
-				for(let key in filesAfterDelete[i]) {
+			for(let i = 0; i < files.length; i++) {
+				for(let key in files[i]) {
 					if(key === 'editorId') {
-						let containsId = filesAfterDelete[i][key].indexOf(id)
+						let containsId = files[i][key].indexOf(id)
+				
+						if(containsId > -1) {
+							//files.splice(i, 1);
+							files[i].isActive = false;
+						}			
+					}
+				}	
+			}
+			
+			
+
+			for(let i = 0; i < originalFiles.length; i++) {
+				for(let key in originalFiles[i]) {
+					if(key === 'editorId') {
+						let containsId = originalFiles[i][key].indexOf(id)
 						
 						if(containsId > -1) {
-						
-							filesAfterDelete.splice(i, 1);
-						}
+							originalFiles[i].isActive = false;
+						}			
 					}
 				}	
 			}
 			
-			/*let unmofied = this.state.unmodifiedFiles;
-			console.log(unmofied);
-			for(let i = 0; i < unmofied.length; i++) {
-				for(let key in unmofied[i]) {
-					console.log(key);
-					if(key === 'fileId') {
-						let containsId = unmofied[i][key].indexOf(id)
-						console.log(containsId);
-						if(containsId !== -1) {
-							unmofied[i].removed = true;
-							
-							console.log(unmofied);
-						}
-					}
-				}	
-			}
-			*/
-			console.log(filesAfterDelete);
 			this.setState({
-				//unmodifiedFiles: unmofied,
-				files: filesAfterDelete,
+				originalFiles,
+				files
 				
 			});
 			
@@ -144,129 +132,125 @@ class EditGist extends React.Component {
 	}
 	
 	
-	editGist(isPublic) {
-		console.log(this.state.unmodifiedFiles);
-		
-		 let gist = {};
-		 let files = {};
-		 let description = $('.description').val();
-		 let filenames = document.getElementsByClassName('filename');
-		 	/*	
-		 for(let i = 0; i < fileFields.length; i++) {
-			 let filename = $(fileFields[i]).find('input:text').val();
-			 let source = ace.edit(this.state.files[i].editorId).getValue();
-			 
-			 let file = {filename: filename, content: source};
-			 files[filename] = file;
-		 }*/
-		 	
-		 var filesToBeEdited = {};
-		 
-		 
-		 var i = 0;				            
-		 const unmodifiedFiles = this.state.unmodifiedFiles;
-		
-			for(var property in unmodifiedFiles) {
-				var nameChanged = false;
-				var contentChanged = false;
-				
-				var filenameUnmodified = unmodifiedFiles[property]['filename'];
-				var contentUnmodified = unmodifiedFiles[property]['content'];
-				
-			
-				
-				var filenameOnUpdate = filenames[i].value;
-				var contentOnUpdate = ace.edit(this.state.files[i].editorId).getValue();
-				
-				console.log(filenameOnUpdate + contentOnUpdate);
-				
-				
-				//Tarkistetaan onko tiedostonimiä muokattu
-				if(filenameUnmodified !== filenameOnUpdate) {
-					nameChanged = true;
-				}
-				//Tarkistetaan onko tiedoston koodia muokattu
-				if(contentUnmodified !== contentOnUpdate) {
-					contentChanged = true;
-				}
-				console.log(nameChanged + contentChanged);
-				
-				//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodi
-				//Jos tiedostoon ei ole tehty muutoksia ei lisätä mitään
-				if(nameChanged && contentChanged && !filenameOnUpdate && !contentOnUpdate) {
-				}
-				else if(nameChanged && contentChanged) {
-					filesToBeEdited[filenameUnmodified] = {filename: filenameOnUpdate, content: contentOnUpdate};
-				}
-				else if(nameChanged) {
-					filesToBeEdited[filenameUnmodified] = {filename: filenameOnUpdate};
-				}
-				else if(contentChanged) {
-					filesToBeEdited[filenameUnmodified] = {content: contentOnUpdate};
-				}
-					
-				i++;
-			}
-			
-			//Lisätään uudet tiedostot
-			var amountOfFiles = Object.keys(unmodifiedFiles).length;
-			console.log(amountOfFiles);
-			
-			for(var i = amountOfFiles; i < filenames.length; i++) {
-				filesToBeEdited[filenames[i].value] = {filename: filenames[i].value, content: ace.edit(this.state.files[i].editorId).getValue()};
-			}
-			
-			//Muodostetaan lähetettävän datan sisältävä olio
-			//data['id'] = gistId;
-			
-			let data = {};
-			data['description'] = description;
+	
+	getEditInfo(isPublic) {	
+		const { sendDataToEdit, gist } = this.props;
+		const { files, originalFiles } = this.state;
+		let description = $('.description').val();
+		let filenames = document.getElementsByClassName('filename');
+		let modifiedFiles = {};
+		let offset = 0;
 
-			if(Object.keys(filesToBeEdited).length > 0) {
-				data['files'] = filesToBeEdited;
-				//files =  {filesToBeEdited};
+		for(let i = 0; i < files.length; i++) {
+			//Uusi tiedostokenttä on luotu ja poistettu ennen muokkausta
+			if(!files[i].isOriginal && !files[i].isActive) {
+				offset++;
 			}
-		 
-		 
-		 
-		/* gist['description'] = description;
-		 gist['ispublic'] = isPublic;
-		 gist['files'] = files;*/
-		 console.log(JSON.stringify(data));
+			//Jos tiedosto on uusi, lisätään suoraan 
+			else if(!files[i].isOriginal) {
+				modifiedFiles[filenames[(i - offset)].value] = {
+					filename: filenames[(i - offset)].value, 
+					content: ace.edit(files[i].editorId).getValue()
+				};
+			}
+			//Jos tiedosto on alkuperäinen, 
+			//tarkistetaan onko siihen tehty muutoksia
+			else {
+				for(let j = 0; j < originalFiles.length; j++) {			
+					if(files[i].editorId === originalFiles[j].editorId) {
+						//Tarkistetaan onko alkuperäisiä tiedostoja poistettu
+						if(!originalFiles[j]['isActive']) {
+							//Tyhjä olio tiedoston arvoksi == poistetaan
+							let filename = originalFiles[j]['filename']
+							modifiedFiles[filename] = null;  
+							offset++;					
+						}
+						//Jos tiedostoa ei ole poistettu
+						//tarkistetaan onko siihen tehty muutoksia
+						else {			
+							let nameChanged = false;
+							let contentChanged = false;
+							
+							const originalFilename = originalFiles[j]['filename'];
+							const originalContent = originalFiles[j]['content'];
+							
+							const filenameOnUpdate = filenames[(i - offset)].value;
+							const contentOnUpdate = ace.edit(
+									files[i].editorId).getValue();
+							
+
+							//Tarkistetaan onko tiedostonimiä muokattu
+							if(originalFilename !== filenameOnUpdate) {
+								nameChanged = true;
+							}
+							//Tarkistetaan onko tiedoston koodia muokattu
+							if(originalContent !== contentOnUpdate) {
+								contentChanged = true;
+							}
+						
+							
+							//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodi
+							//Jos tiedostoon ei ole tehty muutoksia ei lisätä mitään
+							if(nameChanged && contentChanged) {
+								modifiedFiles[filenameUnmodified] = {
+									filename: filenameOnUpdate, 
+									content: contentOnUpdate
+								};
+							}
+							else if(nameChanged) {
+								modifiedFiles[originalFilename] = {
+									filename: filenameOnUpdate
+								};
+							}
+							else if(contentChanged) {
+								modifiedFiles[originalFilename] = {
+									content: contentOnUpdate
+								};
+							}				
+						}	
+					}
+				}		
+			}
+		}
+		
+		let data = {};
+		data['description'] = description;
+
+		if(Object.keys(modifiedFiles).length > 0) {
+			data['files'] = modifiedFiles;
+		}
+		
+		{sendDataToEdit(gist.id, JSON.stringify(data))}
 	}
 	
 
 	render() {
 		const { gist, isFetching } = this.props;
-		const { unmodifiedFiles, files } = this.state;
-	
-		
-	
+		const { originalFiles, files } = this.state;
 		
 		if(isFetching || !gist.hasOwnProperty('id') || 
-				unmodifiedFiles.length < 1) {
+				originalFiles.length < 1) {
 			return <div className='loading'></div>; 
 		}
-		else {
-			console.log(files[0].content);
-			
+		else {		
 			let fileFields = files.map((file, index) => {
-				return (
-					<GistFile 
-						key={file.editorId}
-						filename={file.filename}	
-						isRemovable={true} 
-						remove={this.removeFile}
-						onChange={this.handleOnChange}
-						editorId={file.editorId} 
-						isReadOnly={false}
-						value={file.content}
-					>
-					</GistFile>	
-				);
+				if(file.isActive) {
+					return (
+						<GistFile 
+							key={file.editorId}
+							filename={file.filename}	
+							isRemovable={true} 
+							remove={this.removeFile}
+							onChange={this.handleOnChange}
+							editorId={file.editorId} 
+							isReadOnly={false}
+							value={file.content}
+						>
+						</GistFile>	
+					);
+				}
 			}, this);
 			
-		
 			return (		
 				<div className='create'>
 					<div className='wrapper'>
@@ -283,7 +267,7 @@ class EditGist extends React.Component {
 					
 						<input type='button' id='createSecret'
 								value='Päivitä' 
-								onClick={() => this.editGist(false)} />
+								onClick={() => this.getEditInfo(false)} />
 					</div>					
 				</div>
 			);
@@ -300,5 +284,13 @@ function mapStateToProps(state) {
 	};
 }
 
+function mapDispatchToProps(dispatch) {
+	return {
+		sendDataToEdit: (id, gistJson) => {
+			dispatch(editGist(id, gistJson));
+		}
+	};	
+}
 
-export default connect(mapStateToProps)(EditGist); 
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditGist); 

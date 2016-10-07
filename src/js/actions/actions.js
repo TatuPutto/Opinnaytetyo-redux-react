@@ -580,8 +580,18 @@ export function createGist(gistJson) {
 export function editGist(id, gistJson) {
 	console.log('Muokataan gistiä')
 	
+	const fetchInit = {
+		method: 'PATCH',
+		body: gistJson,
+		headers: {
+			'Accept': 'application/json',
+       		'Content-Type': 'application/json',
+       		'Authorization': 'token ' + userInfo.user.accessToken
+		},
+	};
+	
 	return dispatch => {
-		return sendRequest('https://api.github.com/gists/' + id, 'PATCH')
+		return fetch('https://api.github.com/gists/' + id, fetchInit)
 	    	.then(response => {
 	    		if(response.ok) {
 					response.json().then(json => {

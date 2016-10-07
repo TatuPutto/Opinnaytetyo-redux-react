@@ -8,8 +8,6 @@ class Editor extends React.Component {
 	componentDidMount() {
 		const { editorId, value, isReadOnly } = this.props;
 		
-		console.log(editorId);
-		
 	    const editor = ace.edit(editorId);
 	    editor.$blockScrolling = Infinity;
 	    editor.setTheme('ace/theme/cobalt');
@@ -39,10 +37,6 @@ class Editor extends React.Component {
 	}
 	
 	render() {
-		const { editorId, value, isReadOnly } = this.props;
-		console.log(value);
-		
-		
 		return <div id={this.props.editorId}></div>;
 	}
 	

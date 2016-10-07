@@ -47,12 +47,14 @@ class CreateGist extends React.Component {
 	
 	//Poistetaan valittu tiedostokenttä
 	removeFile(id) {
-		let editors = this.state.editors;
-		editors.splice(editors.indexOf(id), 1);
-		
-		this.setState({
-			editors
-		});
+		if (confirm('Haluatko varmasti poistaa tämän kentän?')) {
+			let editors = this.state.editors;
+			editors.splice(editors.indexOf(id), 1);
+			
+			this.setState({
+				editors
+			});
+		}
 	}
 	
 	
@@ -99,9 +101,9 @@ class CreateGist extends React.Component {
 			const isRemovable = editors.length === 1 ? false : true;
 			
 			//Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä
-			const fileFields = editors.map((editorId, index) => {
+			const fileFields = editors.map(editorId => {
 				return (
-					<GistFile key={'file' + index} 
+					<GistFile key={editorId} 
 							isRemovable={isRemovable} remove={this.removeFile}
 							editorId={editorId} isReadOnly={false}></GistFile>	
 				);

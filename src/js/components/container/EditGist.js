@@ -33,11 +33,9 @@ class EditGist extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('täällä2');
 		const { gist } = this.props;
 	
 		if(gist.hasOwnProperty('id')) {
-			console.log('täälllä')
 			let files = gist.files;
 			let unmodifiedFiles = [];
 			
@@ -58,8 +56,6 @@ class EditGist extends React.Component {
 	
 	
 	componentWillReceiveProps(nextProps) {
-		console.log('täällä');
-		
 		if(nextProps.gist.hasOwnProperty('id')) {
 			let files = nextProps.gist.files;
 			let unmodifiedFiles = files;
@@ -83,10 +79,13 @@ class EditGist extends React.Component {
 	}
 
 	
-	
 	handleOnChange() {}
 
 	addFile() {
+		this.saveCurrentFormValues();
+		
+		
+		
 		this.setState({
 			files: this.state.files.concat({
 				filename: '', 
@@ -140,6 +139,7 @@ class EditGist extends React.Component {
 				files: filesAfterDelete,
 				
 			});
+			
 		}	
 	}
 	
@@ -241,34 +241,28 @@ class EditGist extends React.Component {
 		const { unmodifiedFiles, files } = this.state;
 	
 		
+	
+		
 		if(isFetching || !gist.hasOwnProperty('id') || 
 				unmodifiedFiles.length < 1) {
 			return <div className='loading'></div>; 
 		}
 		else {
+			console.log(files[0].content);
+			
 			let fileFields = files.map((file, index) => {
-				return (/*
+				return (
 					<GistFile 
-						key={'file' + index}
+						key={file.editorId}
 						filename={file.filename}	
 						isRemovable={true} 
 						remove={this.removeFile}
 						onChange={this.handleOnChange}
 						editorId={file.editorId} 
 						isReadOnly={false}
-						value={file.content}>
-					</GistFile>	*/
-						
-					
-					<div className='gistFile'>		
-						<FileInfoWithInput id={file.editorId} 
-								filename={file.filename} isRemovable={true} 
-								remove={this.removeFile} 
-								onChange={this.handleOnChange} />
-	
-						<Editor editorId={file.editorId} isReadOnly={false} 
-								value={file.content} />		
-					</div>
+						value={file.content}
+					>
+					</GistFile>	
 				);
 			}, this);
 			

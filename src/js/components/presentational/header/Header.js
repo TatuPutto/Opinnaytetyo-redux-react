@@ -10,10 +10,8 @@ class Header extends React.Component {
 		return (
 			<div className='header'>
 				<div className='headerContent'>
-					<UserInfo 
-						userLogin={this.props.userLogin} 
-						avatarUrl={this.props.avatarUrl} 
-					/>
+					<UserInfo userLogin={this.props.userLogin} 
+							avatarUrl={this.props.avatarUrl} />
 					<NavMenu login={this.props.login}/>
 				</div>	
 			</div>	

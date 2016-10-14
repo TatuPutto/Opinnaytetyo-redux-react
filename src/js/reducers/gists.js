@@ -1,21 +1,14 @@
 //Reducer-funktio gistien hallintaan
-export function gists(state = {
-	//fetchingMethod: 'gists',
+export function gists(state = { 
+	fetchMethod: 'gists', 
 	isFetching: false,
-	fetchError: null,
-	items: [], 
-	activeItemId: null,
-	itemsBeforeFiltering: [],
-	chronologicalOrder: false,
-	language: 'Java'
+	items: [],
 }, action) {
 	switch(action.type) {
 		case 'REMOVE_GIST_FROM_LIST':
 			return  {
 				...state,
-				items: state.items.slice(state.items.map(item => {
-						return item.id;
-					}).indexOf(action.id) + 1)
+				items: state.items.filter(item => item.id !== action.id)			
 			}
 			break;
 		//Gistien hakeminen aloitettiin
@@ -30,8 +23,8 @@ export function gists(state = {
 			return {
 				...state,
 				items: action.gists,
-				itemsBeforeFiltering: action.gists,
-				isFetching: false,	
+				fetchedAt: action.fetchedAt,
+				isFetching: false	
 			}
 			break;
 		//Gistien hakeminen epäonnistui

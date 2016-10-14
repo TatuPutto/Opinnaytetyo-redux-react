@@ -9,13 +9,14 @@ import thunkMiddleware from 'redux-thunk';
 
 
 import { activeGist }  from './reducers/activeGist';
-import { gists }  from './reducers/gists';
+import { gists, gistsByFetchMethod }  from './reducers/gists';
 import { user }  from './reducers/user';
 
 //Yhdistetään reducerit
 const rootReducer = combineReducers({
 	activeGist,
 	gists,
+	//gistsByFetchMethod,
 	user
 });
 

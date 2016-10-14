@@ -1,4 +1,5 @@
-import { fetchSelectedGist, fetchGists, fetchAccessToken } from './actions/actions';
+import { fetchSelectedGist, fetchGists, fetchAccessToken, shouldFetch, 
+		selectFetchMethod } from './actions/actions';
 
 import { store } from './createStore';
 
@@ -9,16 +10,23 @@ export function fetchSelectedGistOnEnter(nextState) {
 	if(state.activeGist.gistId !== gistId) {
 		return store.dispatch(fetchSelectedGist(gistId));
 	}
-	else {
-		console.log('Valittu gist on jo aktiivinen');
-	}
 }
 
 export function fetchGistsOnEnter(nextState) {
-	let searchMethod = nextState.params.searchMethod;
-	if(searchMethod == null) {
-		searchMethod = 'gists';
+	let fetchMethod = nextState.params.fetchMethod;
+	if(fetchMethod == null) {
+		fetchMethod = 'gists';
 	}
-	
-	return store.dispatch(fetchGists(nextState.params.searchMethod));
+	 
+	if(shouldFetch(store.getState(), fetchMethod)) {
+		return store.dispatch(fetchGists(fetchMethod));
+	}
 }
+
+export function login() {
+	//Yritetään hakea käyttäjätietoja local storagesta
+	//let userInfo = getUserInfoFromStorage();
+	window.location.href = 'http://localhost:8080/Opinnaytetyo_spring_react/authorize';
+}
+	
+

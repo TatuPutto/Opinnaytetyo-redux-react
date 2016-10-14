@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 
 import GistListItem from './GistListItem';
-import { fetchSelectedGist } from '../../../actions/actions';
+import { fetchSelectedGist, fetchMoreGists } from '../../../actions/actions';
 
 
 
@@ -13,17 +13,39 @@ const COLORS = require("../../../../static/colors.json");
 
 class GistList extends React.Component {
 
+	static propTypes = {
+		gists: PropTypes.array.isRequired,
+		activeGistId: PropTypes.string.isRequired,
+		isFetching: PropTypes.bool.isRequired,
+		setActive: PropTypes.func.isRequired
+	};
+
+	static contextTypes = {
+		router: React.PropTypes.object.isRequired
+	};
+
+	
 	constructor() {
 		super();
+		//this.setActive = this.setActive.bind(this);
 		this.getColorCode = this.getColorCode.bind(this);
 	}
 	
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.activeGistId === '' && !nextProps.fetchError) {
+		if(nextProps.gists.length > 0 && !nextProps.activeGistId && 
+				!nextProps.fetchError && 
+				nextProps.fetchMethod === this.props.fetchMethod) {
 			{this.props.setActive(nextProps.gists[0].id)}
 		}		
 	}
 	
+	/*
+	setActive(id) {
+		const pushUrl = location.pathname + '?gist=' + id;
+		this.context.router.push(pushUrl);
+		{this.props.setActive(id)}
+	}
+	*/
 	
 	/**
 	 * Haetaan kielelle määrietty värikoodi
@@ -41,9 +63,9 @@ class GistList extends React.Component {
 	
 	
 	render() {
-		const { gists, isFetchingGists, fetchError,
+		const { gists, fetchMethod, isFetching,
 				activeGistId, setActive } = this.props;
-		
+			
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
 		const listItems = gists.map(gist => {
@@ -63,23 +85,27 @@ class GistList extends React.Component {
 		//Renderöidään lista ja asetetaan <li>-elementit listan sisällöksi
 		return (
 			<div className='listGists'>
-				{isFetchingGists && 
+				{isFetching && 
 					<div className='loading'></div>
 				}
-				
-				{!isFetchingGists && fetchError &&
-					<p>{fetchError}</p>
-				}
-				
-				{!isFetchingGists && listItems.length === 0 &&
+
+				{!isFetching && listItems.length === 0 &&
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}	
 				
-				{!isFetchingGists && listItems.length > 0 &&
+				{!isFetching && listItems.length > 0 &&
 					<ul>
 						{listItems}
+						
+						{fetchMethod === 'discover' && 
+							<input type='button' value='Lataa lisää'
+									onClick={() => this.props.fetchMore(2)} />
+						}
 					</ul>
 				}	
+				
+				
+				
 			</div>	
 		);   
 	}
@@ -87,26 +113,17 @@ class GistList extends React.Component {
 }
 
 
-GistList.propTypes = {
-	gists: PropTypes.array.isRequired,
-	activeGistId: PropTypes.string.isRequired,
-	isFetchingGists: PropTypes.bool.isRequired,
-	setActive: PropTypes.func.isRequired
-};
-
-
 let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
 	
+	//console.log(state);
 	return {
+		//gists: state.gistsByFetchMethod[state.gistsByFetchMethod.fetchMethod].items,
 		gists: state.gists.items,
 		activeGistId: state.activeGist.gistId,
-		isFetchingGists: state.gists.isFetching,
-		isFetchingSelectedGist: state.activeGist.isFetching,
-		fetchError: state.gists.fetchError,
-		chronologicalOrder: state.gists.chronologicalOrder,
-		filterByLanguage: state.gists.filterByLanguage
+		isFetching: state.gists.isFetching,
+		fetchMethod: state.gists.fetchMethod,
 	}
 }
 
@@ -117,6 +134,9 @@ function mapDispatchToProps(dispatch) {
 			if(id !== activeId) {
 				dispatch(fetchSelectedGist(id));
 			}
+		},
+		fetchMore: (pageNum) => {
+			dispatch(fetchMoreGists(pageNum));
 		}
 	};
 }

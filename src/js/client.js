@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import { store } from './createStore';
-import { fetchSelectedGistOnEnter, fetchGistsOnEnter } from './hooks';
+import { fetchSelectedGistOnEnter, fetchGistsOnEnter, login } from './hooks';
 import { fetchUserInfo } from './actions/actions';
 
 import Root from './components/container/Root';
@@ -15,10 +15,15 @@ import EditGist from './components/container/EditGist';
 
 store.dispatch(fetchUserInfo());
 
+//import { getUserInfoFromCookie } from './utility/persistUserInfo';
+//console.log(typeof getUserInfoFromCookie);
+//console.log(getUserInfoFromCookie());
+
+
 render(
 	<Provider store={store}>					 
 		<Router history={browserHistory}>
-			<Route path='/(:searchMethod)' component={Root}>
+			<Route path='/(:fetchMethod)' component={Root}>
 				<IndexRoute component={ListingPage} 
 						onEnter={fetchGistsOnEnter}></IndexRoute>
 				<Route path='/gist/:gistId' component={Gist} 
@@ -26,6 +31,9 @@ render(
 				<Route path='/edit/:gistId' component={EditGist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
 				<Route path='/create/:id' component={CreateGist}></Route>
+				
+				//<Route path='/login/:id' component={CreateGist}> onEnter={login}></Route>
+				
 			</Route>
 		</Router>
 	</Provider>,

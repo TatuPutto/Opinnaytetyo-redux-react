@@ -45,7 +45,7 @@ class EditGist extends React.Component {
 
 	
 	initializeFiles(files) {
-		let originalFiles = [];
+		
 		
 		//Tallennetaan gistin tiedot renderöintiin käytettävään tiedosto taulukkoon
 		//ja tallennetaan myös gistin alkuperäiset tiedostot toiseen taulukkoon
@@ -54,19 +54,19 @@ class EditGist extends React.Component {
 			files[i].isActive = true;
 			files[i].isOriginal = true;
 			
-			originalFiles.push({
+			/*originalFiles.push({
 				editorId: 'editor' + i,
 				filename: file.filename, 
 				content: file.content,
 				isActive: true,
 				isOriginal: true
-			});
+			});*/
 		});
 	
 		
 		this.setState({
 			files,
-			originalFiles,
+			originalFiles: files,
 			editorsCreated: files.length
 		});
 		
@@ -92,7 +92,7 @@ class EditGist extends React.Component {
 	
 	//Poistetaan tiedostokenttä
 	removeFile(id) {
-		if (confirm('Haluatko varmasti poistaa tämän kentän?')) {
+		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let { files, originalFiles } = this.state;
 			
 			for(let i = 0; i < files.length; i++) {
@@ -236,17 +236,11 @@ class EditGist extends React.Component {
 			let fileFields = files.map((file, index) => {
 				if(file.isActive) {
 					return (
-						<GistFile 
-							key={file.editorId}
-							filename={file.filename}	
-							isRemovable={true} 
-							remove={this.removeFile}
-							onChange={this.handleOnChange}
-							editorId={file.editorId} 
-							isReadOnly={false}
-							value={file.content}
-						>
-						</GistFile>	
+						<GistFile key={file.editorId} filename={file.filename}	
+								isRemovable={true} remove={this.removeFile}
+								onChange={this.handleOnChange}
+								editorId={file.editorId} isReadOnly={false}
+								value={file.content} />
 					);
 				}
 			}, this);
@@ -255,8 +249,8 @@ class EditGist extends React.Component {
 				<div className='create'>
 					<div className='wrapper'>
 						<input type='text' className='description' 
-							placeholder='Kuvaus' 
-							defaultValue={gist.description} />
+								placeholder='Kuvaus' 
+								defaultValue={gist.description} />
 						
 						<div className='files'>
 							{fileFields}

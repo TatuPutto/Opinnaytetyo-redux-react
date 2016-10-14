@@ -19,7 +19,6 @@ export function parseMultipleGistsJson(gistsJson) {
 				files: parseFiles(gist.files),
 				owner: parseOwnerInfo(gist.owner),
 				formattedTime: formatTime(gist.updated_at),
-				//active: i === 0 ? true : false
 			}));
 		}
 	})
@@ -64,20 +63,18 @@ function parseOwnerInfo(ownerJson) {
 	let owner = {};
 	
 	try {
-		if(ownerJson == null) {
-			throw 'Anonyymi käyttäjä';
-		}
+		if(ownerJson == null) {}
 		else {
 			owner['login'] = ownerJson.login;
 			owner['avatarUrl'] = ownerJson.avatar_url;
+			
+			return owner;
 		}
-	}
-	catch(error) {
-		console.log(error);
 	}
 	finally {
 		return owner;
 	}
+	
 }
 
 

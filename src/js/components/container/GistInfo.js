@@ -86,7 +86,9 @@ function mapDispatchToProps(dispatch) {
 			dispatch(checkIfForked(id));
 		},
 		deleteGist: (id) => {
-			dispatch(deleteGist(id));
+			if (confirm('Haluatko varmasti poistaa tämän gistin?')) {
+				dispatch(deleteGist(id));
+			}
 		} 
 	} 
 }

@@ -12,6 +12,10 @@ span {
 	display: inline-block;
 }
 
+.contentLeft span {
+	font-family: 'Roboto', sans-serif;
+}
+
 a {
 	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
@@ -70,6 +74,27 @@ input[type="button"]:hover {
     background: rgba(0, 0, 0, 0.5);
 }
 	
+.info {
+	max-width: 500px;
+	word-break: break-word;
+	position: fixed;
+	/*width: 300px;*/
+	/*height: 100px;*/
+	background: white;
+	border-width: 1px;
+    border-style: solid;
+    border-color: rgb(179, 179, 179);
+	border-radius: 4px;
+	top: 20px;
+	left: 40%;
+	color: black;
+	cursor: pointer;
+	padding: 10px;
+	
+	
+}
+	
+	
 .listing {
 	/*width: 90%;*/
     margin-right: auto;
@@ -88,7 +113,7 @@ input[type="button"]:hover {
 
 /*Filtterir*/
 .filters {
-	heigth: 35px;
+	height: 35px;
 	background: grey;	
 	
 }
@@ -103,27 +128,19 @@ input[type="button"]:hover {
 }
 
 
-.filteringOptions {
-	height: 200px;
+.contentLeft select {
+	width: 44%;
+	height: 30px;
 }
-
-
-#addFilters, #getUsersGists, #getAllPublicGists {
-	color: black;
-}
-
-#addFilters:hover, #getUsersGists:hover, #getAllPublicGists:hover  {
- 	background: #A9A4A4;
-}
-
 
 
 /*Gist lista*/
 .listGists {
 	height: 96%;
-	overflow: scroll;
+	overflow-y: scroll;
 	background-color: #d4dde0;
 }
+
 
 .listGists ul {
 	list-style-type: none;
@@ -208,7 +225,7 @@ input[type="button"]:hover {
 
 .showActiveGist {
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 /*
@@ -339,7 +356,7 @@ input[type="button"]:hover {
 
 .loading {
 	/*background: url(http://localhost:9090/Opinnaytetyo_spring_react/images/loading.gif) no-repeat center center;*/
-	background: url(http://localhost:8080/images/loading.gif) no-repeat center center;
+	background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
 	height: 90%;
 }
 

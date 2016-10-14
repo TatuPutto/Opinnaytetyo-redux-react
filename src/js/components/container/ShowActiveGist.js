@@ -8,6 +8,12 @@ import ReadOnlyGistFile from '../presentational/reusable/ReadOnlyGistFile';
 
 class ShowActiveGist extends React.Component {
 	
+	static propTypes = {
+		gist: PropTypes.object.isRequired,
+		isFetchingGists: PropTypes.bool.isRequired,
+		isFetchingSelectedGist: PropTypes.bool.isRequired
+	};
+
 	constructor() {
 		super();
 		this.toggleInfo = this.toggleInfo.bind(this);
@@ -65,13 +71,6 @@ class ShowActiveGist extends React.Component {
 	}
 	
 }
-
-
-ShowActiveGist.propTypes = {
-	gist: PropTypes.object.isRequired,
-	isFetchingGists: PropTypes.bool.isRequired,
-	isFetchingSelectedGist: PropTypes.bool.isRequired
-};
 
 
 function mapStateToProps(state) {

@@ -1,25 +1,27 @@
 import $ from 'jquery';
 
-export function showFetchError(error) {
-	let status = error.split(' ')[0];
-	let errorMessage = '';
-	
-	switch(status) {
-		case '404':
-			errorMessage = 'pyytämääsi resurssia ei löytynyt.';
-			break;
-		case '401':
-			errorMessage = 'puutteelliset käyttöoikeudet.';
-			break;
+export function notify(message) {
+	if($('.info').length) {
+		if(!$('.info').is(":visible")) {
+			$('.info').toggle();
+		}
+		$('.info p:first').text(message);
 	}
-	
-	//alert('Haku epäonnistui, ' + errorMessage);
-	
-	
-	$('#container').append("<div class='info' style='position:fixed;width:300px;height:100px;background:black;left:40%;color:white;cursor:pointer;'><p>Haku epäonnistui, " + errorMessage + "</p></div>");
+	else {
+		appendInfoWindow(message);
+	}
+	hideInfoWindow();
+}
+
+function appendInfoWindow(message) {
+	$('#container').append("<div class='info'><p>" + message + "</p></div>");
 	$(document).on('click', '.info', () => {
 		$('.info').hide();
 	});
 }
 
-
+function hideInfoWindow() {
+	setTimeout(() => {
+		$('.info').fadeToggle("slow", "linear");
+	}, 1500);
+}

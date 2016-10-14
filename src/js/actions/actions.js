@@ -1,9 +1,10 @@
 import * as types from './actionTypes';
 import { parseSingleGistJson, parseMultipleGistsJson, 
 		parseFiles, parseFilesWithSource } from '../utility/parseGistsJson';
-import { storeUserInfo, getUserInfoFromStorage } from '../utility/persistUserInfo';
-import { showFetchError } from '../utility/infoWindow';
-import { determineFetchUrl } from '../utility/determineFetchUrl';
+import { storeUserInfo, getUserInfoFromStorage, 
+		getUserInfoFromCookie } from '../utility/persistUserInfo';
+import { showFetchError, notify } from '../utility/infoWindow';
+import { determineEndpoint } from '../utility/determineFetchUrl';
 
 
 var userInfo = {};
@@ -37,8 +38,11 @@ export function requestUserInfo() {
 export function receiveUserInfo(userInfoJson) {
 	return {
 		type: types.FETCH_USER_INFO_SUCCESS,
-		userLogin: userInfoJson.user.login,
-		avatarUrl: userInfoJson.user.avatar_url
+		//userLogin: userInfoJson.user.login,
+		//avatarUrl: userInfoJson.user.avatar_url
+		userLogin: 'TatuPutto',
+		avatarUrl: 'https://avatars.githubusercontent.com/u/408570?v=3',
+		accessToken: userInfoJson.user.accessToken
 	};
 }
 
@@ -50,13 +54,14 @@ export function userInfoFetchFailed() {
 }
 
 
-export function fetchUserInfo() {
-	
+export function fetchUserInfo() {	
+
 	return dispatch => {
 		dispatch(requestUserInfo);
 		
 		//const userInfo = getUserInfoFromStorage();
-		userInfo = getUserInfoFromStorage();
+		
+		userInfo = getUserInfoFromCookie();
 		
 		if(userInfo != null) {
 			dispatch(receiveUserInfo(userInfo));
@@ -69,26 +74,6 @@ export function fetchUserInfo() {
 	
 	
 }
-
-
-
-export function login() {
-	//Yritetään hakea käyttäjätietoja local storagesta
-	let userInfo = getUserInfoFromStorage();
-
-	window.location.href = 'https://github.com/login/oauth/authorize?client_id=566fea61a0cebae27268&scope=gist';
-}
-	
-
-
-
-
-export function logout() {
-}
-
-
-
-
 
 
 
@@ -310,7 +295,6 @@ export function forkGist(id) {
 
 //Tarkistetaan onko gist forkattu
 export function checkIfForked(id) {
-	console.log('tarkistetaan');
 	return dispatch => {
 	    //Lähetetetään pyyntö ja jäädään odottamaan vastausta (Promise - pending)
 	    return sendRequest('https://api.github.com/gists/' + id + '/forks', 'GET')
@@ -318,14 +302,13 @@ export function checkIfForked(id) {
 		    .then(response => {  	
 		    	//(Promise - fulfill) Jos haku onnistui, lähetetään vastaus käsiteltäväksi
 		    	if(response.ok) {
-		    		console.log('haku onnistui');
 		    		response.json().then(json => {
 		    			let forked = false;
 		    			
 		    			json.forEach(fork => {
 		    				console.log(fork.owner.login);
 		    				if(fork.owner.login === userInfo.user.login) {
-		    					alert('Olet jo forkannut tämän gistin.')
+		    					notify('Olet jo forkannut tämän gistin.')
 		    					forked = true;
 		    				}	
 		    			});
@@ -360,15 +343,16 @@ export function checkIfForked(id) {
 //Hakuehtoja vastaavien gistien hakeminen////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
+
 //Ilmoitetaan gistien haun alkamisesta
-function requestGists() {
+function requestGists(fetchMethod) {
 	return {
 		type: 'FETCH_GISTS_REQUEST',
+		fetchMethod,
 		invalidateCurrentList: true,
-		isFetching: true	
+		isFetching: true
 	}
 }
-
 
 /**
  * Otetaan löydetyt gistit vastaan
@@ -377,7 +361,7 @@ function receiveGists(json) {
 	return {
 	    type: 'FETCH_GISTS_SUCCESS',
 	    gists: parseMultipleGistsJson(json),
-	    isFetching: false
+	    fetchedAt: new Date().getTime() / 1000,
 	}
 }
 
@@ -395,41 +379,75 @@ function gistsFetchFailed(error) {
 }
 
 
-/*
-export function fetchGists() {
-	return dispatch => {
-		
-/*
-return fetch('https://api.github.com/users/TatuPutto/gists')
-	.then(response => response.json())
-		.then(json => dispatch(receiveGists(json)))
-		
-		
+
+export function shouldFetch(state, fetchMethod) {
+	const gists = state.gists.items;
+	const fetchedAt = state.gists.fetchedAt;
+	const timeSinceFetch = Date.now() / 1000 - fetchedAt;
+	
+	if(timeSinceFetch < 60) {
+		console.log(timeSinceFetch);
+		return false;
 	}
 	
-	//Kun haku on suoritettu, luetaan vastauksen runko(body)
+	return true;
 }
-//Haetaan gistit
 
-*/
 /**
  * Suoritetaan gistien hakeminen
  */
-export function fetchGists(fetchingMethod) {
+export function fetchGists(fetchMethod) {
 	console.log('Haetaan gistit')
-
+	
 	//Lähetetään dispatch-funktio paluuarvona
 	return dispatch => {
 		dispatch(invalidateGist());
 		//Lähetetään action, joka ilmoittaa uusien gistien latauksen alkaneen
-	    dispatch(requestGists());
+	    //dispatch(requestGists(fetchMethod));
+		dispatch(requestGists(fetchMethod));
 	    
-	    return sendRequest(determineFetchUrl(fetchingMethod), 'GET')
+	    return sendRequest(determineEndpoint(fetchMethod), 'GET')
     		.then(response => {
     			//Jos haku onnistui lähetetään gistien tiedot sisältävä json eteenpäin
 	    		if(response.ok) {
 					response.json().then(json => {
-						dispatch(receiveGists(json));
+						dispatch(receiveGists(json, fetchMethod));
+					})
+				}
+	    		//Jos haku epäonnistui, heitetään poikkeus
+				else {
+					const error = new Error(
+							response.status + ' ' + response.statusText);
+					throw error;
+				}
+			})
+			//Ilmoitetaan käyttäjälle miksi haku ei onnistunut
+			.catch(error => {
+				dispatch(gistsFetchFailed(error.message));
+				console.log('Haku ei onnistunut: ' + error.message);
+			});
+	}
+}
+
+
+export function fetchMoreGists(pageNum) {
+	console.log('Haetaan gistejä sivulta: ' + pageNum);
+	
+	
+	//Lähetetään dispatch-funktio paluuarvona
+	return dispatch => {
+		dispatch(invalidateGist());
+		//Lähetetään action, joka ilmoittaa uusien gistien latauksen alkaneen
+	    //dispatch(requestGists(fetchMethod));
+		dispatch(requestGists('discover'));
+	    
+	    return sendRequest('https://api.github.com/gists/public?page='
+				+ pageNum + '&per_page=100', 'GET')
+    		.then(response => {
+    			//Jos haku onnistui lähetetään gistien tiedot sisältävä json eteenpäin
+	    		if(response.ok) {
+					response.json().then(json => {
+						dispatch(receiveGists(json, 'discover'));
 						//dispatch(fetchSelectedGist(json[0].id));
 					})
 				}
@@ -446,8 +464,16 @@ export function fetchGists(fetchingMethod) {
 				console.log('Haku ei onnistunut: ' + error.message);
 			});
 		
+	    /*
+		setTimeout(() => {
+			dispatch(receiveGists(SAMPLEDATA, 'discover'));
+		}, 1000);
+	    
+	    */
+	    
 	}
 }
+
 
 
 
@@ -616,7 +642,7 @@ export function editGist(id, gistJson) {
 /////////////////////////////////////////////////////////////////////////
 
 export function deleteGist(id) {
-	
+	console.log(id);
 	return dispatch => {
 		//Päivitetään UI-optimistisesti
 		dispatch(invalidateGist());
@@ -625,10 +651,8 @@ export function deleteGist(id) {
 		return sendRequest('https://api.github.com/gists/' + id, 'DELETE')
 	    	.then(response => {
 	    		if(response.ok) {
-					response.json().then(json => {
-						console.log('Gistin poistaminen onnistui.');
-					})
-				}
+    				notify('Gistin poistaminen onnistui');
+	    		}
 				else {
 					const error = new Error(
 							response.status + ' ' + response.statusText);
@@ -636,7 +660,8 @@ export function deleteGist(id) {
 					throw error;
 				}
 			}).catch(function(error) {
-				console.log('Gistin poistaminen ei onnistunut, ' + error.message);
+				console.log(error.message);
+				notify('Gistin poistaminen ei onnistunut, ' + error.message);
 			});
 	}
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
 
-import Filters from './Filters';
 import GistList from './GistList';
+import Filters from '../../container/Filters';
 import ShowActiveGist from '../../container/ShowActiveGist';
 
 

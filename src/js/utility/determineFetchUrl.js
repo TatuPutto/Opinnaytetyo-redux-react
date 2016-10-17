@@ -1,4 +1,5 @@
-export function determineEndpoint(fetchingMethod) {
+export function determineEndpoint(fetchingMethod, pageNum) {
+	pageNum = (typeof pageNum === 'undefined') ? 1 : pageNum;
 	let url;
 
 	if(fetchingMethod === 'gists') {
@@ -8,7 +9,7 @@ export function determineEndpoint(fetchingMethod) {
 		url = 'https://api.github.com/gists/starred';
 	}
 	else if(fetchingMethod === 'discover'){
-		url = 'https://api.github.com/gists/public?page=1&per_page=100';
+		url = 'https://api.github.com/gists/public?page=1&per_page=50';
 	}
 	else {
 		url = 'https://api.github.com/gists';

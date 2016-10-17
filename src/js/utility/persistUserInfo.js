@@ -5,7 +5,7 @@ export function storeUserInfo(userInfo, accessToken) {
 		//localStorage.setItem('userAvatar', userInfo.user.avatar_url);
 		localStorage.setItem('userLogin', 'TatuPutto');
 		localStorage.setItem('userAvatar', 'https://avatars.githubusercontent.com/u/408570?v=3');
-		localStorage.setItem('accessToken', '06b03de89d26636a1aa1be677863ea702ce2a92d');
+		localStorage.setItem('accessToken', '');
 	} 
 	else {
 	    alert('Selaimesi ei tue HTML5 local storage toiminnallisuutta.');

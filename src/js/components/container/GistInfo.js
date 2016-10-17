@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import GistActions from '../presentational/reusable/GistInfo/GistActions';
-import GistActionsOwner from '../presentational/reusable/GistInfo/GistActionsOwner';
+import GistActionsOwner from 
+		'../presentational/reusable/GistInfo/GistActionsOwner';
 	
 import { starGist, unstarGist, checkIfForked, deleteGist } 
 		from '../../actions/actions';
@@ -40,9 +41,10 @@ class GistInfo extends React.Component {
 					
 				<br/>
 				<span className='desc'>
-					<Link to href={'/gist/' + gist.id}>
+					<Link to={'/gist/' + gist.id}>
 						<p>{gist.files[0].filename}</p>
 					</Link>
+					<p style={{background: 'yellow', marginLeft: '20px'}}>{gist.public ? 'Julkinen' : 'Salainen'}</p>
 					<br/>
 					<p className='description'>{gist.description}</p>
 				</span>	

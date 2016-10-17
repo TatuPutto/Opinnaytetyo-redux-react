@@ -83,7 +83,7 @@ class CreateGist extends React.Component {
 		console.log(JSON.stringify(gist));
 		
 		//Lähetetään koostettu olio JSON-muodossa containerille
-		//{this.props.create(JSON.stringify(gist))};
+		{this.props.create(JSON.stringify(gist))};
 	}
 	
 	

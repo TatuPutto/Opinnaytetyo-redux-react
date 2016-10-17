@@ -10,10 +10,10 @@ class Filters extends React.Component {
 	static propTypes = {
 		gists: PropTypes.array.isRequired,
 		fetch: PropTypes.func.isRequired,
-		chronologicalOrder: PropTypes.bool.isRequired,
-		sortByDate: PropTypes.func.isRequired,
-		filterByLanguage: PropTypes.func.isRequired,
-		removeFilter: PropTypes.func.isRequired,
+		//chronologicalOrder: PropTypes.bool.isRequired,
+		//sortByDate: PropTypes.func.isRequired,
+		//filterByLanguage: PropTypes.func.isRequired,
+		//removeFilter: PropTypes.func.isRequired,
 	};
 
 
@@ -41,8 +41,8 @@ class Filters extends React.Component {
 	
 	
 	render() {
-		const { fetchMethod, chronologicalOrder, sortByDate, 
-				filterByLanguage, removeFilter, gists } = this.props;
+		const { fetchMethod, /*chronologicalOrder, sortByDate, 
+				filterByLanguage, removeFilter,*/ gists } = this.props;
 		
 		return (
 			<div className='filters'>
@@ -88,11 +88,10 @@ class Filters extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		//gists: state.gists.items,
-		gists: state.gistsByFetchMethod[state.gistsByFetchMethod.fetchMethod].items,
-		fetchMethod: state.gistsByFetchMethod.fetchMethod,
-		chronologicalOrder: state.gistsByFetchMethod.chronologicalOrder,
-		filterByLanguage: state.gistsByFetchMethod.filterByLanguage
+		gists: state.gists.items,
+		fetchMethod: state.gists.fetchMethod,
+		//chronologicalOrder: state.gists.chronologicalOrder,
+		//filterByLanguage: state.gists.filterByLanguage
 	}
 }
 

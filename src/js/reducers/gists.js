@@ -15,6 +15,7 @@ export function gists(state = {
 		case 'FETCH_GISTS_REQUEST':
 			return {
 				...state,
+				fetchMethod: action.fetchMethod,
 				isFetching: true
 			}
 			break;
@@ -62,6 +63,17 @@ export function gists(state = {
 				chronologicalOrder: action.chronologicalOrder
 			}
 			break;
+			
+		case 'FETCH_MORE_GISTS_SUCCESS':
+			return {
+				...state,
+				items: state.items.concat(action.gists),
+				fetchedAt: action.fetchedAt,
+				isFetching: false	
+			}
+			break;
+			
+			
 		//Palautetaan vakioarvot tai nykyinen tila gistien osalta, 
 		//jos action ei vastannut yhtäkään case-tapausta
 		default:

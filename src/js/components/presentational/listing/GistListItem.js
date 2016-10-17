@@ -4,8 +4,22 @@ import {Link} from 'react-router';
 class GistListItem extends React.Component {
 	
 	render() {	
-		const { owner, id, activeGistId, filename, description, 
-			updatedAt, language, setActive, color } = this.props;
+		const { owner, id, activeGistId, updatedAt, language, 
+				setActive, color } = this.props;
+		let { filename, description } = this.props;
+		
+		
+		if(filename) {
+			//Lyhennetään gistin nimeä, jos nimi on yli 80 merkkiä pitkä
+			filename = ((owner.length + filename.length) < 80) ? 
+					filename : filename.substring(0, 80) + '...';
+		}
+			
+		if(description) {
+			//Lyhennetään kuvausta, jos kuvaus on yli 150 merkkiä pitkä
+			description = (description.length <= 150) ? 
+					description : description.substring(0, 150) + '...';
+		}
 		
 		
 		//Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri

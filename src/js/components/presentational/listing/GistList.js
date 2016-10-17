@@ -63,9 +63,11 @@ class GistList extends React.Component {
 	
 	
 	render() {
-		const { gists, fetchMethod, isFetching,
-				activeGistId, setActive } = this.props;
-			
+		const { gists, fetchMethod, isFetching, activeGistId, setActive, 
+				fetchMore, nextPage } = this.props;
+	
+		console.log(nextPage);
+				
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
 		const listItems = gists.map(gist => {
@@ -99,13 +101,11 @@ class GistList extends React.Component {
 						
 						{fetchMethod === 'discover' && 
 							<input type='button' value='Lataa lisää'
-									onClick={() => this.props.fetchMore(2)} />
+									onClick={() => fetchMore(nextPage)} />
 						}
 					</ul>
 				}	
-				
-				
-				
+					
 			</div>	
 		);   
 	}
@@ -117,13 +117,14 @@ let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
 	
-	//console.log(state);
+	console.log(state.pagination);
+	
 	return {
-		//gists: state.gistsByFetchMethod[state.gistsByFetchMethod.fetchMethod].items,
 		gists: state.gists.items,
 		activeGistId: state.activeGist.gistId,
 		isFetching: state.gists.isFetching,
 		fetchMethod: state.gists.fetchMethod,
+		nextPage: state.pagination.nextPage
 	}
 }
 

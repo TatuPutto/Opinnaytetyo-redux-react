@@ -131,6 +131,13 @@ class EditGist extends React.Component {
 		}	
 	}
 	
+	/*
+	
+	compareOriginalFiles() {
+		const originalFiles = this.state.originalFiles;
+		
+		
+	}*/
 	
 	
 	getEditInfo(isPublic) {	
@@ -177,8 +184,7 @@ class EditGist extends React.Component {
 							const filenameOnUpdate = filenames[(i - offset)].value;
 							const contentOnUpdate = ace.edit(
 									files[i].editorId).getValue();
-							
-
+						
 							//Tarkistetaan onko tiedostonimiä muokattu
 							if(originalFilename !== filenameOnUpdate) {
 								nameChanged = true;
@@ -188,7 +194,7 @@ class EditGist extends React.Component {
 								contentChanged = true;
 							}
 						
-							
+	
 							//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodi
 							//Jos tiedostoon ei ole tehty muutoksia ei lisätä mitään
 							if(nameChanged && contentChanged) {
@@ -219,9 +225,10 @@ class EditGist extends React.Component {
 		if(Object.keys(modifiedFiles).length > 0) {
 			data['files'] = modifiedFiles;
 		}
-		
+	
 		{sendDataToEdit(gist.id, JSON.stringify(data))}
 	}
+	
 	
 
 	render() {
@@ -259,8 +266,7 @@ class EditGist extends React.Component {
 						<input type='button' id='addFile' value='Lisää tiedosto' 
 								onClick={this.addFile} />
 					
-						<input type='button' id='createSecret'
-								value='Päivitä' 
+						<input type='button' id='createSecret' value='Päivitä' 
 								onClick={() => this.getEditInfo(false)} />
 					</div>					
 				</div>

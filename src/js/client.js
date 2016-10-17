@@ -24,7 +24,7 @@ render(
 	<Provider store={store}>					 
 		<Router history={browserHistory}>
 			<Route path='/(:fetchMethod)' component={Root}>
-				<IndexRoute component={ListingPage} 
+				<IndexRoute component={ListingPage}
 						onEnter={fetchGistsOnEnter}></IndexRoute>
 				<Route path='/gist/:gistId' component={Gist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>

@@ -2,14 +2,11 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-
 import GistListItem from './GistListItem';
 import { fetchSelectedGist, fetchMoreGists } from '../../../actions/actions';
 
-
-
 //Ladataan värikoodit ohjelmointikielille
-const COLORS = require("../../../../static/colors.json");
+const colors = require("../../../../static/colors.json");
 
 class GistList extends React.Component {
 
@@ -35,6 +32,7 @@ class GistList extends React.Component {
 		if(nextProps.gists.length > 0 && !nextProps.activeGistId && 
 				!nextProps.fetchError && 
 				nextProps.fetchMethod === this.props.fetchMethod) {
+			console.log('täällä');
 			{this.props.setActive(nextProps.gists[0].id)}
 		}		
 	}
@@ -52,7 +50,7 @@ class GistList extends React.Component {
 	 */
 	getColorCode(language) {
 		try {
-			var colorCode = COLORS[language].color;
+			var colorCode = colors[language].color;
 		}
 		catch(error) {
 			var colorCode = '#D0D0D0';
@@ -66,8 +64,6 @@ class GistList extends React.Component {
 		const { gists, fetchMethod, isFetching, activeGistId, setActive, 
 				fetchMore, nextPage } = this.props;
 	
-		console.log(nextPage);
-				
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
 		const listItems = gists.map(gist => {
@@ -117,7 +113,7 @@ let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
 	
-	console.log(state.pagination);
+	//console.log(state.pagination);
 	
 	return {
 		gists: state.gists.items,

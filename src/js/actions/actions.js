@@ -535,8 +535,10 @@ export function filterByLanguage(language, gists) {
 	let filteredGists = [];
 	
 	gists.forEach((gist, i) => {
-		if(gist.files[0].language.toLowerCase() === language.toLowerCase()) {
-			filteredGists.push(gist);
+		if(gist.files[0].language) {
+			if(gist.files[0].language.toLowerCase() === language.toLowerCase()) {
+				filteredGists.push(gist);
+			}
 		}
 	})
 	

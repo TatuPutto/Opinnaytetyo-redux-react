@@ -5,15 +5,25 @@ import { Link } from 'react-router';
 import { fetchGists, sortOldestToNewest, sortNewestToOldest, 
 	filterByLanguage, removeFilter } from '../../actions/actions';
 
+	
+import FilteringView from '../presentational/listing/FilteringView';
+	
+	
+import $ from 'jquery';
+	
+	
+const colors = require("../../../static/colors.json");
+	
+
 class Filters extends React.Component {
 	
 	static propTypes = {
 		gists: PropTypes.array.isRequired,
 		fetch: PropTypes.func.isRequired,
-		//chronologicalOrder: PropTypes.bool.isRequired,
-		//sortByDate: PropTypes.func.isRequired,
-		//filterByLanguage: PropTypes.func.isRequired,
-		//removeFilter: PropTypes.func.isRequired,
+		chronologicalOrder: PropTypes.bool.isRequired,
+		sortByDate: PropTypes.func.isRequired,
+		filterByLanguage: PropTypes.func.isRequired,
+		removeFilter: PropTypes.func.isRequired,
 	};
 
 
@@ -25,6 +35,11 @@ class Filters extends React.Component {
 	constructor() {
 		super();
 		this.fetch = this.fetch.bind(this);
+		this.open = this.open.bind(this);
+		
+		this.state = {
+			filterViewOpen: false
+		};
 	}
 	
 	
@@ -40,20 +55,28 @@ class Filters extends React.Component {
 	}
 	
 	
+	open() {
+		this.setState({
+			filteringViewOpen: true
+		});
+		//{this.props.filterByLanguage(language, this.props.gists)}
+	}
+	
+	
 	render() {
-		const { fetchMethod, /*chronologicalOrder, sortByDate, 
-				filterByLanguage, removeFilter,*/ gists } = this.props;
+		const { fetchMethod, chronologicalOrder, sortByDate, 
+				filterByLanguage, removeFilter, gists } = this.props;
 		
 		return (
 			<div className='filters'>
-			{/*<input type='button'
+			<input type='button'
 						value={chronologicalOrder ? 
 								'Vanhimmat ensin' : 'Uusimmat ensin'}
-						onClick={() => sortByDate(gists, !chronologicalOrder)} />/*}
+						onClick={() => sortByDate(gists, !chronologicalOrder)} />
 				{/*}<input type='button' value='Suosikit' 
 					onClick={this.fetchStarredGists}></input>*/}
 				
-				<input type='button' id='refresh' value='Päivitä' />
+				{/*<input type='button' id='refresh' value='Päivitä' />*/}
 				
 				<select value={fetchMethod} onChange={this.fetch}>
 					<option value='gists'>Omat gistit</option>
@@ -64,16 +87,23 @@ class Filters extends React.Component {
 		
 				
 				
-				{/*}
-				<input type='button' value='Suodata' 
-						onClick={() => filterByLanguage('Java', gists)} />
+				
+				<input type='button' value='Suodata' onClick={this.open} />
+				
+				
+				{this.state.filteringViewOpen &&
+					<FilteringView filter={filterByLanguage} 
+						removeFilter={removeFilter} gists={gists} />
+				}
+				
+				{/*<input type='button' value='Poista suodatin' 
+					onClick={removeFilter} />*/}
+				
+						{/*onClick={() => filterByLanguage('Java', gists)}*} />
 				<input type='button' value='Poista suodatin' 
 						onClick={removeFilter} />
 						
-				{/*<select onChange={() => this.props.sortByDate(
-						this.props.gists,
-						true
-				)}>*/}
+				{/*<select onChange={() => sortByDate(gists,true)}>*/}
 				
 				{/*}
 					<option value='newestToOldest'>Uusimmat ensin</option>

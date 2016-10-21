@@ -3,6 +3,7 @@ export function gists(state = {
 	fetchMethod: 'gists', 
 	isFetching: false,
 	items: [],
+	itemsBeforeFiltering: []
 }, action) {
 	switch(action.type) {
 		case 'REMOVE_GIST_FROM_LIST':
@@ -24,6 +25,7 @@ export function gists(state = {
 			return {
 				...state,
 				items: action.gists,
+				itemsBeforeFiltering: action.gists,
 				fetchedAt: action.fetchedAt,
 				isFetching: false	
 			}
@@ -33,6 +35,7 @@ export function gists(state = {
 			return {
 				...state,
 				items: [],
+				itemsBeforeFiltering: [],
 				isFetching: false,
 				fetchError: action.error
 			}

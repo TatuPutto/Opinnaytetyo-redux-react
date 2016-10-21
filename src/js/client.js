@@ -1,6 +1,6 @@
 import { render } from 'react-dom';
 import React from 'react';
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, Link, browserHistory, IndexRedirect } from 'react-router';
 import { Provider } from 'react-redux';
 
 import { store } from './createStore';
@@ -23,14 +23,18 @@ store.dispatch(fetchUserInfo());
 render(
 	<Provider store={store}>					 
 		<Router history={browserHistory}>
-			<Route path='/(:fetchMethod)' component={Root}>
+			<Route path='/' component={Root}>
 				<IndexRoute component={ListingPage}
 						onEnter={fetchGistsOnEnter}></IndexRoute>
-				<Route path='/gist/:gistId' component={Gist} 
+				<Route path='starred' component={ListingPage}
+						onEnter={fetchGistsOnEnter}></Route>
+				<Route path='discover' component={ListingPage}
+						onEnter={fetchGistsOnEnter}></Route>
+				<Route path='gist/:gistId' component={Gist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='/edit/:gistId' component={EditGist} 
+				<Route path='edit/:gistId' component={EditGist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='/create/:id' component={CreateGist}></Route>
+				<Route path='create' component={CreateGist}></Route>
 				
 				//<Route path='/login/:id' component={CreateGist}> onEnter={login}></Route>
 				

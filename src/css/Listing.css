@@ -113,7 +113,8 @@ input[type="button"]:hover {
 
 /*Filtterir*/
 .filters {
-	height: 35px;
+	/*height: 35px;*/
+	height: 100px;
 	background: grey;	
 	
 }
@@ -126,6 +127,44 @@ input[type="button"]:hover {
 	margin: 2px 1px;
 	width: 49%;
 }
+
+
+.filteringView {
+	width: 200px;
+	position: fixed;
+	top: 50px;
+	left: 40%;
+	z-index: 2;
+}
+
+
+.suggestions {
+	background: #D4DDE0; 
+	overflow-y: auto;
+	width: 200px; 
+	max-height: 400px; 
+	position: fixed; 
+}
+
+.suggestions ul {
+	font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.suggestions li {
+    background: white;
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 1px;
+}
+
+.suggestions li:hover {
+    background: #d6d9da;
+}
+
 
 
 .contentLeft select {

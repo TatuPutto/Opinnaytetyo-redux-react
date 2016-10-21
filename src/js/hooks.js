@@ -13,7 +13,10 @@ export function fetchSelectedGistOnEnter(nextState) {
 }
 
 export function fetchGistsOnEnter(nextState) {
-	let fetchMethod = nextState.params.fetchMethod;
+	console.log(nextState);
+	//let fetchMethod = nextState.params.fetchMethod;
+	let fetchMethod = nextState.location.pathname.substring(1);
+	console.log(fetchMethod);
 	if(fetchMethod == null) {
 		fetchMethod = 'gists';
 	}

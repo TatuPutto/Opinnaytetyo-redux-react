@@ -47,7 +47,7 @@ class CreateGist extends React.Component {
 	
 	//Poistetaan valittu tiedostokenttä
 	removeFile(id) {
-		if (confirm('Haluatko varmasti poistaa tämän kentän?')) {
+		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let editors = this.state.editors;
 			editors.splice(editors.indexOf(id), 1);
 			
@@ -105,7 +105,7 @@ class CreateGist extends React.Component {
 				return (
 					<GistFile key={editorId} 
 							isRemovable={isRemovable} remove={this.removeFile}
-							editorId={editorId} isReadOnly={false}></GistFile>	
+							editorId={editorId} isReadOnly={false} />
 				);
 			}, this); 
 		

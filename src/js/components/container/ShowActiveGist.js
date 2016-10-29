@@ -46,7 +46,7 @@ class ShowActiveGist extends React.Component {
 			//luodaan jokaista tiedostoa kohden yksi GistFile-komponentti
 			const files = gist.files.map((file, index) => {
 				return (
-					<ReadOnlyGistFile key={file.filename} 
+					<ReadOnlyGistFile key={file.filename} id={gist.id}
 							filename={file.filename} value={file.content} 
 							editorId={'editor' + index} isReadOnly={true} /> 
 				);

@@ -12,7 +12,7 @@ class Header extends React.Component {
 				<div className='headerContent'>
 					<UserInfo userLogin={this.props.userLogin} 
 							avatarUrl={this.props.avatarUrl} />
-					<NavMenu login={this.props.login}/>
+					<NavMenu login={this.props.login} />
 				</div>	
 			</div>	
 		);

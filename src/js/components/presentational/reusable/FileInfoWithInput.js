@@ -8,21 +8,15 @@ class FileInfoWithInput extends React.Component {
 	
 		let filenameField;
 		if(filename) {
-			filenameField = <input 
-				type='text' 
-				className='filename'
+			filenameField = <input type='text' className='filename'
 				placeholder='Tiedostonimi, esim. File.java' 
-				value={filename} 
-				onChange={onChange}>
-			</input>
+				defaultValue={filename} 
+				onChange={onChange} />
 		}
 		else {
-			filenameField = <input 
-				type='text' 
-				className='filename'
+			filenameField = <input type='text' className='filename'
 				placeholder='Tiedostonimi, esim. File.java' 
-				onChange={onChange}>
-			</input>
+				onChange={onChange} />
 		}
 		
 		return (

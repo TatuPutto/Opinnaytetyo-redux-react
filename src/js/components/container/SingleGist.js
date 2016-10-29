@@ -9,14 +9,18 @@ import { fetchUserInfo, fetchGists,
 require('../../../css/Single.css');
 
 
-class Gist extends React.Component {
+class SingleGist extends React.Component {
 
+	static propTypes = {
+		gist: PropTypes.object.isRequired,
+		isFetchingSelectedGist: PropTypes.bool.isRequired
+	}
+	
 	render() {
-		const { isFetchingGists, isFetchingSelectedGist, gist } = this.props;
+		const { isFetchingSelectedGist, gist } = this.props;
 	
 		
-		if(this.props.isFetchingSelectedGist === true || 
-				!gist.hasOwnProperty('id')) {	
+		if(isFetchingSelectedGist || !gist.hasOwnProperty('id')) {	
 			return <div className='loading'></div>; 
 		}
 		else {
@@ -40,16 +44,8 @@ class Gist extends React.Component {
 				</div>
 	   	 	);
 		}
-
 	}
 	
-}
-
-
-Gist.propTypes = {
-	gist: PropTypes.object.isRequired,
-	isFetchingGists: PropTypes.bool.isRequired,
-	isFetchingSelectedGist: PropTypes.bool.isRequired
 }
 
 
@@ -59,7 +55,7 @@ function mapStateToProps(state) {
 		isFetchingSelectedGist: state.activeGist.isFetching
 	}
 }
-
+/*
 function mapDispatchToProps(dispatch) {
 	return {
 		fetchGist: () => {
@@ -67,6 +63,6 @@ function mapDispatchToProps(dispatch) {
 		}
 	}
 }
+*/
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Gist);
+export default connect(mapStateToProps)(SingleGist);

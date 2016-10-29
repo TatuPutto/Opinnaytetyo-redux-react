@@ -1,16 +1,25 @@
-import { fetchSelectedGist, fetchGists, fetchAccessToken, shouldFetch, 
+import { fetchSelectedGist, fetchGists, fetchMoreGists, fetchAccessToken, shouldFetch, 
 		selectFetchMethod } from './actions/actions';
 
 import { store } from './createStore';
 
-export function fetchSelectedGistOnEnter(nextState) {
+export 
+
+
+//Haetaan gist näkymään saavuttaessa
+function fetchSelectedGistOnEnter(nextState) {
 	let gistId = nextState.params.gistId;
 	let state = store.getState();
 
-	if(state.activeGist.gistId !== gistId) {
+	//Haetaan gist, jos tilaan ei ole tallennettu gistiä
+	//tai käyttäjän pyytämä gist ei vastaa tilaan tallennettua gist.
+	if(!state.activeGist.gist.hasOwnProperty('id') || state.activeGist.gistId !== gistId) {
 		return store.dispatch(fetchSelectedGist(gistId));
 	}
 }
+
+
+
 
 export function fetchGistsOnEnter(nextState) {
 	console.log(nextState);
@@ -19,6 +28,12 @@ export function fetchGistsOnEnter(nextState) {
 	console.log(fetchMethod);
 	if(fetchMethod == null) {
 		fetchMethod = 'gists';
+	}
+
+	if(fetchMethod.startsWith('discover')) {
+		console.log('discoverissa');
+		console.log(nextState.params.page);
+		return store.dispatch(fetchMoreGists(nextState.params.page));
 	}
 	 
 	if(shouldFetch(store.getState(), fetchMethod)) {

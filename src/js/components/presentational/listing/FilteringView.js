@@ -33,8 +33,11 @@ class FilteringView extends React.Component {
 		const language = $('.filterInput').val();
 		
 		if(language) {
-			{this.props.filter(language, this.props.gists)}
+			//{this.props.filter(language, this.props.gists)}
 		
+			{this.props.bringFilters(language)}
+			{this.props.closeView()}
+			 
 			this.setState({
 				suggestions: [],
 				filter: language
@@ -74,22 +77,22 @@ class FilteringView extends React.Component {
 		
 		return (
 			<div className='filteringView'>
-				{!this.state.filter &&
+			{/*{!this.state.filter && */}
 					<div>
 						<input type='text' className='filterInput' 
 								placeholder='Ohjelmointikieli' 
 								onChange={this.getSuggestions} />
 										
-						<input type='button' value='Suodata'
+						<input type='button' value='Käytä suodattimia'
 								onClick={this.filterResults}  />
 					</div>		
-				}			
+						
 					
-				{this.state.filter &&
-					<input type='button' value={this.state.filter}
+				{/*{this.state.filter &&
+					<input type='button' className='langFilter' value={this.state.filter}
 							onClick={this.removeFilter} />
-				}			
-	
+				}*/}
+				
 				{this.state.suggestions.length > 0 &&
 					<div className='suggestions'>
 						<ul>

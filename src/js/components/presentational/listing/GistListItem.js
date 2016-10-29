@@ -42,7 +42,7 @@ class GistListItem extends React.Component {
 						{description}
 					</span>
 					<span className='created'>
-						Päivitetty: {updatedAt}
+						{updatedAt}
 					</span>
 					<span className='language' style={languageSpanColor}>
 						{language}

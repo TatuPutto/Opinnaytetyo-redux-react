@@ -44,7 +44,6 @@ class ReadOnlyGistFile extends React.Component {
 	}
 	
 	expandEditor() {
-		console.log('täällä');
 		this.setState({
 			value: this.props.value,
 			isAbridged: false
@@ -53,12 +52,12 @@ class ReadOnlyGistFile extends React.Component {
 	
 	
 	render() {
-		const { editorId, filename } = this.props;
+		const { editorId, filename, id } = this.props;
 		let { value, isAbridged } = this.state;
 
 		return (
 			<div className='gistFile'>
-				<FileInfoWithLink filename={filename} />
+				<FileInfoWithLink filename={filename} id={id} />
 						
 				<Editor editorId={editorId} isReadOnly={true} value={value} />
 				

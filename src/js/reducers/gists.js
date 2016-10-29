@@ -1,9 +1,10 @@
 //Reducer-funktio gistien hallintaan
 export function gists(state = { 
 	fetchMethod: 'gists', 
-	isFetching: false,
+	isFetching: true,
 	items: [],
-	itemsBeforeFiltering: []
+	itemsBeforeFiltering: [],
+	filter: null
 }, action) {
 	switch(action.type) {
 		case 'REMOVE_GIST_FROM_LIST':
@@ -44,12 +45,14 @@ export function gists(state = {
 			return {
 				...state,
 				items: action.gists,
+				filter: action.language
 			}
 			break;
 		case 'REMOVE_FILTER':
 			return {
 				...state,
-				items: state.itemsBeforeFiltering
+				items: state.itemsBeforeFiltering,
+				filter: null
 			}
 			break;
 		case 'SORT_OLDEST_TO_NEWEST':
@@ -70,7 +73,10 @@ export function gists(state = {
 		case 'FETCH_MORE_GISTS_SUCCESS':
 			return {
 				...state,
-				items: state.items.concat(action.gists),
+				//items: state.items.concat(action.gists),
+				items: action.gists,
+				itemsBeforeFiltering: action.gists,
+				fetchMethod: 'discover',
 				fetchedAt: action.fetchedAt,
 				isFetching: false	
 			}

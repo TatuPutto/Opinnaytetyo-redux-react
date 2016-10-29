@@ -1,34 +1,35 @@
 //Reducer-funktio aktiivisen gistin hallintaan
 export function activeGist(state = {
 	gist: {},
-	gistId: '',
+	gistId: null,
 	isStarred: null,
 	isChecking: false,
 	isFetching: false
 }, action) {
 	switch(action.type) {
 		case 'INVALIDATE_GIST':
-		return {
-			...state, 
-			gistId: action.activeGistId,
-			isFetching: false
-		}
-			break;
-		case 'FETCH_SELECTED_GIST_REQUEST':
 			return {
 				...state, 
-				gistId: action.activeGistId,
+				gist: {},
+				gistId: null,
+				isFetching: false
+			}
+			break;
+		case 'REQUEST_SELECTED_GIST':
+			return {
+				...state, 
+				gistId: action.gistId,
 				isFetching: true
 			}
 			break;
-		case 'FETCH_SELECTED_GIST_SUCCESS':
+		case 'RECEIVE_SELECTED_GIST':
 			return {
 				...state, 
 				gist: action.activeGist,
 				isFetching: false
 			}
 			break;
-		case 'FETCH__GIST_FAILURE': 
+		case 'GIST_FETCH_FAILED': 
 			return {
 				...state, 
 				gist: action.activeGist,

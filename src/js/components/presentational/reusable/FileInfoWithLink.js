@@ -1,16 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router';
 
-
-class FileInfoWithLink extends React.Component {
+//class FileInfoWithLink extends React.Component {
+function FileInfoWithLink(props) {
+	return (
+		<div className='fileInfo'>
+			<Link to={'/gist/' + props.id}>{props.filename}</Link>
+		</div>
+	);
 	
-	render() {
-		return (
-			<div className='fileInfo'>
-				<a className='filename' href=''>{this.props.filename}</a>
-			</div>
-		);
-	}
 	
 }
 
 export default FileInfoWithLink;
+

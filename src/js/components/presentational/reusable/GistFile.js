@@ -17,8 +17,7 @@ class GistFile extends React.Component {
 					filename={filename}
 					isRemovable={isRemovable}
 					remove={remove} 
-					onChange={onChange}>
-				</FileInfoWithInput>
+					onChange={onChange} />
 								
 				<Editor editorId={editorId} isReadOnly={false} value={value} />		
          	</div>

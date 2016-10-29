@@ -9,7 +9,7 @@ import { fetchUserInfo } from './actions/actions';
 
 import Root from './components/container/Root';
 import ListingPage from './components/presentational/listing/ListingPage';
-import Gist from './components/container/Gist';
+import SingleGist from './components/container/SingleGist';
 import CreateGist from './components/container/CreateGist';
 import EditGist from './components/container/EditGist';
 
@@ -26,11 +26,13 @@ render(
 			<Route path='/' component={Root}>
 				<IndexRoute component={ListingPage}
 						onEnter={fetchGistsOnEnter}></IndexRoute>
+				<Route path='gists' component={ListingPage}
+						onEnter={fetchGistsOnEnter}></Route>
 				<Route path='starred' component={ListingPage}
 						onEnter={fetchGistsOnEnter}></Route>
-				<Route path='discover' component={ListingPage}
+				<Route path='discover(/:page)' component={ListingPage}
 						onEnter={fetchGistsOnEnter}></Route>
-				<Route path='gist/:gistId' component={Gist} 
+				<Route path='gist/:gistId' component={SingleGist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
 				<Route path='edit/:gistId' component={EditGist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>

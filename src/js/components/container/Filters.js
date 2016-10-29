@@ -35,11 +35,16 @@ class Filters extends React.Component {
 	constructor() {
 		super();
 		this.fetch = this.fetch.bind(this);
-		this.open = this.open.bind(this);
-		
+		this.refresh = this.refresh.bind(this);
+		this.toggleFilteringView = this.toggleFilteringView.bind(this);
 		this.state = {
-			filterViewOpen: false
+			filterViewOpen: false,
+			filter: null
 		};
+		
+		
+		this.useFilters = this.useFilters.bind(this);
+		this.removeFilter = this.removeFilter.bind(this);
 	}
 	
 	
@@ -50,51 +55,77 @@ class Filters extends React.Component {
 	}
 	
 	
-	handleRefresh() {
-		{this.props.refresh(this.propsfetchMethod)}
+	refresh() {
+		{this.props.refresh(this.props.fetchMethod)}
 	}
 	
 	
-	open() {
+	toggleFilteringView() {
+		let isOpen;
+		isOpen = this.state.filteringViewOpen ? true : false;
+		
 		this.setState({
-			filteringViewOpen: true
+			filteringViewOpen: !isOpen
 		});
-		//{this.props.filterByLanguage(language, this.props.gists)}
+	}
+	
+	
+	useFilters(language) {
+		{this.props.filterByLanguage(language, this.props.gists)}
+	}
+	
+	removeFilter() {
+		{this.props.removeFilter()}
 	}
 	
 	
 	render() {
 		const { fetchMethod, chronologicalOrder, sortByDate, 
-				filterByLanguage, removeFilter, gists } = this.props;
-		
+				filterByLanguage, removeFilter, gists, filter } = this.props;
+	
 		return (
 			<div className='filters'>
-			<input type='button'
-						value={chronologicalOrder ? 
-								'Vanhimmat ensin' : 'Uusimmat ensin'}
-						onClick={() => sortByDate(gists, !chronologicalOrder)} />
-				{/*}<input type='button' value='Suosikit' 
-					onClick={this.fetchStarredGists}></input>*/}
-				
-				{/*<input type='button' id='refresh' value='Päivitä' />*/}
 				
 				<select value={fetchMethod} onChange={this.fetch}>
 					<option value='gists'>Omat gistit</option>
 					<option value='starred'>Suosikit</option>
 					<option value='discover'>Discover</option>
 				</select>
-				
 		
+				{/*}<input type='button' value='Suosikit' 
+					onClick={this.fetchStarredGists}></input>*/}
 				
 				
+					<input type='button' value='Suodata' 
+							onClick={this.toggleFilteringView} />
+					
 				
-				<input type='button' value='Suodata' onClick={this.open} />
-				
-				
+					<input type='button' id='refresh' value='Päivitä' 
+							onClick={this.refresh} />
+					
+					
 				{this.state.filteringViewOpen &&
 					<FilteringView filter={filterByLanguage} 
-						removeFilter={removeFilter} gists={gists} />
+						removeFilter={removeFilter} gists={gists}
+						bringFilters={this.useFilters}
+						closeView={this.toggleFilteringView} />
 				}
+				
+				
+				
+					{filter &&
+						<p className='langFilter'onClick={this.removeFilter}>
+							{filter}
+						</p>
+								
+					}
+				
+			
+				
+				
+				
+				
+			
 				
 				{/*<input type='button' value='Poista suodatin' 
 					onClick={removeFilter} />*/}
@@ -120,6 +151,7 @@ function mapStateToProps(state) {
 	return {
 		gists: state.gists.items,
 		fetchMethod: state.gists.fetchMethod,
+		filter: state.gists.filter
 		//chronologicalOrder: state.gists.chronologicalOrder,
 		//filterByLanguage: state.gists.filterByLanguage
 	}

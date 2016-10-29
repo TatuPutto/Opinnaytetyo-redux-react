@@ -44,8 +44,8 @@ class ListingPage extends React.Component {
 		
 		return (			
 			<div className='listing'>
+				<Filters/>
 				<div className='contentLeft'>
-					<Filters/>
 					<GistList/>
 				</div>	
 				<div className='contentRight'>	

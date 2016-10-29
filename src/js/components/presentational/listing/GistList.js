@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import $ from 'jquery';
 
 import GistListItem from './GistListItem';
+import PaginationLinks from './PaginationLinks';
 import { fetchSelectedGist, fetchMoreGists } from '../../../actions/actions';
 
 //Ladataan värikoodit ohjelmointikielille
@@ -29,12 +31,45 @@ class GistList extends React.Component {
 	}
 	
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.gists.length > 0 && !nextProps.activeGistId && 
-				!nextProps.fetchError && 
-				nextProps.fetchMethod === this.props.fetchMethod) {
-			console.log('täällä');
+		console.log(nextProps.activeGistId);
+		
+		//Jos listassa on tuloksia ja tällä hetkellä ei ole aktiivista gistiä
+		if(nextProps.gists.length > 0 && !this.props.activeGistId) {
 			{this.props.setActive(nextProps.gists[0].id)}
-		}		
+		}
+		
+		
+		if(nextProps.gists.length > 0 && !this.props.activeGistId) {
+			let asd = false;
+			
+			nextProps.gists.forEach((gist) => {
+				if(gist.id === this.props.activeGistId) {
+					asd = true
+				}
+			});
+			
+			if(asd) {
+				{this.props.setActive(nextProps.gists[0].id)}
+			}
+		}
+		
+		
+		
+		/*//Jos on gistejä
+		if(nextProps.gists.length > 0) {
+			if(!nextProps.activeGistId) {
+				{this.props.setActive(nextProps.gists[0].id)}
+			}
+			
+			
+			
+		}*/
+		
+		/*if(nextProps.gists.length > 0 && !nextProps.activeGistId && 
+				nextProps.fetchMethod === this.props.fetchMethod &&
+				nextProps.currentPage !== this.props.currentpage) {
+			{this.props.setActive(nextProps.gists[0].id)}
+		}		*/
 	}
 	
 	/*
@@ -49,11 +84,12 @@ class GistList extends React.Component {
 	 * Haetaan kielelle määrietty värikoodi
 	 */
 	getColorCode(language) {
+		let colorCode;
 		try {
-			var colorCode = colors[language].color;
+			colorCode = colors[language].color;
 		}
 		catch(error) {
-			var colorCode = '#D0D0D0';
+			colorCode = '#D0D0D0';
 		}
 		return colorCode;
 	}
@@ -62,11 +98,11 @@ class GistList extends React.Component {
 	
 	render() {
 		const { gists, fetchMethod, isFetching, activeGistId, setActive, 
-				fetchMore, nextPage } = this.props;
+				fetchMore, currentPage, nextPage, previousPage, lastPage } = this.props;
 	
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
-		const listItems = gists.map(gist => {
+		let listItems = gists.map(gist => {
 			return (
 				<GistListItem key={gist.id} id={gist.id}
 						filename={gist.files[0].filename} 
@@ -80,10 +116,21 @@ class GistList extends React.Component {
 			);
 		}, this); 
 		
+		/*
+		listItems = listItems.sort((a, b) => {
+			var dateA = new Date(a.updated_at);
+			var dateB = new Date(b.updated_at);
+			
+			return dateA - dateB;
+		});
+		*/
+		
+		
 		//Renderöidään lista ja asetetaan <li>-elementit listan sisällöksi
 		return (
 			<div className='listGists'>
-				{isFetching && 
+				
+				{isFetching && listItems.length === 0 &&
 					<div className='loading'></div>
 				}
 
@@ -91,21 +138,26 @@ class GistList extends React.Component {
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}	
 				
-				{!isFetching && listItems.length > 0 &&
-					<ul>
-						{listItems}
+				{listItems.length > 0 &&
+					<div style={{ opacity: isFetching ? 0.5 : 1 }}>
+						<ul>
+							{listItems}	
+						</ul>
 						
 						{fetchMethod === 'discover' && 
-							<input type='button' value='Lataa lisää'
-									onClick={() => fetchMore(nextPage)} />
+							<PaginationLinks 
+									currentPage={currentPage}
+									nextPage={nextPage}
+									previousPage={previousPage}
+									lastPage={lastPage} />
 						}
-					</ul>
+					</div>
 				}	
 					
 			</div>	
 		);   
 	}
-		
+		bbb
 }
 
 
@@ -113,14 +165,21 @@ let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
 	
-	//console.log(state.pagination);
+	console.log('Nykyinen sivu: ' + state.pagination.currentPage);
+	console.log('Seuraava sivu: ' + state.pagination.nextPage);
+	console.log('Edellinen sivu: ' + state.pagination.previousPage);
+	console.log('Viimeinen sivu: ' + state.pagination.lastPage);
 	
 	return {
 		gists: state.gists.items,
 		activeGistId: state.activeGist.gistId,
 		isFetching: state.gists.isFetching,
 		fetchMethod: state.gists.fetchMethod,
-		nextPage: state.pagination.nextPage
+		currentPage: state.pagination.currentPage,
+		nextPage: state.pagination.nextPage,
+		previousPage: state.pagination.previousPage,
+		lastPage: state.pagination.lastPage,
+		filter: state.gists.filter
 	}
 }
 

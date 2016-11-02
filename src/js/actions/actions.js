@@ -5,11 +5,24 @@ import { parseSingleGistJson, parseMultipleGistsJson,
 		parseFiles, parseFilesWithSource } from '../utility/parseGistsJson';
 import { storeUserInfo, getUserInfoFromStorage, 
 		getUserInfoFromCookie } from '../utility/persistUserInfo';
-import { showFetchError, notify } from '../utility/infoWindow';
+//import { showFetchError, notify } from '../utility/infoWindow';
 import { determineEndpoint } from '../utility/determineFetchUrl';
 
 
 var userInfo = {};
+
+function notify(message) {
+	return { 
+		type: 'SHOW_NOTIFICATION',
+		message
+	};
+}
+
+export function closeNotification() {
+	return { type: 'CLOSE_NOTIFICATION' };
+}
+
+
 
 function sendRequest(url, httpMethod, content) {
 	content = (typeof content === 'undefined') ? null : content;
@@ -42,8 +55,6 @@ function sendRequest(url, httpMethod, content) {
 		
 	return fetch(url, fetchInit);
 }
-
-
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -120,10 +131,13 @@ function receiveSelectedGist(json) {
 function gistFetchFailed(error) {
 	return { type: 'GIST_FETCH_FAILED' };
 }
-
+/*
 function invalidateGist() {
 	return { type: 'INVALIDATE_GIST' };
 }
+*/
+
+const invalidateGist = () => ({ type: 'INVALIDATE_GIST' });
 
 
 
@@ -131,8 +145,6 @@ function invalidateGist() {
  * Haetaan valittu gist
  */
 export function fetchSelectedGist(id) {
-	console.log('Haetaan gist: ' + id)
-	
 	return dispatch => {
 		//Ilmoitetaan haun alkamisesta
 	    dispatch(requestSelectedGist(id));
@@ -152,8 +164,7 @@ export function fetchSelectedGist(id) {
 		    	}
 		    //Otetaan heitetty error kiinni ja ilmoitetaan haun epäonnistumisesta
 		    }).catch(error => {
-		    	  dispatch(gistFetchFailed());
-		    	  showFetchError(error);
+		    	dispatch(notify('Gistin hakeminen ei onnistunut .' + error));
 		    });
 	}
 }
@@ -188,7 +199,7 @@ export function checkIfStarred(id) {
 		    	}
 		    //Otetaan heitetty error kiinni ja ilmoitetaan haun epäonnistumisesta
 		    }).catch(error => {
-		    	showFetchError(error);
+		    	dispatch(notify('Suosikki statusta ei pystytty selvittämään.' + error));
 		    });
 	} 
 }
@@ -219,13 +230,13 @@ export function starGist(id) {
 	    		'https://api.github.com/gists/' + id + '/star', 'PUT', '')
 	    	.then(response => {
 	    		if(response.ok) {
-					notify('Lisääminen suosikkeihin onnistui');
+	    			dispatch(notify('Lisääminen suosikkeihin onnistui'));
 				}
 				else {
 					throw response.status + ' ' + response.statusText;
 				}
 			}).catch(error => {
-				notify('Gistin lisääminen suosikkeihin ei onnistunut: ' + error);
+				dispatch(notify('Gistin lisääminen suosikkeihin ei onnistunut: ' + error));
 			});
 	}
 }
@@ -240,13 +251,13 @@ export function unstarGist(id) {
 	    return sendRequest('https://api.github.com/gists/' + id + '/star', 'DELETE')
 	    	.then(response => {
 	    		if(response.ok) {
-					notify('Poistaminen suosikeista onnistui')
+	    			dispatch(notify('Poistaminen suosikeista onnistui'));
 				}
 				else {
 					throw response.status + ' ' + response.statusText;
 				}
 			}).catch(error => {
-				notify('Gistin poistaminen suosikeista ei onnistunut: ' + error);
+				dispatch(notify('Gistin poistaminen suosikeista ei onnistunut: ' + error));
 			});
 	}
 }
@@ -280,7 +291,7 @@ export function forkGist(id) {
 					throw response.status + ' ' + response.statusText;
 				}
 			}).catch(error => {
-				console.log('Forkkaaminen ei onnistunut: ' + error);
+				dispatch(notify('Forkkaaminen ei onnistunut: ' + error));
 			});
 	}
 }
@@ -297,7 +308,7 @@ export function checkIfForked(id) {
 		    			json.forEach(fork => {
 		    				console.log(fork.owner.login);
 		    				if(fork.owner.login === userInfo.user.login) {
-		    					notify('Olet jo forkannut tämän gistin.');
+		    					dispatch(notify('Olet jo forkannut tämän gistin.'));
 		    					forked = true;
 		    				}	
 		    			});
@@ -316,7 +327,7 @@ export function checkIfForked(id) {
 		    	}
 		    //Otetaan heitetty error kiinni ja ilmoitetaan haun epäonnistumisesta
 		    }).catch(error => {
-		    	notify(error);
+		    	dispatch(notify(error));
 		    });
 	} 
 }
@@ -431,7 +442,7 @@ export function fetchGists(fetchMethod) {
 			//Ilmoitetaan käyttäjälle miksi haku ei onnistunut
 			.catch(error => {
 				dispatch(gistsFetchFailed(error));
-				console.log('Haku ei onnistunut: ' + error);
+				dispatch(notify('Gistien hakeminen ei onnistunut: ' + error));
 			});
 	}
 }
@@ -502,7 +513,7 @@ export function fetchMoreGists(pageNum) {
 						let last = headers.split(',')[1].split(';')[0].split('?')[1].split('&')[0].split('=')[1];
 						//last = last.substring(1, last.length - 1);
 						
-		
+						
 						
 						dispatch(updatePagination(pageNum, next, last));
 						
@@ -517,8 +528,7 @@ export function fetchMoreGists(pageNum) {
 			})
 			//Ilmoitetaan käyttäjälle miksi haku ei onnistunut
 			.catch(error => {
-				dispatch(gistsFetchFailed(error));
-				console.log('Haku ei onnistunut: ' + error);
+				dispatch(notify('Haku ei onnistunut: ' + error));
 			});
 		
 	    /*
@@ -542,18 +552,20 @@ export function fetchMoreGists(pageNum) {
 export function filterByLanguage(language, gists) {
 	let filteredGists = [];
 	
-	gists.forEach((gist, i) => {
-		if(gist.files[0].language) {
-			if(gist.files[0].language.toLowerCase() === language.toLowerCase()) {
-				filteredGists.push(gist);
+	gists.forEach(gist => {
+		for(let i = 0; i < gist.files.length; i++) {
+			if(gist.files[i].language) {
+				if(gist.files[i].language.toLowerCase() === language.toLowerCase()) {
+					filteredGists.push(gist);
+				}
 			}
-		}
+		}	
 	})
 	
 	return {
 	    type: 'FILTER_BY_LANGUAGE',
 	    language,
-	    //gists: filteredGists,
+	    gists: filteredGists,
 	}
 }
 
@@ -631,7 +643,7 @@ export function createGist(gistJson) {
 	    		//ohjataan käyttäjä luodun gistin näkymään
 	    		if(response.ok) {
 					response.json().then(json => {
-						notify('Gistin luominen onnistui.');
+						dispatch(notify('Gistin luominen onnistui.'));
 						browserHistory.push('/gist/' + json.id);
 					});
 				}
@@ -640,7 +652,7 @@ export function createGist(gistJson) {
 				}
 	    	//Ilmoitetaan käyttäjälle, jos lisääminen ei onnistunut
 			}).catch(error => {
-				notify('Gistin luominen ei onnistunut,' + error);
+				dispatch(notify('Gistin luominen ei onnistunut,' + error));
 			});
 	}
 }
@@ -650,27 +662,26 @@ export function createGist(gistJson) {
 //Gistin muokkaaminen////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
-export function editGist(id, gistJson) {
+export function editGist(id, editJson) {
 	return dispatch => {
 		//Lähetetään muokkauspyyntö
-		return sendRequest('https://api.github.com/gists/' + id, 'PATCH', gistJson)
+		return sendRequest('https://api.github.com/gists/' + id, 'PATCH', editJson)
 	    	.then(response => {
 	    		if(response.ok) {
 					response.json().then(json => {
-						notify('Gistin muokkaaminen onnistui.');
-						
+						dispatch(notify('Gistin muokkaaminen onnistui.'));
 						//Asetetaan muokatut tiedot gistin uudeksi arvoksi
 						//ja ohjataan käyttäjä muokatun gistin näkymään
 						dispatch(receiveSelectedGist(json));
 						browserHistory.push('/gist/' + json.id)
-					})
+					});
 				}
 				else {
 					throw response.status + ' ' + response.statusText;
 				}
 	    	//Ilmoitetaan käyttäjälle, jos lisääminen ei onnistunut
 			}).catch(error => {
-				notify('Gistin lisääminen ei onnistunut: ' + error);
+				dispatch(notify('Gistin lisääminen ei onnistunut: ' + error));
 			});
 	}
 }
@@ -688,7 +699,7 @@ export function deleteGist(id) {
 		return sendRequest('https://api.github.com/gists/' + id, 'DELETE')
 	    	.then(response => {
 	    		if(response.ok) {
-    				notify('Gistin poistaminen onnistui');
+	    			dispatch(notify('Gistin poistaminen onnistui'));
     				
     				//Jos poistetaan yksittäisen gistin näkymässä
     				//Ohjataan käyttäjä takaisin listausnäkymään
@@ -700,14 +711,18 @@ export function deleteGist(id) {
 					throw response.status + ' ' + response.statusText;
 				}
 			}).catch(error => {
-				notify('Gistin poistaminen ei onnistunut, ' + error.message);
+				dispatch(notify('Gistin poistaminen ei onnistunut, ' + error));
 			});
 	}
 }
 
+
+
+const removeGistFromList = id => ({ type: 'REMOVE_GIST_FROM_LIST', id });
+/*
 function removeGistFromList(id) {
 	return {
 	    type: 'REMOVE_GIST_FROM_LIST',
 	    id
 	}
-}
+}*/

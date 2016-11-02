@@ -25,14 +25,12 @@ export function fetchGistsOnEnter(nextState) {
 	console.log(nextState);
 	//let fetchMethod = nextState.params.fetchMethod;
 	let fetchMethod = nextState.location.pathname.substring(1);
-	console.log(fetchMethod);
+
 	if(fetchMethod == null) {
 		fetchMethod = 'gists';
 	}
 
-	if(fetchMethod.startsWith('discover')) {
-		console.log('discoverissa');
-		console.log(nextState.params.page);
+	if(fetchMethod.startsWith('discover') || typeof nextState.params.page === 'number') {
 		return store.dispatch(fetchMoreGists(nextState.params.page));
 	}
 	 

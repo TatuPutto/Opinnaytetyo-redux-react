@@ -102,7 +102,7 @@ class GistList extends React.Component {
 	
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
 		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
-		let listItems = gists.map(gist => {
+		const listItems = gists.map(gist => {
 			return (
 				<GistListItem key={gist.id} id={gist.id}
 						filename={gist.files[0].filename} 
@@ -164,12 +164,12 @@ class GistList extends React.Component {
 let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
-	
+	/*
 	console.log('Nykyinen sivu: ' + state.pagination.currentPage);
 	console.log('Seuraava sivu: ' + state.pagination.nextPage);
 	console.log('Edellinen sivu: ' + state.pagination.previousPage);
 	console.log('Viimeinen sivu: ' + state.pagination.lastPage);
-	
+	*/
 	return {
 		gists: state.gists.items,
 		activeGistId: state.activeGist.gistId,

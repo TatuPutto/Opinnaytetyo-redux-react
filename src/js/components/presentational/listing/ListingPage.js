@@ -11,7 +11,7 @@ require('../../../../css/listing.css');
 class ListingPage extends React.Component {
 	
 	componentDidMount() {
-		$('.listing').css('height', ($(window).height() - 50));
+		$('.listing').css('height', ($(window).height() - 95));
 	}
 
 	render() {
@@ -41,7 +41,7 @@ class ListingPage extends React.Component {
 				</div>	
 			</div>
 		);*/
-		
+
 		return (			
 			<div className='listing'>
 				<Filters/>
@@ -54,6 +54,7 @@ class ListingPage extends React.Component {
 			</div>
 		);
 	
+		
 	}
 	
 }

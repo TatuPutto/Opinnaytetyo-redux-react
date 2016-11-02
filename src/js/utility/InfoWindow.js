@@ -1,7 +1,10 @@
 import $ from 'jquery';
 
+import { store } from '../createStore';
+
+
 export function notify(message) {
-	if($('.info').length) {
+	/*if($('.info').length) {
 		if(!$('.info').is(":visible")) {
 			$('.info').toggle();
 		}
@@ -10,7 +13,14 @@ export function notify(message) {
 	else {
 		appendInfoWindow(message);
 	}
-	hideInfoWindow();
+	hideInfoWindow();*/
+	console.log('täällä');
+	store.dispatch({
+		type: 'SHOW_NOTIFICATION',
+		message
+	});
+	
+	
 }
 
 function appendInfoWindow(message) {

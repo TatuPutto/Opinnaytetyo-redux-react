@@ -4,7 +4,7 @@ export function storeUserInfo(userInfo, accessToken) {
 		//localStorage.setItem('userLogin', userInfo.user.login);
 		//localStorage.setItem('userAvatar', userInfo.user.avatar_url);
 		localStorage.setItem('userLogin', 'TatuPutto');
-		localStorage.setItem('userAvatar', 'https://avatars.githubusercontent.com/u/408570?v=3');
+		localStorage.setItem('userAvatar', 'https://avatars3.githubusercontent.com/u/5699778?v=3&s=40');
 		localStorage.setItem('accessToken', '');
 	} 
 	else {

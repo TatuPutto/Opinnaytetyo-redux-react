@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import { activeGist }  from './reducers/activeGist';
 import { gists }  from './reducers/gists';
+import { notifications } from './reducers/notifications';
 import { pagination }  from './reducers/pagination';
 import { user }  from './reducers/user';
 
@@ -21,6 +22,7 @@ function rootReducer(state = {}, action) {
 	return {
 		activeGist: activeGist(state.activeGist, action),
 		gists: gists(state.gists, action),
+		notifications: notifications(state.notifications, action),
 		pagination: pagination(state.pagination, action),
 		user: user(state.user, action)
 	};

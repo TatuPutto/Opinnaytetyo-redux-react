@@ -93,6 +93,9 @@ class EditGist extends React.Component {
 		const { sendDataToEdit, gist } = this.props;
 		const { files, originalFiles } = this.state;
 		let description = $('.description').val();
+		
+		
+		//Haetaan tiedostonimet DOM:ista
 		let filenames = document.getElementsByClassName('filename');
 		let modifiedFiles = {};
 		let offset = 0;
@@ -129,7 +132,6 @@ class EditGist extends React.Component {
 				const contentChanged = originalContent !== contentOnUpdate ? true : false;
 			
 				//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodileike
-				//Jos tiedostoon ei ole tehty muutoksia ei lisätä mitään
 				if(nameChanged && contentChanged) {
 					modifiedFiles[originalFilename] = {
 						filename: filenameOnUpdate, 
@@ -160,7 +162,7 @@ class EditGist extends React.Component {
 		console.log(JSON.stringify(data));
 		
 		
-		//{sendDataToEdit(gist.id, JSON.stringify(data))}
+		{sendDataToEdit(gist.id, JSON.stringify(data))}
 	}
 	
 	

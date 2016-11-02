@@ -74,7 +74,7 @@ input[type="button"]:hover {
     background: rgba(0, 0, 0, 0.5);
 }
 	
-.info {
+.notification {
 	max-width: 500px;
 	word-break: break-word;
 	position: fixed;
@@ -121,15 +121,38 @@ input[type="button"]:hover {
     padding: 5px;
 }
 
+.fitleringOptions {
+	width: 30%;
+}
+
+
+.fitleringOptions select {
+	height: 29px;
+    width: 43%;
+}
+
 
 .filters input[type='button'] {
 	color: black;
 	background: white;	
 	border-radius: 2px;
-	margin: 2px 1px;
+	margin-left: 4px;
 	/*width: 49%;*/
-	width: 12%;
+	/*width: 12%;*/
 }
+
+
+#openFilters {
+	width: 43%;
+}
+
+#refresh {
+	background: url(http://localhost:9090/images/refresh.png) white no-repeat center center;
+	padding-top: 3px;
+    padding-bottom: 9px;
+	width: 10%;
+}
+
 
 .listing .filters .langFilter  {
 	background: url(http://localhost:9090/images/remove.png) no-repeat center left 97%;
@@ -256,6 +279,12 @@ input[type="button"]:hover {
     padding-top: 10px;
     padding-bottom: 10px;
     
+}
+
+
+.pagination {
+	margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 

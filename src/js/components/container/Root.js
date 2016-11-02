@@ -1,23 +1,18 @@
 import React from 'react';  
+import { connect } from 'react-redux';
 
-import PassInfoToHeader from './PassInfoToHeader';
+import Header from './Header';
+import Notification from './Notification';
 
-
-
-
-class Root extends React.Component {
-	
-	render() {
-		return (
-			<div className='content'>
-				<PassInfoToHeader />
-				{this.props.children}
-			</div>
-		);
-	}	
-	
+function Root(props) {
+	return (
+		<div className='content'>
+			<Header />
+			<Notification message={'Testi msg.'}/>
+			{props.children}
+		</div>
+	);
 }	
-
 
 export default Root;
 

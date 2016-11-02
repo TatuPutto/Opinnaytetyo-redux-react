@@ -31,12 +31,12 @@ class FilteringView extends React.Component {
 	
 	filterResults() {
 		const language = $('.filterInput').val();
-		
+
 		if(language) {
 			//{this.props.filter(language, this.props.gists)}
 		
-			{this.props.bringFilters(language)}
-			{this.props.closeView()}
+			this.props.bringFilters(language);
+			this.props.closeView();
 			 
 			this.setState({
 				suggestions: [],
@@ -47,9 +47,10 @@ class FilteringView extends React.Component {
 	
 
 	autoComplete(e) {	
-		$('.filterInput').val(e.currentTarget.textContent);
+		this.props.bringFilters(e.currentTarget.textContent);
+		this.props.closeView();
 		
-		this.setState({
+		this.setState({	
 			suggestions: []
 		});
 	}

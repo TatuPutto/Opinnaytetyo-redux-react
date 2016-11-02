@@ -85,63 +85,68 @@ class Filters extends React.Component {
 	
 		return (
 			<div className='filters'>
+				<div className='fitleringOptions'>
+					<select value={fetchMethod} onChange={this.fetch}>
+						<option value='gists'>Omat gistit</option>
+						<option value='starred'>Suosikit</option>
+						<option value='discover'>Discover</option>
+					</select>
+			
+					{/*}<input type='button' value='Suosikit' 
+						onClick={this.fetchStarredGists}></input>*/}
+					
 				
-				<select value={fetchMethod} onChange={this.fetch}>
-					<option value='gists'>Omat gistit</option>
-					<option value='starred'>Suosikit</option>
-					<option value='discover'>Discover</option>
-				</select>
-		
-				{/*}<input type='button' value='Suosikit' 
-					onClick={this.fetchStarredGists}></input>*/}
-				
-				
-					<input type='button' value='Suodata' 
+					<input type='button' id='openFilters' value='Suodata' 
 							onClick={this.toggleFilteringView} />
 					
 				
-					<input type='button' id='refresh' value='Päivitä' 
-							onClick={this.refresh} />
+					<input type='button' id='refresh' onClick={this.refresh} />
+						
+					
+				
+					{this.state.filteringViewOpen &&
+						<FilteringView filter={filterByLanguage} 
+							removeFilter={removeFilter} gists={gists}
+							bringFilters={this.useFilters}
+							closeView={this.toggleFilteringView} />
+					}
 					
 					
-				{this.state.filteringViewOpen &&
-					<FilteringView filter={filterByLanguage} 
-						removeFilter={removeFilter} gists={gists}
-						bringFilters={this.useFilters}
-						closeView={this.toggleFilteringView} />
-				}
+					
 				
+					
+					
+					
+					
 				
+					
+					{/*<input type='button' value='Poista suodatin' 
+						onClick={removeFilter} />*/}
+					
+							{/*onClick={() => filterByLanguage('Java', gists)}*} />
+					<input type='button' value='Poista suodatin' 
+							onClick={removeFilter} />
+							
+					{/*<select onChange={() => sortByDate(gists,true)}>*/}
+					
+					{/*}
+						<option value='newestToOldest'>Uusimmat ensin</option>
+						<option value='oldestToNewest'>Vanhimmat ensin</option>
+					</select>*/}
+				</div>
 				
+				<div className='currentFilters'>
 					{filter &&
 						<p className='langFilter'onClick={this.removeFilter}>
 							{filter}
-						</p>
-								
+						</p>		
 					}
-				
-			
-				
+				</div>
 				
 				
-				
-			
-				
-				{/*<input type='button' value='Poista suodatin' 
-					onClick={removeFilter} />*/}
-				
-						{/*onClick={() => filterByLanguage('Java', gists)}*} />
-				<input type='button' value='Poista suodatin' 
-						onClick={removeFilter} />
-						
-				{/*<select onChange={() => sortByDate(gists,true)}>*/}
-				
-				{/*}
-					<option value='newestToOldest'>Uusimmat ensin</option>
-					<option value='oldestToNewest'>Vanhimmat ensin</option>
-				</select>*/}
 			</div>
 		);
+		
 	}
 	
 }

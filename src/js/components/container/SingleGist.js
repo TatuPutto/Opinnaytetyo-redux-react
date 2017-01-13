@@ -17,25 +17,29 @@ class SingleGist extends React.Component {
 	}
 	
 	render() {
-		const { isFetchingSelectedGist, gist } = this.props;
+		const { isFetching, gist } = this.props;
 	
 		
-		if(isFetchingSelectedGist || !gist.hasOwnProperty('id')) {	
+		if(isFetching || !gist.hasOwnProperty('id')) {	
 			return <div className='loading'></div>; 
 		}
 		else {
 			const files = gist.files.map(function(file, i) { 
 				return (
-					<ReadOnlyGistFile key={file.filename} 
-							filename={file.filename} value={file.content} 
-							editorId={'editor' + i} isReadOnly={true} />
+					<ReadOnlyGistFile 
+						key={file.filename} 
+						filename={file.filename} 
+						value={file.content} 
+						editorId={'editor' + i} 
+						isReadOnly={true}> 
+					</ReadOnlyGistFile>
 				);
 			});
 
 			return (
 				<div className='gist'>
 					<div className='showActiveGist'>
-						<GistInfo />
+						<GistInfo/>
 						
 						<div className='gistFiles'>
 							{files}
@@ -52,17 +56,31 @@ class SingleGist extends React.Component {
 function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,	
-		isFetchingSelectedGist: state.activeGist.isFetching
+		isFetching: state.activeGist.isFetching
 	}
 }
-/*
+
+//Määritellään yksittäisen gistin näkymän toiminnot.
 function mapDispatchToProps(dispatch) {
 	return {
-		fetchGist: () => {
-			dispatch(fetchSelectedGist(gistId))
+		toggleStarredStatus: (isStarred, id) => {
+			if(isStarred) {
+				dispatch(unstarGist(id));
+			}
+			else {
+				dispatch(starGist(id));
+			}
+		},
+		forkGist: (id) => {
+			dispatch(checkIfForked(id));
+		},
+		deleteGist: (id) => {
+			if (confirm('Haluatko varmasti poistaa tämän gistin?')) {
+				dispatch(deleteGist(id));
+			}
 		}
 	}
 }
-*/
+
 
 export default connect(mapStateToProps)(SingleGist);

@@ -2,18 +2,15 @@ import React from 'react';
 
 
 class GistActions extends React.Component {
-	
 	render() {
-		const { id, isCheckingStarredStatus, isStarred, 
-				starGist, forkGist } = this.props;
+		const { id, isCheckingStarredStatus, 
+				isStarred, starGist, forkGist } = this.props;
 		
-		const className = isCheckingStarredStatus ? 'pending' : null;
-		const value = isStarred ? 'Poista suosikeista' : 'Aseta suosikiksi';
+		const buttonText = isStarred ? 'Poista suosikeista' : 'Aseta suosikiksi';
 				
 		return (
 			<span className='actions'>
-				<input type='button' id='starGist'
-						className={className} value={value}
+				<input type='button' id='starGist' value={buttonText} 
 						onClick={() => starGist(isStarred, id)} />
 				
 				<input type='button' id='forkGist' value='Fork'
@@ -21,7 +18,6 @@ class GistActions extends React.Component {
 			</span>
 		);
 	}
-	
 }
 
 

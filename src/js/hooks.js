@@ -3,11 +3,8 @@ import { fetchSelectedGist, fetchGists, fetchMoreGists, fetchAccessToken, should
 
 import { store } from './createStore';
 
-export 
-
-
-//Haetaan gist näkymään saavuttaessa
-function fetchSelectedGistOnEnter(nextState) {
+//Haetaan gist näkymään saavuttaessa.
+export function fetchSelectedGistOnEnter(nextState) {
 	let gistId = nextState.params.gistId;
 	let state = store.getState();
 
@@ -20,21 +17,23 @@ function fetchSelectedGistOnEnter(nextState) {
 
 
 
+//Haetaan hakuehtoja vastaavat gistit näkymään saavuttaessa.
+
 
 export function fetchGistsOnEnter(nextState) {
-	console.log(nextState);
-	//let fetchMethod = nextState.params.fetchMethod;
+	//Määritetään polkunimen perusteella mitä haetaan (käyttäjän gistit, suosikit tai discover).
 	let fetchMethod = nextState.location.pathname.substring(1);
 
+	//Jos polkunimeä ei ole, haetaan käyttäjän gistit.
 	if(fetchMethod == null) {
 		fetchMethod = 'gists';
 	}
 
-	if(fetchMethod.startsWith('discover') || typeof nextState.params.page === 'number') {
-		return store.dispatch(fetchMoreGists(nextState.params.page));
-	}
-	 
+	//Haetaanko gistit, vai käytetäänkö välimuistista löytyviä gistejä.
 	if(shouldFetch(store.getState(), fetchMethod)) {
+		if(fetchMethod.startsWith('discover')) {
+			return store.dispatch(fetchGists('discover', nextState.params.page));	
+		}
 		return store.dispatch(fetchGists(fetchMethod));
 	}
 }
@@ -45,4 +44,5 @@ export function login() {
 	window.location.href = 'http://localhost:8080/Opinnaytetyo_spring_react/authorize';
 }
 	
+
 

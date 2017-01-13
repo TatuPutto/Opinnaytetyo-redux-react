@@ -18,7 +18,8 @@ export function parseMultipleGistsJson(gistsJson) {
 			gists.push(Object.assign({}, gist, {
 				files: parseFiles(gist.files),
 				owner: parseOwnerInfo(gist.owner),
-				formattedTime: formatTime(gist.updated_at),
+				//formattedTime: formatTime(gist.updated_at),
+				formattedTime: formatTime(gist.created_at),
 			}));
 		}
 	})
@@ -65,6 +66,7 @@ function parseOwnerInfo(ownerJson) {
 	try {
 		if(ownerJson == null) {}
 		else {
+			owner['id'] = ownerJson.id;
 			owner['login'] = ownerJson.login;
 			owner['avatarUrl'] = ownerJson.avatar_url;
 			
@@ -81,14 +83,16 @@ function parseOwnerInfo(ownerJson) {
 
 function formatTime(time) {
 	let date = new Date(time);
-	
+
 	let day = date.getDate();
 	let month = date.getMonth() + 1;
 	let year = date.getFullYear();
 	let hours = date.getHours();
 	let minutes = date.getMinutes(); 
 	
-	return day + '.' + month + '.' + year + 
-			', ' + hours + ':' + minutes;
+	return day + '.' + month + '.' + year;
+	
+	//return day + '.' + month + '.' + year + 
+	//		', ' + hours + ':' + minutes;
 }
 

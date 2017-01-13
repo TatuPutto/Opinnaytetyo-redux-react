@@ -31,7 +31,7 @@ class GistListItem extends React.Component {
 		
 		//Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti
 		return (
-			<li className={isActive} id={id} onClick={setActive}>
+			<li className={isActive} id={id} onClick={() => setActive(id)}>
 				<div className='contentWrapper'>
 					<span className='title'>
 						<Link to={'/gist/' + id}>
@@ -42,7 +42,7 @@ class GistListItem extends React.Component {
 						{description}
 					</span>
 					<span className='created'>
-						{updatedAt}
+						Luotu: {updatedAt}
 					</span>
 					<span className='language' style={languageSpanColor}>
 						{language}

@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 import { closeNotification } from '../../actions/actions';
 
 class Notification extends React.Component {
-	componentDidUpdate() {
-		setTimeout(() => {
-			this.props.close();
-		}, 2000)
+	componentDidUpdate() {	
+		setTimeout(() => this.props.close(), 2000);
 	}
 	
 	render() {

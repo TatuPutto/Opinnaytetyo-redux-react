@@ -4,15 +4,20 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import Notification from './Notification';
 
-function Root(props) {
-	return (
-		<div className='content'>
-			<Header />
-			<Notification message={'Testi msg.'}/>
-			{props.children}
-		</div>
-	);
+
+class Root extends React.Component {
+	render() {
+		return (
+			<div className='content'>
+				<Header />
+				<Notification />
+				{this.props.children}
+			</div>
+		);
+	}
 }	
+
+
 
 export default Root;
 

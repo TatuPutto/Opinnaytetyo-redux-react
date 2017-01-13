@@ -7,7 +7,7 @@ export function user(state = {
 	switch(action.type) {
 		case 'FETCH_USER_INFO_SUCCESS':
 			return {
-				...state,
+				id: action.id,
 				userLogin: action.userLogin,
 				avatarUrl: action.avatarUrl,
 				accessToken: action.accessToken

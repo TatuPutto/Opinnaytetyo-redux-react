@@ -1,20 +1,31 @@
-//Reducer-funktio aktiivisen gistin hallintaan
+//Käsittelijä-funktio aktiivisen gistin hallintaan
 export function activeGist(state = {
 	gist: {},
 	gistId: null,
 	isStarred: null,
-	isChecking: false,
 	isFetching: false
 }, action) {
 	switch(action.type) {
+	
+		/*//@actions.js
+		//Ilmoitetaan aktiivisen gistin mitätöimisestä.
+		function invalidateGist() {
+			return { type: 'INVALIDATE_GIST' };
+		}
+		*/
+		//@activeGist.js - aktiivisen gistin osalta tilaa hallitseva käsittelijä.
+		//Mitätöidään aktiivinen gist.
 		case 'INVALIDATE_GIST':
 			return {
 				...state, 
 				gist: {},
 				gistId: null,
-				isFetching: false
 			}
 			break;
+			
+			
+			
+		//Aktiivisen gistin hakeminen aloitettiin.
 		case 'REQUEST_SELECTED_GIST':
 			return {
 				...state, 
@@ -22,37 +33,31 @@ export function activeGist(state = {
 				isFetching: true
 			}
 			break;
+		//Aktiivisen gistin hakeminen onnistui.
 		case 'RECEIVE_SELECTED_GIST':
 			return {
 				...state, 
 				gist: action.activeGist,
 				isFetching: false
 			}
-			break;
+			break;			
+		//Aktiivisen gistin hakeminen onnistui.
 		case 'GIST_FETCH_FAILED': 
 			return {
 				...state, 
-				gist: action.activeGist,
+				gist: {},
 				isFetching: false
 			}
 			break;	
-		case 'CHECK_STARRED_STATUS': 
-			return  {
-				...state,
-				isChecking: true
-			}
-			break;
 		case 'STARRED': 
 			return {
 				...state,
-				isChecking: false,
 				isStarred: true
 			}
 			break;
 		case 'NOT_STARRED': 
 			return {
 				...state,
-				isChecking: false,
 				isStarred: false
 			}
 			break;

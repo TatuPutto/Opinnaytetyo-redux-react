@@ -7,7 +7,6 @@ export function pagination(state = {
 	switch(action.type) {
 		case 'UPDATE_PAGINATION': 
 			return {
-				...state,
 				currentPage: action.current,
 				nextPage: action.next,
 				previousPage: action.current - 1,

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import $ from 'jquery';
@@ -31,45 +32,27 @@ class GistList extends React.Component {
 	}
 	
 	componentWillReceiveProps(nextProps) {
-		console.log(nextProps.activeGistId);
+		//Scrollataan listan alkuun discover-toiminnallisuudessa sivua vaihdettaessa.
+		if(nextProps.currentPage !== this.props.currentpage 
+				&& nextProps.gists.items.length > 0) {
+			ReactDOM.findDOMNode(this.refs.gistlist).scrollTop = 0;
+		}
 		
 		//Jos listassa on tuloksia ja tällä hetkellä ei ole aktiivista gistiä
-		if(nextProps.gists.length > 0 && !this.props.activeGistId) {
+		/*if(nextProps.gists.length > 0 && !this.props.activeGistId) {
+		
 			{this.props.setActive(nextProps.gists[0].id)}
-		}
-		
-		
-		if(nextProps.gists.length > 0 && !this.props.activeGistId) {
-			let asd = false;
-			
-			nextProps.gists.forEach((gist) => {
-				if(gist.id === this.props.activeGistId) {
-					asd = true
-				}
-			});
-			
-			if(asd) {
-				{this.props.setActive(nextProps.gists[0].id)}
-			}
-		}
-		
-		
-		
-		/*//Jos on gistejä
-		if(nextProps.gists.length > 0) {
-			if(!nextProps.activeGistId) {
-				{this.props.setActive(nextProps.gists[0].id)}
-			}
-			
-			
-			
 		}*/
-		
-		/*if(nextProps.gists.length > 0 && !nextProps.activeGistId && 
-				nextProps.fetchMethod === this.props.fetchMethod &&
-				nextProps.currentPage !== this.props.currentpage) {
+	
+		//&& nextProps.fetchMethod === this.props.fetchMethod
+	
+		/*
+		if(nextProps.gists.length > 0 && !nextProps.activeGistId ) {
+				//nextProps.currentPage !== this.props.currentpage) {
+				
+			console.log('täällä');
 			{this.props.setActive(nextProps.gists[0].id)}
-		}		*/
+		}		
 	}
 	
 	/*
@@ -80,6 +63,8 @@ class GistList extends React.Component {
 	}
 	*/
 	
+	}
+		
 	/**
 	 * Haetaan kielelle määrietty värikoodi
 	 */
@@ -97,105 +82,106 @@ class GistList extends React.Component {
 	
 	
 	render() {
-		const { gists, fetchMethod, isFetching, activeGistId, setActive, 
-				fetchMore, currentPage, nextPage, previousPage, lastPage } = this.props;
-	
+		/*const { gists, fetchMethod, isFetching, activeGistId, setActive, 
+				fetchMore, currentPage, nextPage, previousPage, lastPage } = this.props;*/
+		
+		const { items: gists, fetchMethod, isFetching } = this.props.gists;
+		const { currentPage, nextPage, previousPage, lastPage } = this.props.pagination;
+		
+		
+		const fetchError = null;
+		
 		//Käydään gistien tiedot sisältävä taulukko läpi ja 
-		//luodaan jokaista gistiä kohden yksi GistListItem-komponentti
+		//luodaan jokaista gistiä kohden yksi ilmentymä GistListItem-komponentti.
 		const listItems = gists.map(gist => {
 			return (
-				<GistListItem key={gist.id} id={gist.id}
-						filename={gist.files[0].filename} 
-						description={gist.description} 
-						language={gist.files[0].language}
-						color={this.getColorCode(gist.files[0].language)}
-						updatedAt={gist.formattedTime}
-						owner={gist.owner.login} 
-						activeGistId={activeGistId}
-						setActive={() => setActive(gist.id)} />
+				<GistListItem 
+					key={gist.id} 
+					id={gist.id}
+					filename={gist.files[0].filename} 
+					description={gist.description} 
+					language={gist.files[0].language}
+					color={this.getColorCode(gist.files[0].language)}
+					updatedAt={gist.formattedTime}
+					owner={gist.owner.login} 
+					activeGistId={this.props.activeGistId}
+					setActive={this.props.setActive}>
+				</GistListItem>
 			);
 		}, this); 
 		
-		/*
-		listItems = listItems.sort((a, b) => {
-			var dateA = new Date(a.updated_at);
-			var dateB = new Date(b.updated_at);
-			
-			return dateA - dateB;
-		});
-		*/
-		
-		
-		//Renderöidään lista ja asetetaan <li>-elementit listan sisällöksi
+		//Renderöidään lista ja asetetaan GistListItem-komponentista 
+		//luodut ilmentymät listan sisällöksi.
 		return (
-			<div className='listGists'>
 				
-				{isFetching && listItems.length === 0 &&
+			<div className='listGists' ref='gistlist'>
+				{fetchError &&
+					<p>Gistien hakemisessa tapahtui virhe.</p>
+				}
+			
+				{isFetching && listItems.length === 0 && !fetchError &&
 					<div className='loading'></div>
 				}
 
-				{!isFetching && listItems.length === 0 &&
+				{!isFetching && listItems.length === 0 && !fetchError &&
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}	
 				
-				{listItems.length > 0 &&
+				{listItems.length > 0 && !fetchError &&
 					<div style={{ opacity: isFetching ? 0.5 : 1 }}>
 						<ul>
 							{listItems}	
 						</ul>
-						
-						{fetchMethod === 'discover' && 
-							<PaginationLinks 
-									currentPage={currentPage}
-									nextPage={nextPage}
-									previousPage={previousPage}
-									lastPage={lastPage} />
-						}
 					</div>
-				}	
-					
-			</div>	
+				}
+			
+				
+				{fetchMethod === 'discover' && 
+					<PaginationLinks 
+						currentPage={currentPage}
+						nextPage={nextPage}
+						previousPage={previousPage}
+						lastPage={lastPage}>
+					</PaginationLinks>
+				}
+			</div>
 		);   
 	}
-		bbb
+		
 }
 
+
+import { filterByLanguage } from '../../../utility/filterByLanguage';
 
 let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
-	/*
-	console.log('Nykyinen sivu: ' + state.pagination.currentPage);
-	console.log('Seuraava sivu: ' + state.pagination.nextPage);
-	console.log('Edellinen sivu: ' + state.pagination.previousPage);
-	console.log('Viimeinen sivu: ' + state.pagination.lastPage);
-	*/
+
 	return {
-		gists: state.gists.items,
+		//gists: filterByLanguage(state.filters.language, state.gists.items),
 		activeGistId: state.activeGist.gistId,
-		isFetching: state.gists.isFetching,
-		fetchMethod: state.gists.fetchMethod,
+		//isFetching: state.gists.isFetching,
+		//fetchMethod: state.gists.fetchMethod,
 		currentPage: state.pagination.currentPage,
 		nextPage: state.pagination.nextPage,
 		previousPage: state.pagination.previousPage,
 		lastPage: state.pagination.lastPage,
-		filter: state.gists.filter
 	}
 }
 
 
 function mapDispatchToProps(dispatch) {
 	return {
-		setActive: (id) => {
+		/*setActive: (id) => {
 			if(id !== activeId) {
 				dispatch(fetchSelectedGist(id));
 			}
 		},
 		fetchMore: (pageNum) => {
 			dispatch(fetchMoreGists(pageNum));
-		}
+		}*/
 	};
 }
 
-
+//export default GistList;
 export default connect(mapStateToProps, mapDispatchToProps)(GistList);

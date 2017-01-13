@@ -17,8 +17,7 @@ class GistActions extends React.Component {
 						onClick={() => starGist(isStarred, id)} />
 				
 				<Link to={'/edit/' + id}>
-					<input type='button' id='editGist' 
-							value='Muokkaa' />
+					<input type='button' id='editGist' value='Muokkaa' />
 				</Link> 
 					
 				<input type='button' id='deleteGist' value='Poista'

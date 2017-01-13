@@ -117,16 +117,19 @@ input[type="button"]:hover {
 .filters {
 	/*height: 35px;*/
 	/*height: 100px;*/
+	float: left;
     background: whitesmoke;
-    padding: 5px;
+    width: 100%;
 }
 
-.fitleringOptions {
+.filteringOptions {
+	float: left;
+	padding: 5px;
 	width: 30%;
 }
 
 
-.fitleringOptions select {
+.filteringOptions select {
 	height: 29px;
     width: 43%;
 }
@@ -156,8 +159,9 @@ input[type="button"]:hover {
 
 .listing .filters .langFilter  {
 	background: url(http://localhost:9090/images/remove.png) no-repeat center left 97%;
-    margin-left: 6%;
+    margin-left: 10px;
     padding-right: 15px;
+    margin-top: 10px;
 }
 
 
@@ -220,6 +224,8 @@ input[type="button"]:hover {
 	margin:0;
 }
 
+
+
 .singleGist {
 	/*height: 100px;*/
 	cursor: pointer;
@@ -228,6 +234,8 @@ input[type="button"]:hover {
 	background-color: white;
 	margin-bottom: 2px;
 }
+
+
 
 .contentWrapper {
 	position: relative;
@@ -294,7 +302,7 @@ input[type="button"]:hover {
 	background-color: #D4DDE0;
 	width: 70%;
 	height: 100%;
-	margin-left: 30%;
+	float: left;
 }
 
 
@@ -383,6 +391,11 @@ input[type="button"]:hover {
 	padding: 4px;
 }
 
+.copy {
+	height: 18px;
+    float: right;
+    cursor: pointer;
+}
 
 
 .actions {
@@ -404,10 +417,6 @@ input[type="button"]:hover {
 	margin-bottom: 20px;
 }
 
-.showActiveGist .gistFiles {
-	/*overflow-y: scroll;
-	height: 80%;*/
-}
 
 .showActiveGist .gistFile {
 	width: 98%;
@@ -424,6 +433,7 @@ input[type="button"]:hover {
 	padding-bottom: 4px;
 	margin-bottom: 10px;
 }
+
 
 .showActiveGist div[id^="editor"] {
 	width: 99%;

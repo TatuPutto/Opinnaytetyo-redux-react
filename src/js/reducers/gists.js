@@ -1,24 +1,26 @@
-//Reducer-funktio gistien hallintaan
+//Käsittelijä-funktio gistien hallintaan.
 export function gists(state = { 
 	fetchMethod: 'gists', 
 	isFetching: true,
-	items: [],
-	itemsBeforeFiltering: [],
-	filter: null
+	items: []
 }, action) {
 	switch(action.type) {
-	
-		//Poistetaan id:tä vastaava gist listattavista gisteistä
+		//Poistetaan id:tä vastaava gist listattavista gisteistä.
 		case 'REMOVE_GIST_FROM_LIST':
 			return  {
 				...state,
 				items: state.items.filter(item => item.id !== action.id)			
 			};
-			break;
+			break;	
+
+		//@actions.js
+		//Ilmoitetaan haun alkamisesta.
+		function requestGists(fetchMethod) {
+			return { type: 'FETCH_GISTS_REQUEST', fetchMethod };
+		}
 			
-			
-			
-		//Gistien hakeminen aloitettiin
+		//@gists.js - gistien osalta tilaa hallitseva käsittelijä-funktio.
+		//Päivitetään sovelluksen tila vastaamaan haun tilannetta.
 		case 'FETCH_GISTS_REQUEST':
 			return {
 				...state,
@@ -26,64 +28,42 @@ export function gists(state = {
 				isFetching: true
 			};
 			break;
-		//Gistien hakeminen onnistui
+		
+		//@actions.js
+		function receiveGists(gists) {
+			return {
+			    type: 'FETCH_GISTS_SUCCESS',
+			    gists,
+			    fetchedAt: new Date().getTime() / 1000,
+			};
+		}
+		
+		//@gists.js
 		case 'FETCH_GISTS_SUCCESS':
 			return {
 				...state,
 				items: action.gists,
-				itemsBeforeFiltering: action.gists,
 				fetchedAt: action.fetchedAt,
 				isFetching: false	
-			};
-			break;
-		//Gistien hakeminen epäonnistui
-		case 'FETCH_GISTS_FAILURE':
-			return {
-				...state,
-				items: [],
-				itemsBeforeFiltering: [],
-				isFetching: false,
-				fetchError: action.error
-			};
-			break;
-		case 'FILTER_BY_LANGUAGE':
-			return {
-				...state,
-				items: action.gists,
-				filter: action.language
-			};
-			break;
-		case 'REMOVE_FILTER':
-			return {
-				...state,
-				items: state.itemsBeforeFiltering,
-				filter: null
-			};
-			break;
-		case 'SORT_OLDEST_TO_NEWEST':
-			return {
-				...state,
-				items: action.gists,
-				chronologicalOrder: action.chronologicalOrder
-			};
-			break;
-		case 'SORT_NEWEST_TO_OLDEST':
-			return {
-				...state,
-				items: action.gists,
-				chronologicalOrder: action.chronologicalOrder
 			};
 			break;
 			
-		case 'FETCH_MORE_GISTS_SUCCESS':
+		//@actions.js
+		function gistsFetchFailed(error) {
+			return {
+			    type: 'GISTS_FETCH_FAILURE',
+			    isFetching: false,
+			    error
+			};
+		}
+			
+		//@gists.js
+		case 'GISTS_FETCH_FAILURE':
 			return {
 				...state,
-				//items: state.items.concat(action.gists),
-				items: action.gists,
-				itemsBeforeFiltering: action.gists,
-				fetchMethod: 'discover',
-				fetchedAt: action.fetchedAt,
-				isFetching: false	
+				items: [],
+				fetchError: action.error,
+				isFetching: false
 			};
 			break;
 			

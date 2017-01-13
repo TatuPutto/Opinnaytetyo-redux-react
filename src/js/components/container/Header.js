@@ -5,6 +5,9 @@ import $ from 'jquery';
 
 import UserInfo from '../presentational/header/UserInfo';
 import NavMenu from '../presentational/header/NavMenu';
+import SearchBar from '../presentational/header/SearchBar';
+
+import { fetchGists } from '../../actions/actions';
 
 class Header extends React.Component {
 	
@@ -14,13 +17,15 @@ class Header extends React.Component {
 				<div className='headerContent'>
 					<UserInfo userLogin={this.props.userLogin} 
 							avatarUrl={this.props.avatarUrl} />
-					<NavMenu login={this.props.login} />
+					<SearchBar search={this.props.search} />
+					<NavMenu login={this.props.login} loggedIn={true} />
 				</div>	
 			</div>	
 		);
 	}
 
 }
+
 
 function mapStateToProps(state) {
 	return {
@@ -34,9 +39,12 @@ function mapDispatchToProps(dispatch) {
 	return {
 		login: () => {
 			dispatch(login());
+		},
+		search: (user) => {
+			console.log(user);
+			dispatch(fetchGists('search', null, user));
 		}
 	};
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

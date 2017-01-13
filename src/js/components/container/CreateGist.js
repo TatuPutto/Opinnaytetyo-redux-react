@@ -11,9 +11,6 @@ require('../../../css/CreateGist.css');
 
 class CreateGist extends React.Component {
 	
-	/**
-	 * 
-	 */
 	constructor() {
 		super();
 		this.addFile = this.addFile.bind(this);
@@ -27,16 +24,12 @@ class CreateGist extends React.Component {
 		
 	}
 	
-	
+	//Odotetaan, että ACE saadaan ladattua.
 	componentDidMount() {
-		setTimeout(() => {
-			this.setState({
-				readyToRender: true
-			});
-		}, 200);
+		setTimeout(() => this.setState({ readyToRender: true }), 200);
 	}
 	
-	//Lisätään uusi tiedostokenttä
+	//Lisätään uusi tiedostokenttä.
 	addFile() {
 		this.setState({
 			editors: this.state.editors.concat(
@@ -45,20 +38,18 @@ class CreateGist extends React.Component {
 		});
 	}
 	
-	//Poistetaan valittu tiedostokenttä
+	//Poistetaan valittu tiedostokenttä.
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let editors = this.state.editors;
 			editors.splice(editors.indexOf(id), 1);
 			
-			this.setState({
-				editors
-			});
+			this.setState({ editors });
 		}
 	}
 	
 	
-	//Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin 
+	//Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin.
 	getGistInfo(isPublic) {
 		let gist = {};
 		let files = {};
@@ -66,7 +57,7 @@ class CreateGist extends React.Component {
 		const fileFields = $('.gistFile');
 		const editors = this.state.editors;
 		
-		//Kerätään tiedostonimet ja lähdekoodit tiedostokentistä
+		//Kerätään tiedostonimet ja lähdekoodit tiedostokentistä.
 		for(let i = 0; i < fileFields.length; i++) {
 			const filename = $(fileFields[i]).find('input:text').val();
 			const source = ace.edit(editors[i]).getValue();
@@ -75,15 +66,13 @@ class CreateGist extends React.Component {
 			files[filename] = file;
 		}	
 	
-		//Koostetaan olio
+		//Koostetaan olio.
 		gist['description'] = description;
 		gist['ispublic'] = isPublic;
 		gist['files'] = files;
 		
-		console.log(JSON.stringify(gist));
-		
-		//Lähetetään koostettu olio JSON-muodossa containerille
-		{this.props.create(JSON.stringify(gist))};
+		//Lähetetään koostettu olio JSON-muodossa eteenpäin.
+		this.props.create(JSON.stringify(gist));
 	}
 	
 	
@@ -100,12 +89,16 @@ class CreateGist extends React.Component {
 			//mahdollistetaan kenttien poistaminen
 			const isRemovable = editors.length === 1 ? false : true;
 			
-			//Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä
-			const fileFields = editors.map(editorId => {
+			//Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä.
+			const fileFields = this.state.editors.map(editorId => {
 				return (
-					<GistFile key={editorId} 
-							isRemovable={isRemovable} remove={this.removeFile}
-							editorId={editorId} isReadOnly={false} />
+					<GistFile 
+						key={editorId} 
+						isRemovable={isRemovable} 
+						remove={this.removeFile}
+						editorId={editorId} 
+						isReadOnly={false}>
+					</GistFile>
 				);
 			}, this); 
 		

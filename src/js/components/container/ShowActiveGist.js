@@ -14,56 +14,48 @@ class ShowActiveGist extends React.Component {
 		isFetchingSelectedGist: PropTypes.bool.isRequired
 	};
 
-	constructor() {
-		super();
-		this.toggleInfo = this.toggleInfo.bind(this);
-		this.state = {infoVisible: true};
-	}
-	
-	toggleInfo() {
-		if($('.showActiveGist').scrollTop() > 10) {
-			this.setState({infoVisible: false});
-		}	
-		else {
-			this.setState({infoVisible: true});
-		}	
-	}
-	
 
 	render() {
-		const { isFetchingGists, isFetchingSelectedGist, gist } = this.props;
+		const { isFetching, gist } = this.props.gist;
+		const isFetchingGists = this.props.isFetchingGists;
 		
-		//Jos listan lataaminen on valmis ja aktiivisen gistin lataaminen on käynnissä
-		//näytetään latausindikaattori
-		if(!isFetchingGists && isFetchingSelectedGist) {	
+		
+		if(!isFetchingGists && isFetching) {	
 			return <div className='loading'></div>;	
 		}
 		//Jos lista ja aktiivinen gist on ladattu renderöidään aktiivinen gist
-		else if(!isFetchingGists && !isFetchingSelectedGist && 
-				gist.hasOwnProperty('id')) {	
+		else if(!isFetchingGists && !isFetching && gist.hasOwnProperty('id')) {	
     		
-			//Käydään gistin sisältämät tiedostot läpi
-			//luodaan jokaista tiedostoa kohden yksi GistFile-komponentti
+			//Käydään gistin sisältämät tiedostot läpi ja luodaan jokaista 
+			//tiedostoa kohden yksi ilmentymä ReadOnlyGistFile-komponentista.
 			const files = gist.files.map((file, index) => {
 				return (
-					<ReadOnlyGistFile key={file.filename} id={gist.id}
-							filename={file.filename} value={file.content} 
-							editorId={'editor' + index} isReadOnly={true} /> 
+					<ReadOnlyGistFile 
+						key={file.filename} 
+						id={gist.id}
+						filename={file.filename} 
+						value={file.content} 
+						editorId={'editor' + index} 
+						isReadOnly={true}>
+					</ReadOnlyGistFile>
 				);
 			});
 			
-			//Renderöidään aktiivisen gistin näkymä
-			//Sisällöksi asetetaan inforuutu, joka sisältää gistin tiedot, sekä
-			//tiedostot sisältävät <div>-elementit
+			//Renderöidään inforuutu ja tiedostokentät.
 			return (
 				<div className='showActiveGist'>
-					<GistInfo />
-		
+					<GistInfo 
+						gist={this.props.gist}
+						userId={this.props.userId}
+						gistActions={this.props.gistActions}>
+					</GistInfo>
+						
 					<div className='gistFiles'>
 						{files}
 					</div>
 				</div>
 	   	 	);
+			
 		}
 		else {
 			return <div></div>;
@@ -72,13 +64,16 @@ class ShowActiveGist extends React.Component {
 	
 }
 
-
+/*
 function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
 		isFetchingGists: state.gists.isFetching,
 		isFetchingSelectedGist: state.activeGist.isFetching,
 	}
-}
+}*/
 
-export default connect(mapStateToProps)(ShowActiveGist);
+//export default connect(mapStateToProps)(ShowActiveGist);
+
+export default ShowActiveGist;
+

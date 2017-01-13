@@ -3,6 +3,7 @@ export function storeUserInfo(userInfo, accessToken) {
 	if (typeof(Storage) !== 'undefined') {
 		//localStorage.setItem('userLogin', userInfo.user.login);
 		//localStorage.setItem('userAvatar', userInfo.user.avatar_url);
+		localStorage.setItem('id', '5699778');
 		localStorage.setItem('userLogin', 'TatuPutto');
 		localStorage.setItem('userAvatar', 'https://avatars3.githubusercontent.com/u/5699778?v=3&s=40');
 		localStorage.setItem('accessToken', '');
@@ -18,13 +19,11 @@ export function getUserInfoFromStorage() {
 		let userInfo = {};
 		userInfo['user'] = {};
 		
+		userInfo.user['id'] = localStorage.getItem('id');
 		userInfo.user['login'] = localStorage.getItem('userLogin');
 		userInfo.user['avatar_url'] = localStorage.getItem('userAvatar');
-		//userInfo.user['accessToken'] = localStorage.getItem('accessToken');
-
-		userInfo.user['accessToken'] = '5b0d63952ec6b5737dbe4e5cb9b367471c3b1da1';
+		userInfo.user['accessToken'] = localStorage.getItem('accessToken');
 		
-		console.log(userInfo);
 		if(userInfo !== null) {
 			return userInfo;
 		}
@@ -47,6 +46,21 @@ export function removeUserInfoFromStorage() {
 	}
 }
 
+	
+export function doesUserInfoCookieExist() {
+	let cookies = document.cookie.split(';');
+
+	for(let i = 0; i < cookies.length; i++) {
+		let name = cookies[i].split('=')[0].trim();
+		
+		if(name === 'accesstoken') {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 
 export function getUserInfoFromCookie() {
 	let cookies = document.cookie.split(';');
@@ -60,23 +74,6 @@ export function getUserInfoFromCookie() {
 		}
 	}
 	
-	let userInfo = {};
-	userInfo['user'] = {};
-	
-	userInfo.user['login'] = localStorage.getItem('userLogin');
-	userInfo.user['avatar_url'] = localStorage.getItem('userAvatar');
-	//userInfo.user['accessToken'] = localStorage.getItem('accessToken');
-
-	userInfo.user['accessToken'] = accessToken;
-	
-	if(userInfo !== null) {
-		return userInfo;
-	}
-	else {
-		return null;
-	}
-	
-		
-	return null;
+	return accessToken;
 }
 

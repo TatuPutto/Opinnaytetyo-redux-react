@@ -95,43 +95,42 @@ class EditGist extends React.Component {
 		let description = $('.description').val();
 		
 		
-		//Haetaan tiedostonimet DOM:ista
+		//Haetaan tiedostonimet DOM:sta.
 		let filenames = document.getElementsByClassName('filename');
 		let modifiedFiles = {};
 		let offset = 0;
 
 		for(let i = 0; i < files.length; i++) {
-			//Uusi tiedostokenttä on luotu ja poistettu ennen muokkausta
+			//Uusi tiedostokenttä on luotu ja poistettu ennen muokkausta.
 			if(!files[i].isOriginal && !files[i].isActive) {
 				offset++;
 			}
-			//Jos tiedosto on uusi, lisätään suoraan 
+			//Jos tiedosto on uusi, lisätään suoraan. 
 			else if(!files[i].isOriginal) {
 				modifiedFiles[filenames[(i - offset)].value] = {
 					filename: filenames[(i - offset)].value, 
 					content: ace.edit(files[i].editorId).getValue()
 				};
 			}
-			//Jos tiedosto on alkuperäinen ja poistettu
+			//Jos tiedosto on alkuperäinen ja poistettu.
 			else if(files[i].isOriginal && !files[i].isActive) {
 				modifiedFiles[files[i].filename] = null;  
 				offset++;
 			}
-			//Jos tiedosto on alkuperäinen, tarkistetaan onko siihen tehty muutoksia
+			//Jos tiedosto on alkuperäinen, tarkistetaan onko siihen tehty muutoksia.
 			else {
-				//Alkuperäinen tiedostonimi ja kooodileike
+				//Alkuperäinen tiedostonimi ja kooodileike.
 				const originalFilename = originalFiles[i].filename;
 				const originalContent = originalFiles[i].content;
-				//Tiedostonimi ja koodileike muokkauksen jälkeen
+				
+				//Tiedostonimi ja koodileike muokkauksen jälkeen.
 				const filenameOnUpdate = filenames[(i - offset)].value;
 				const contentOnUpdate = ace.edit(files[i].editorId).getValue();
 				
-				//Onko tiedostonimeä muutettu
 				const nameChanged = originalFilename !== filenameOnUpdate ? true : false;
-				//Onko koodileikettä muutettu
 				const contentChanged = originalContent !== contentOnUpdate ? true : false;
 			
-				//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodileike
+				//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodileike.
 				if(nameChanged && contentChanged) {
 					modifiedFiles[originalFilename] = {
 						filename: filenameOnUpdate, 
@@ -139,30 +138,26 @@ class EditGist extends React.Component {
 					};
 				}
 				else if(nameChanged) {
-					modifiedFiles[originalFilename] = {
-						filename: filenameOnUpdate
-					};
+					modifiedFiles[originalFilename] = { filename: filenameOnUpdate };
 				}
 				else if(contentChanged) {
-					modifiedFiles[originalFilename] = {
-						content: contentOnUpdate
-					};
+					modifiedFiles[originalFilename] = { content: contentOnUpdate };
 				}				
 			}
 		}
 				
 
-		
+		//Koostetaan olio.
 		let data = {};
 		data['description'] = description;
 
 		if(Object.keys(modifiedFiles).length > 0) {
 			data['files'] = modifiedFiles;
 		}
-		console.log(JSON.stringify(data));
+		
+		this.props.sendDataToEdit(gist.id, JSON.stringify(data));
 		
 		
-		{sendDataToEdit(gist.id, JSON.stringify(data))}
 	}
 	
 	
@@ -177,7 +172,7 @@ class EditGist extends React.Component {
 		else {
 			
 			//Luodaan tiedostokentät, jotka ovat aktiivisia
-			let fileFields = files.map(file => {
+			let fileFields = this.state.files.map(file => {
 				if(file.isActive) {
 					return (
 						<GistFile
@@ -188,7 +183,8 @@ class EditGist extends React.Component {
 							onChange={this.handleOnChange}
 							editorId={file.editorId} 
 							isReadOnly={false}
-							value={file.content} />
+							value={file.content}>
+						</GistFile>
 					);
 				}
 			}, this);
@@ -207,7 +203,7 @@ class EditGist extends React.Component {
 						<input type='button' id='addFile' value='Lisää tiedosto' 
 								onClick={this.addFile} />
 					
-						<input type='button' id='createSecret' value='Päivitä' 
+						<input type='button' id='createSecret' value='Muokkaa' 
 								onClick={() => this.getEditInfo(false)} />
 					</div>					
 				</div>
@@ -221,7 +217,7 @@ class EditGist extends React.Component {
 function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
-		isFetching: state.activeGist.isFetchingSelectedGist
+		isFetching: state.activeGist.isFetching
 	};
 }
 

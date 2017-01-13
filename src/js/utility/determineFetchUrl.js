@@ -1,19 +1,21 @@
-export function determineEndpoint(fetchingMethod, pageNum) {
-	pageNum = (typeof pageNum === 'undefined') ? 1 : pageNum;
+export function determineEndpoint(fetchMethod, page, user) {
 	let url;
 
-	if(fetchingMethod === 'gists') {
+	if(fetchMethod === 'gists') {
 		url = 'https://api.github.com/gists';
 	}
-	else if(fetchingMethod === 'starred') {
+	else if(fetchMethod === 'starred') {
 		url = 'https://api.github.com/gists/starred';
 	}
-	else if(fetchingMethod === 'discover'){
-		url = 'https://api.github.com/gists/public?page=1&per_page=50';
+	else if(fetchMethod === 'discover') {
+		url = 'https://api.github.com/gists/public?page=' + page + '&per_page=100';
+	}
+	else if(fetchMethod === 'search') {
+		url = 'https://api.github.com/users/' + user + '/gists';
 	}
 	else {
 		url = 'https://api.github.com/gists';
 	}
-	
+
 	return url;
 }

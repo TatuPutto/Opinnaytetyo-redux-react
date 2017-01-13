@@ -33,8 +33,6 @@ class FilteringView extends React.Component {
 		const language = $('.filterInput').val();
 
 		if(language) {
-			//{this.props.filter(language, this.props.gists)}
-		
 			this.props.bringFilters(language);
 			this.props.closeView();
 			 
@@ -61,7 +59,7 @@ class FilteringView extends React.Component {
 			filter: null
 		});
 		
-		{this.props.removeFilter()}
+		this.props.removeFilter();
 	}
 	
 	
@@ -93,6 +91,20 @@ class FilteringView extends React.Component {
 					<input type='button' className='langFilter' value={this.state.filter}
 							onClick={this.removeFilter} />
 				}*/}
+				
+				{/*<input type='button' value='Poista suodatin' 
+				onClick={removeFilter} />  filter={filterByLanguage} */   }
+			
+					{/*onClick={() => filterByLanguage('Java', gists)}*} />
+			<input type='button' value='Poista suodatin' 
+					onClick={removeFilter} />
+					*/   }
+					
+			<select onChange={() => sortByDate(gists, true)}>
+				<option value='newestToOldest'>Uusimmat ensin</option>
+				<option value='oldestToNewest'>Vanhimmat ensin</option>
+			</select>
+				
 				
 				{this.state.suggestions.length > 0 &&
 					<div className='suggestions'>

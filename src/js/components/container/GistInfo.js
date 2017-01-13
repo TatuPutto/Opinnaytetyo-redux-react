@@ -12,30 +12,24 @@ import { starGist, unstarGist, checkIfForked, deleteGist }
 class GistInfo extends React.Component {
 	
 	render() {
-		const { gist, isCheckingStarredStatus, isStarred, toggleStarredStatus, 
-				forkGist, deleteGist, currentUser } = this.props;
-		
+		const { gist, isStarred, toggleStarredStatus, 
+				forkGist, deleteGist, userId } = this.props;		
+				
 			return (
 				<div className='gistInfo'>
 					<span className='owner'>
-						<img className='ownerAvatar' 
-								src={gist.owner.avatar_url} />
+						<img className='ownerAvatar' src={gist.owner.avatar_url} />
 						<a id='viewGist'>{gist.owner.login}</a>
 					</span>
 					
-					
-					{gist.owner.login === currentUser &&
-						<GistActionsOwner id={gist.id}
-								isCheckingStarredStatus={isCheckingStarredStatus}
-								isStarred={isStarred} starGist={toggleStarredStatus}
-								deleteGist={deleteGist} />
+					{gist.owner.id === Number(userId) &&
+						<GistActionsOwner id={gist.id} isStarred={isStarred}
+								starGist={toggleStarredStatus} deleteGist={deleteGist} />
 					}
 				
-					{gist.owner.login !== currentUser &&
-						<GistActions id={gist.id}
-								isCheckingStarredStatus={isCheckingStarredStatus}
-								isStarred={isStarred} starGist={toggleStarredStatus}
-								forkGist={forkGist} />
+					{gist.owner.id !== Number(userId) &&
+						<GistActions id={gist.id} isStarred={isStarred} 
+								starGist={toggleStarredStatus} forkGist={forkGist} />
 					}
 			
 					
@@ -57,9 +51,7 @@ class GistInfo extends React.Component {
 
 GistInfo.propTypes = {
 	gist: PropTypes.object.isRequired,
-	isFetchingSelectedGist: PropTypes.bool.isRequired,
 	isStarred: PropTypes.bool.isRequired,
-	isCheckingStarredStatus: PropTypes.bool.isRequired,
 	currentUser: PropTypes.string.isRequired,
 };
 
@@ -68,15 +60,15 @@ function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
 		isStarred: state.activeGist.isStarred,
-		isCheckingStarredStatus: state.activeGist.isChecking,
-		isFetchingSelectedGist: state.activeGist.isFetching,
-		currentUser: state.user.userLogin,
+		userId: state.user.id,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		toggleStarredStatus: (isStarred, id) => {
+			console.log('täällä');
+			
 			if(isStarred) {
 				dispatch(unstarGist(id));
 			}

@@ -1,6 +1,6 @@
 import { render } from 'react-dom';
 import React from 'react';
-import { Router, Route, IndexRoute, Link, browserHistory, IndexRedirect } from 'react-router';
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import { store } from './createStore';
@@ -15,9 +15,10 @@ import EditGist from './components/container/EditGist';
 
 store.dispatch(fetchUserInfo());
 
-//import { getUserInfoFromCookie } from './utility/persistUserInfo';
+//import { storeUserInfo } from './utility/persistUserInfo';
 //console.log(typeof getUserInfoFromCookie);
 //console.log(getUserInfoFromCookie());
+//storeUserInfo();
 
 
 render(
@@ -37,11 +38,11 @@ render(
 				<Route path='edit/:gistId' component={EditGist} 
 						onEnter={fetchSelectedGistOnEnter}></Route>
 				<Route path='create' component={CreateGist}></Route>
-				
-				//<Route path='/login/:id' component={CreateGist}> onEnter={login}></Route>
-				
 			</Route>
 		</Router>
 	</Provider>,
 	document.getElementById('container')
 );
+
+
+

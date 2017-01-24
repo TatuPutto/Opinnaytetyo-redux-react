@@ -60,7 +60,7 @@ export function receiveUserInfo() {
 		id: '5699778',
 		userLogin: 'TatuPutto',
 		avatarUrl: 'https://avatars.githubusercontent.com/u/5699778?v=3',
-		accessToken: '0a89d780537ed1332d008b04e5cc44d48de2af3c',
+		accessToken: '',
 	};
 }
 
@@ -161,14 +161,9 @@ export function fetchSelectedGist(id) {
 			.then(readJson)
 
 			// Jos pyyntö on onnistunut ja vastauksen sisältö on luettu onnistuneesti.
-			.then((data) => {
-				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
-			})
-
+			.then((data) => dispatch(receiveSelectedGist(parseSingleGistJson(data))))
 			// Käsitellään virhetilanne.
-			.catch((error) => {
-				dispatch(gistFetchFailed(error.message));
-			});
+			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
 }
 

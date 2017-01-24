@@ -39,6 +39,28 @@ input[type="button"] {
     cursor: pointer;
 }
 */
+input, select, option {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+button {
+	cursor: pointer;
+	vertical-align: top;
+	height: 28px;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+	border-color: rgb(169, 169, 169);
+	font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+	padding-left: 12px;
+    padding-right: 12px;
+	margin-right: 4px;
+    height: 30px;
+}
 
 
 input[type="button"] {
@@ -61,9 +83,9 @@ input[type="button"]:hover {
 	background: #d6d9da;
 	text-decoration: none;
 }
-	
+
 ::-webkit-scrollbar {
- 	width: 5px; 
+ 	width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -73,7 +95,7 @@ input[type="button"]:hover {
 ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.5);
 }
-	
+
 .notification {
 	max-width: 500px;
 	word-break: break-word;
@@ -90,11 +112,11 @@ input[type="button"]:hover {
 	color: black;
 	cursor: pointer;
 	padding: 10px;
-	
-	
+
+
 }
-	
-	
+
+
 .listing {
 	/*width: 90%;*/
     margin-right: auto;
@@ -129,31 +151,51 @@ input[type="button"]:hover {
 }
 
 
+
 .filteringOptions select {
-	height: 29px;
-    width: 43%;
+	height: 28px;
+    width: 44%;
+	font-size: 14px;
 }
 
 
 .filters input[type='button'] {
 	color: black;
-	background: white;	
+	background: white;
 	border-radius: 2px;
 	margin-left: 4px;
+	padding: 0px;
+	height: 28px;
 	/*width: 49%;*/
 	/*width: 12%;*/
 }
 
-
-#openFilters {
-	width: 43%;
+.filters button {
+	vertical-align: top;
+	height: 28px;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+	border-color: rgb(169, 169, 169);
 }
 
-#refresh {
-	background: url(http://localhost:9090/images/refresh.png) white no-repeat center center;
-	padding-top: 3px;
+.openFilters {
+	width: 44%;
+	margin-left: 4px;
+}
+
+.refresh {
+	/*background: url(http://localhost:9090/images/refresh.png) white no-repeat center center;*/
+	/*padding-top: 3px;
     padding-bottom: 9px;
-	width: 10%;
+	width: 10%;*/
+	width: 8%;
+	margin-right: 4px;
+}
+
+#fetchMethod {
+	cursor: pointer;
 }
 
 
@@ -175,11 +217,11 @@ input[type="button"]:hover {
 
 
 .suggestions {
-	background: #D4DDE0; 
+	background: #D4DDE0;
 	overflow-y: auto;
-	width: 200px; 
-	max-height: 400px; 
-	position: fixed; 
+	width: 200px;
+	max-height: 400px;
+	position: fixed;
 	z-index: 2;
 }
 
@@ -241,7 +283,7 @@ input[type="button"]:hover {
 	position: relative;
 	padding: 10px;
 	min-height: 110px;
-    
+
 }
 
 
@@ -286,7 +328,7 @@ input[type="button"]:hover {
     margin-bottom: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    
+
 }
 
 
@@ -337,7 +379,7 @@ input[type="button"]:hover {
 
 .fixed {
 	position: fixed;
-	top: 50px; 
+	top: 50px;
 	z-index: 10;
 	background: #D4DDE0;
 	width: 69%;
@@ -481,7 +523,7 @@ input[type="button"]:hover {
 #editGist:hover {
  	background: #0dbf3d;
 }
-	
+
 
 #deleteGist {
     background: #db4141;
@@ -490,8 +532,8 @@ input[type="button"]:hover {
 #deleteGist:hover {
  	background: #b30d0d;
 }
-	
-	
+
+
 #forkGist {
 	color: black;
 }
@@ -513,7 +555,7 @@ input[type="button"]:hover {
 #editGist:hover {
  	background: #d6d9da;
 }
-	
+
 
 #deleteGist {
     /*background: #d6d9da;*/
@@ -526,8 +568,8 @@ input[type="button"]:hover {
 #deleteGist:hover {
  	background: #d6d9da;
 }
-	
-	
+
+
 #forkGist {
 	color: black;
 }
@@ -562,7 +604,3 @@ input[type="button"]:hover {
 #forkGist:hover {
 	background: #d6d9da;
 }
-
-
-
-

@@ -1,32 +1,27 @@
-export function filterByLanguage(language, gists) {
-	if(language.length === 0) {
+export function filterByLanguage(languages, gists) {
+	if(languages.length === 0) {
 		return gists;
 	}
-	
-	let filteredGists = [];	
-	//gist kerrallaan
+
+	let filteredGists = [];
+
 	gists.forEach((gist) => {
 		let match = false;
-		
-		//gistin tiedosto kerrallaan
-		for(let i = 0; i < gist.files.length; i++) {
-			if(gist.files[i].language) {
-				
-				for(let j = 0; j < language.length; j++) {
-					if(gist.files[i].language.toLowerCase() === language[j].toLowerCase()) {
+
+		gist.files.forEach((file) => {
+			if(file.language) {
+				languages.forEach((language) => {
+					if(file.language.toLowerCase() === language.toLowerCase()) {
 						match = true;
-						break;
 					}
-				}
+				});
 			}
-		}
-		
+		});
+
 		if(match) {
 			filteredGists.push(gist);
 		}
-		
 	});
-	
+
 	return filteredGists;
 }
-

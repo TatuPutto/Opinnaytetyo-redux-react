@@ -1,22 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import $ from 'jquery';
 
 import GistList from './GistList';
 import Filters from '../../container/Filters';
 import ShowActiveGist from '../../container/ShowActiveGist';
 
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-
 import { fetchGists, fetchSelectedGist, sortOldestToNewest, sortNewestToOldest, 
-	addFilter, removeFilter} from '../../../actions/actions';
-
-
+		addFilter, removeFilter } from '../../../actions/actions';
 import { filterByLanguage } from '../../../utility/filterByLanguage';
-
-
 
 require('../../../../css/listing.css');
 

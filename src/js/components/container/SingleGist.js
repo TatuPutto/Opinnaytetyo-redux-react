@@ -1,10 +1,13 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
 
 import GistInfo from './GistInfo';
 import ReadOnlyGistFile from '../presentational/reusable/ReadOnlyGistFile';
-import { fetchUserInfo, fetchGists, 
-		fetchSelectedGist } from '../../actions/actions';
+import {
+	fetchUserInfo,
+	fetchGists,
+	fetchSelectedGist
+} from '../../actions/actions';
 
 require('../../../css/Single.css');
 
@@ -14,24 +17,24 @@ class SingleGist extends React.Component {
 	static propTypes = {
 		gist: PropTypes.object.isRequired,
 		isFetchingSelectedGist: PropTypes.bool.isRequired
-	}
-	
+	};
+
 	render() {
-		const { isFetching, gist } = this.props;
-	
-		
-		if(isFetching || !gist.hasOwnProperty('id')) {	
-			return <div className='loading'></div>; 
+		const {isFetching, gist} = this.props;
+
+
+		if(isFetching || !gist.hasOwnProperty('id')) {
+			return <div className='loading'></div>;
 		}
 		else {
-			const files = gist.files.map(function(file, i) { 
+			const files = gist.files.map(function(file, i) {
 				return (
-					<ReadOnlyGistFile 
-						key={file.filename} 
-						filename={file.filename} 
-						value={file.content} 
-						editorId={'editor' + i} 
-						isReadOnly={true}> 
+					<ReadOnlyGistFile
+						key={file.filename}
+						filename={file.filename}
+						value={file.content}
+						editorId={'editor' + i}
+						isReadOnly={true}>
 					</ReadOnlyGistFile>
 				);
 			});
@@ -40,7 +43,7 @@ class SingleGist extends React.Component {
 				<div className='gist'>
 					<div className='showActiveGist'>
 						<GistInfo/>
-						
+
 						<div className='gistFiles'>
 							{files}
 						</div>
@@ -49,15 +52,15 @@ class SingleGist extends React.Component {
 	   	 	);
 		}
 	}
-	
+
 }
 
 
 function mapStateToProps(state) {
 	return {
-		gist: state.activeGist.gist,	
+		gist: state.activeGist.gist,
 		isFetching: state.activeGist.isFetching
-	}
+	};
 }
 
 //Määritellään yksittäisen gistin näkymän toiminnot.
@@ -79,7 +82,7 @@ function mapDispatchToProps(dispatch) {
 				dispatch(deleteGist(id));
 			}
 		}
-	}
+	};
 }
 
 

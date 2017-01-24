@@ -13,12 +13,8 @@ import SingleGist from './components/container/SingleGist';
 import CreateGist from './components/container/CreateGist';
 import EditGist from './components/container/EditGist';
 
-store.dispatch(fetchUserInfo());
 
-//import { storeUserInfo } from './utility/persistUserInfo';
-//console.log(typeof getUserInfoFromCookie);
-//console.log(getUserInfoFromCookie());
-//storeUserInfo();
+store.dispatch(fetchUserInfo());
 
 
 render(

@@ -25,17 +25,18 @@ body {
 }
 
 
-.files .gistFile {
+.files .gist-file {
 	background-color: white;
 	border-style: solid;
     border-width: 1px;
     border-color: rgb(179, 179, 179);
-	border-radius: 4px;
+	border-radius: 2px;
 	padding-bottom: 4px;
+    
 	margin-bottom: 20px;
 }
 
-.fileInfo {
+.file-info {
 	padding: 6px;
 }
 
@@ -48,113 +49,23 @@ div[id^="editor"] {
     border-style: solid;
     border-width: 1px;
 }
-/*
-.create .removeFile {
-    -webkit-border-radius: 2;
-    -moz-border-radius: 2;
-    border-radius: 2px;
-    font-family: 'Roboto', sans-serif;
-    color: #ffffff;
-    font-size: 12px;
-    background: #db4141;
-    padding: 2px 10px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
-	margin-left: 4px;
-}
 
-.create .removeFile:hover {
-  background: #b30d0d;
-  text-decoration: none;
-}
-*//*
-#addFile {
-   -webkit-border-radius: 4;
-    -moz-border-radius: 4;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-    border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
-    color: black;
-    font-size: 14px;
-    padding: 6px 12px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
-}
-
-*/
-/*
-#addFile:hover {
-  /*background: #028fbd;*//*
-  background: #d6d9da;
-  text-decoration: none;
-}
-
-
-
-
-#createPublic {
-	float: right;
-	-webkit-border-radius: 4;
-    -moz-border-radius: 4;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-    border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
-    color: black;
-    background: white;
-    font-size: 14px;
-    padding: 6px 12px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
-    margin-right: 5px; 
-}
-
-#createPublic:hover {
-  /*background: #0dbf3d;*//*
-  background: #d6d9da;
-}
-
-
-#createSecret {
-	float: right;
-	-webkit-border-radius: 4;
-    -moz-border-radius: 4;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-    border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
-    color: black;
-   /* background: #21e054;*//*
-    font-size: 14px;
-    padding: 6px 12px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
- 	background: white;
-    
-}
-
-#createSecret:hover {
- /* background: #0dbf3d;*/
- /*
- 	background: #d6d9da;
-}*/
-
-#createPublic {
+#create-public-gist {
 	float: right;
 	margin-right: 4px;
 }
 
-#createSecret {
+#create-secret-gist {
 	float: right;
+	margin-right: 0px;
 }
 
+#update-gist {
+    float: right;
+    margin-right: 0px;
+}
 
-.create .removeFile {
+.create .remove-file {
     background: #db4141;
     color: #ffffff;
     font-size: 12px;
@@ -162,9 +73,10 @@ div[id^="editor"] {
     border: 1px solid transparent;
     cursor: pointer;
 	margin-left: 4px;
+    height: 20px;
 }
 
-.create .removeFile:hover {
+.create .remove-file:hover {
   background: #b30d0d;
   text-decoration: none;
 }

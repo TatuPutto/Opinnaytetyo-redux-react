@@ -4,35 +4,37 @@ import React from 'react';
 class FileInfoWithInput extends React.Component {
 
 	render() {
-		const { id, filename, isRemovable, remove, onChange } = this.props; 
-	
+		const {
+			id,
+			filename,
+			isRemovable,
+			remove,
+			onChange,
+		} = this.props;
+
 		let filenameField;
 		if(filename) {
 			filenameField = <input type='text' className='filename'
-				placeholder='Tiedostonimi, esim. File.java' 
-				defaultValue={filename} 
-				onChange={onChange} />
-		}
-		else {
+					placeholder='Tiedostonimi, esim. File.java'
+					defaultValue={filename}
+					onChange={onChange}/>;
+		} else {
 			filenameField = <input type='text' className='filename'
-				placeholder='Tiedostonimi, esim. File.java' 
-				onChange={onChange} />
+					placeholder='Tiedostonimi, esim. File.java'
+					onChange={onChange}/>;
 		}
-		
+
 		return (
-			<div className='fileInfo'>
+			<div className='file-info'>
 				{filenameField}
-			
+
 				{isRemovable &&
-					<input 
-						type='button' 
-						className='removeFile' 
-						value='Poista' 
-						onClick={() => remove(id)}>
-					</input>
+					<button className='remove-file' onClick={() => remove(id)}>
+						<i className='fa fa-trash'></i> Poista
+					</button>
 				}
 			</div>
-		);	
+		);
 	}
 }
 

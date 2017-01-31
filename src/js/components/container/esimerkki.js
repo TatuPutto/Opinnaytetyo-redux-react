@@ -7,21 +7,21 @@ import React from 'react';
 class NavMenu extends React.Component {
 	render() {
 		return (
-			<ul className='navmenu'>
+			<ul className='nav-menu'>
 				<li><Link to='/'>Listaa gistit</Link></li>
-				<li><Link to='create'>Luo uusi gist</Link></li>
-			</ul>		
+				<li><Link to='/create'>Luo uusi gist</Link></li>
+			</ul>
 		);
 	}
 }
-		
+
 class UserInfo extends React.Component {
 	render() {
 		return (
-			div className='userInfo'>
-				<img src={this.props.avatarUrl}></img>
+			<div className='user-info'>
+				<img src={this.props.avatarUrl}>
 				<p>{this.props.username}</p>
-			</div>		
+			</div>
 		);
 	}
 }
@@ -30,15 +30,14 @@ class UserInfo extends React.Component {
 class Header extends React.Component {
 	render() {
 		return (
-			<UserInfo username={'TatuPutto'}
-					avatarUrl={'https://avatars3.githubusercontent.com/u/5699778?v=3&s=40'}/>
-			<NavMenu/>
-		);	
+			<UserInfo
+				username={'TatuPutto'}
+				avatarUrl={'https://avatars3.githubusercontent.com/u/5699778?v=3&s=40'}
+			/>
+			<NavMenu />
+		);
 	}
 }
 
 //Renderöidään Header-komponentti DOM-solmuun.
-ReactDOM.render(<Header/>, document.getElementById('container'));
-
-
-
+ReactDOM.render(<Header />, document.getElementById('container'));

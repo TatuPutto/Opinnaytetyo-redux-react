@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 import clipboard from 'clipboard-js';
 
 import Editor from './Editor';
@@ -16,22 +16,28 @@ class ReadOnlyGistFile extends React.Component {
 	copySource() {
 		clipboard.copy(this.props.value);
 	}
-	
+
 	render() {
-		const { editorId, filename, id, value } = this.props;
-		
+		const {
+			editorId,
+			filename,
+			id,
+			value,
+		} = this.props;
+
 		return (
-			<div className='gistFile'>
-				<div className='fileInfo'>
-					<Link to={'/gist/' + id}>{filename}</Link>
-					<img src='/images/copy.png' className='copy' onClick={this.copySource} />
+			<div className='gist-file'>
+				<div className='file-info'>
+					<h3>{filename}</h3>
+					<button id='copy-source'>
+						<i className='fa fa-copy' />
+					</button>
 				</div>
-						
+
 				<Editor editorId={editorId} isReadOnly={true} value={value} />
-         	</div>
-	    );	
+			</div>
+		);
 	}
-	
 }
 
 export default ReadOnlyGistFile;

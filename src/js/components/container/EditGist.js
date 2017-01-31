@@ -5,8 +5,8 @@ import $ from 'jquery';
 import GistFile from '../presentational/reusable/GistFile';
 import {editGist} from '../../actions/actions';
 
-require('../../../css/Header.css');
-require('../../../css/CreateGist.css');
+require('../../../css/header.css');
+require('../../../css/creategist.css');
 
 
 class EditGist extends React.Component {
@@ -17,23 +17,19 @@ class EditGist extends React.Component {
 		this.addFile = this.addFile.bind(this);
 		this.removeFile = this.removeFile.bind(this);
 		this.handleOnChange = this.handleOnChange.bind(this);
-		this.state = {
-			editorsCreated: 0,
-			files: [],
-			originalFiles: [],
-		};
+		this.state = {editorsCreated: 0, files: [], originalFiles: []};
 	}
 
 
-	//Gist on ladattu välimuistista näkymään saavuttaessa
+	// Gist on ladattu välimuistista näkymään saavuttaessa
 	componentDidMount() {
 		if(this.props.gist.hasOwnProperty('id')) {
 			this.initializeFiles(this.props.gist.files);
 		}
 	}
 
-	//Gist täytyy hakea -> viivytetään tiedostokenttien alustamista
-	//kunnes haku on valmis
+	// Gist täytyy hakea -> viivytetään tiedostokenttien alustamista
+	// kunnes haku on valmis
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.gist.hasOwnProperty('id')) {
 			this.initializeFiles(nextProps.gist.files);
@@ -41,25 +37,25 @@ class EditGist extends React.Component {
 	}
 
 	initializeFiles(files) {
-		//Tallennetaan gistin tiedot renderöintiin käytettävään taulukkoon
+		// Tallennetaan gistin tiedot renderöintiin käytettävään taulukkoon
 		for(let i = 0; i < files.length; i++) {
 			files[i].editorId = 'editor' + i;
 			files[i].isActive = true;
 			files[i].isOriginal = true;
 		}
 
-		//Tallennetaan tiedostot myös erilliseen taulukkoon
-		//muokkausvaiheessa tehtävää vertailua varten
+		// Tallennetaan tiedostot myös erilliseen taulukkoon
+		// muokkausvaiheessa tehtävää vertailua varten
 		this.setState({
 			files,
 			originalFiles: files,
-			editorsCreated: files.length
+			editorsCreated: files.length,
 		});
 	}
 
 	handleOnChange() {}
 
-	//Lisätään tiedostokenttä
+	// Lisätään tiedostokenttä
 	addFile() {
 		this.setState({
 			files: this.state.files.concat({
@@ -67,13 +63,13 @@ class EditGist extends React.Component {
 				content: '',
 				editorId: 'editor' + this.state.editorsCreated,
 				isActive: true,
-				isOriginal: false
+				isOriginal: false,
 			}),
-			editorsCreated: this.state.editorsCreated + 1
+			editorsCreated: this.state.editorsCreated + 1,
 		});
 	}
 
-	//Poistetaan tiedostokenttä
+	// Poistetaan tiedostokenttä
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let files = this.state.files;
@@ -88,66 +84,60 @@ class EditGist extends React.Component {
 	}
 
 
-
 	getEditInfo(isPublic) {
 		const {sendDataToEdit, gist} = this.props;
 		const {files, originalFiles} = this.state;
 		let description = $('.description').val();
 
 
-		//Haetaan tiedostonimet DOM:sta.
+		// Haetaan tiedostonimet DOM:sta.
 		let filenames = document.getElementsByClassName('filename');
 		let modifiedFiles = {};
 		let offset = 0;
 
 		for(let i = 0; i < files.length; i++) {
-			//Uusi tiedostokenttä on luotu ja poistettu ennen muokkausta.
+			// Uusi tiedostokenttä on luotu ja poistettu ennen muokkausta.
 			if(!files[i].isOriginal && !files[i].isActive) {
 				offset++;
-			}
-			//Jos tiedosto on uusi, lisätään suoraan.
-			else if(!files[i].isOriginal) {
+			// Jos tiedosto on uusi, lisätään suoraan.
+			} else if(!files[i].isOriginal) {
 				modifiedFiles[filenames[(i - offset)].value] = {
 					filename: filenames[(i - offset)].value,
-					content: ace.edit(files[i].editorId).getValue()
+					content: ace.edit(files[i].editorId).getValue(),
 				};
-			}
-			//Jos tiedosto on alkuperäinen ja poistettu.
-			else if(files[i].isOriginal && !files[i].isActive) {
+			// Jos tiedosto on alkuperäinen ja poistettu.
+			} else if(files[i].isOriginal && !files[i].isActive) {
 				modifiedFiles[files[i].filename] = null;
 				offset++;
-			}
-			//Jos tiedosto on alkuperäinen, tarkistetaan onko siihen tehty muutoksia.
-			else {
-				//Alkuperäinen tiedostonimi ja kooodileike.
+			// Jos tiedosto on alkuperäinen, tarkistetaan onko siihen tehty muutoksia.
+			} else {
+				// Alkuperäinen tiedostonimi ja kooodileike.
 				const originalFilename = originalFiles[i].filename;
 				const originalContent = originalFiles[i].content;
 
-				//Tiedostonimi ja koodileike muokkauksen jälkeen.
+				// Tiedostonimi ja koodileike muokkauksen jälkeen.
 				const filenameOnUpdate = filenames[(i - offset)].value;
 				const contentOnUpdate = ace.edit(files[i].editorId).getValue();
 
 				const nameChanged = originalFilename !== filenameOnUpdate ? true : false;
 				const contentChanged = originalContent !== contentOnUpdate ? true : false;
 
-				//Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodileike.
+				// Riippuen muutoksista, lisätään päivitetty tiedostonimi ja/tai koodileike.
 				if(nameChanged && contentChanged) {
 					modifiedFiles[originalFilename] = {
 						filename: filenameOnUpdate,
-						content: contentOnUpdate
+						content: contentOnUpdate,
 					};
-				}
-				else if(nameChanged) {
-					modifiedFiles[originalFilename] = { filename: filenameOnUpdate };
-				}
-				else if(contentChanged) {
-					modifiedFiles[originalFilename] = { content: contentOnUpdate };
+				} else if(nameChanged) {
+					modifiedFiles[originalFilename] = {filename: filenameOnUpdate};
+				} else if(contentChanged) {
+					modifiedFiles[originalFilename] = {content: contentOnUpdate};
 				}
 			}
 		}
 
 
-		//Koostetaan olio.
+		// Koostetaan olio.
 		let data = {};
 		data['description'] = description;
 
@@ -159,18 +149,15 @@ class EditGist extends React.Component {
 	}
 
 
-
 	render() {
 		const {gist, isFetching} = this.props;
 		const {originalFiles, files} = this.state;
 
 		if(isFetching || !gist.hasOwnProperty('id')) {
 			return <div className='loading'></div>;
-		}
-		else {
-
-			//Luodaan tiedostokentät, jotka ovat aktiivisia
-			let fileFields = this.state.files.map(file => {
+		}		else {
+			// Luodaan tiedostokentät, jotka ovat aktiivisia
+			let fileFields = this.state.files.map((file) => {
 				if(file.isActive) {
 					return (
 						<GistFile
@@ -191,23 +178,23 @@ class EditGist extends React.Component {
 				<div className='create'>
 					<div className='wrapper'>
 						<input type='text' className='description' placeholder='Kuvaus'
-								defaultValue={gist.description} />
+								defaultValue={gist.description}/>
 
 						<div className='files'>
 							{fileFields}
 						</div>
 
+						<button id='add-file' onClick={this.addFile}>
+							<i className='fa fa-file-text-o'></i> Lisää tiedosto
+						</button>
 
-						<input type='button' id='addFile' value='Lisää tiedosto'
-								onClick={this.addFile} />
-
-						<input type='button' id='createSecret' value='Muokkaa'
-								onClick={() => this.getEditInfo(false)} />
+						<button id='update-gist' onClick={() => this.getEditInfo(false)}>
+							<i className='fa fa-edit'></i> Muokkaa
+						</button>
 					</div>
 				</div>
 			);
 		}
-
 	}
 }
 
@@ -215,7 +202,7 @@ class EditGist extends React.Component {
 function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
-		isFetching: state.activeGist.isFetching
+		isFetching: state.activeGist.isFetching,
 	};
 }
 
@@ -223,7 +210,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		sendDataToEdit: (id, gistJson) => {
 			dispatch(editGist(id, gistJson));
-		}
+		},
 	};
 }
 

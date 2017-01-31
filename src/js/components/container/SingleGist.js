@@ -9,11 +9,10 @@ import {
 	fetchSelectedGist
 } from '../../actions/actions';
 
-require('../../../css/Single.css');
+require('../../../css/single.css');
 
 
 class SingleGist extends React.Component {
-
 	static propTypes = {
 		gist: PropTypes.object.isRequired,
 		isFetchingSelectedGist: PropTypes.bool.isRequired
@@ -25,26 +24,27 @@ class SingleGist extends React.Component {
 
 		if(isFetching || !gist.hasOwnProperty('id')) {
 			return <div className='loading'></div>;
-		}
-		else {
-			const files = gist.files.map(function(file, i) {
+		} else {
+			const files = gist.files.map((file, i) => {
 				return (
 					<ReadOnlyGistFile
 						key={file.filename}
 						filename={file.filename}
 						value={file.content}
 						editorId={'editor' + i}
-						isReadOnly={true}>
-					</ReadOnlyGistFile>
+						isReadOnly={true}
+					/>
 				);
 			});
 
 			return (
-				<div className='gist'>
-					<div className='showActiveGist'>
-						<GistInfo/>
+				<div className='single'>
+					<div className='show-active-gist'>
+						<div className='wrapper-single'>
+							<GistInfo />
+						</div>
 
-						<div className='gistFiles'>
+						<div className='gist-files'>
 							{files}
 						</div>
 					</div>
@@ -52,7 +52,6 @@ class SingleGist extends React.Component {
 	   	 	);
 		}
 	}
-
 }
 
 

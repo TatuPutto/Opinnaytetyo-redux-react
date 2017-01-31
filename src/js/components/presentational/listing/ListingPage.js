@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import $ from 'jquery';
 
+
 import GistList from './GistList';
 import Filters from '../../container/Filters';
 import ShowActiveGist from '../../container/ShowActiveGist';
@@ -30,25 +31,25 @@ class ListingPage extends React.Component {
 				<Filters
 					fetchMethod={this.props.gists.fetchMethod}
 					filters={this.props.filters}
-					filteringActions={this.props.filteringActions}>
-				</Filters>
+					filteringActions={this.props.filteringActions}
+				/>
 
-				<div className='contentLeft'>
+				<div className='content-left'>
 					<GistList
 						gists={this.props.gists}
 						activeGistId={this.props.activeGist.gistId}
 						pagination={this.props.pagination}
-						setActive={this.props.gistActions.setActive}>
-					</GistList>
+						setActive={this.props.gistActions.setActive}
+					/>
 				</div>
 
-				<div className='contentRight'>
+				<div className='content-right'>
 					<ShowActiveGist
 						gist={this.props.activeGist}
 						gistActions={this.props.gistActions}
 						isFetchingGists={this.props.gists.isFetching}
-						userId={this.props.userId}>
-					</ShowActiveGist>
+						userId={this.props.userId}
+					/>
 				</div>
 			</div>
 		);
@@ -65,13 +66,15 @@ let activeId;
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
 
+	console.log(state)
+
 	return {
-		activeGist: state.activeGist,
-		filters: state.filters,
 		gists: {
 			...state.gists,
 			items: filterByLanguage(state.filters.languages, state.gists.items)
 		},
+		activeGist: state.activeGist,
+		filters: state.filters,
 		pagination: state.pagination,
 		userId: state.user.id
 	};
@@ -84,8 +87,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		//Suodatustoiminnot.
 		filteringActions: {
-			sortOldestToNewest: () => dispatch(sortOldestToNewest()),
-		 	sortNewestToOldest: () => dispatch(sortNewestToOldest()),
 		 	addFilter: (language) => dispatch(addFilter(language)),
 		 	removeFilter: (language) => dispatch(removeFilter(language)),
 		 	refresh: (fetchMethod) => dispatch(fetchGists(fetchMethod))

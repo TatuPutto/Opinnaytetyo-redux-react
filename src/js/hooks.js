@@ -1,9 +1,12 @@
-import { fetchSelectedGist, fetchGists, fetchMoreGists, fetchAccessToken, shouldFetch, 
+import { fetchSelectedGist, fetchGists, fetchMoreGists, fetchAccessToken, shouldFetch,
 		selectFetchMethod } from './actions/actions';
 
 import { store } from './createStore';
 
 //Haetaan gist näkymään saavuttaessa.
+
+
+
 export function fetchSelectedGistOnEnter(nextState) {
 	let gistId = nextState.params.gistId;
 	let state = store.getState();
@@ -18,8 +21,6 @@ export function fetchSelectedGistOnEnter(nextState) {
 
 
 //Haetaan hakuehtoja vastaavat gistit näkymään saavuttaessa.
-
-
 export function fetchGistsOnEnter(nextState) {
 	//Määritetään polkunimen perusteella mitä haetaan (käyttäjän gistit, suosikit tai discover).
 	let fetchMethod = nextState.location.pathname.substring(1);
@@ -32,8 +33,9 @@ export function fetchGistsOnEnter(nextState) {
 	//Haetaanko gistit, vai käytetäänkö välimuistista löytyviä gistejä.
 	if(shouldFetch(store.getState(), fetchMethod)) {
 		if(fetchMethod.startsWith('discover')) {
-			return store.dispatch(fetchGists('discover', nextState.params.page));	
+			return store.dispatch(fetchGists('discover', nextState.params.page));
 		}
+
 		return store.dispatch(fetchGists(fetchMethod));
 	}
 }
@@ -43,6 +45,3 @@ export function login() {
 	//let userInfo = getUserInfoFromStorage();
 	window.location.href = 'http://localhost:8080/Opinnaytetyo_spring_react/authorize';
 }
-	
-
-

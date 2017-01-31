@@ -3,50 +3,54 @@
 	 height: 50px;
 }
 
+.header a {
+	color: black;
+}
 
-.userInfo {
-	float: left;
-	width: 200px;
+.user-info {
+	/*float: left;*/
+	/*width: 200px;*/
 	/*height: 100%;*/
-	margin: 14px;
+	/*margin: 14px;*/
+	margin-top: 8px;
 }
 
-.userInfo img {
-	position: absolute;
-	float: left;
+
+.user-avatar {
 	width: 30px;
-	height: 30px; 
-	margin-top: -5px;
+	height: 30px;
+	margin-left: 10px;
 }
 
-.userInfo p {
-	margin-left: 35px;
+.user-info p {
+	margin-left: 5px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 }
 
 
 .search {
-	float: left;
+	/*float: left;*/
     /* margin-top: 4px; */
-    width: 45%;
-    margin: 8px;
+    /*width: 45%;*/
+	/*margin: 8px;*/
+	margin-top: 8px;
 }
 
-.search input[type='text'] {
-    height: 23px;
-    margin-right: 4px;
-    width: 90%;
-}
-
-#searchField {
+#search-input {
 	font-family: 'Roboto', sans-serif;
-	height: 25px;
-    width: 350px;
-    border-radius: 4px;
+	font-size: 14px;
+	height: 30px;
+	width: 70%;
+	padding-left: 5px;
+	padding-right: 5px;
+    /*border-radius: 4px;
     padding-left: 5px;
+	margin-top: 4px;*/
 }
 
-#doSearch {
-	-webkit-border-radius: 4;
+#do-search {
+	/*-webkit-border-radius: 4;
     -moz-border-radius: 4;
     border-radius: 4px;
     font-family: 'Roboto', sans-serif;
@@ -56,29 +60,41 @@
     text-decoration: none;
     border: 1px solid transparent;
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: 5px;*/
+
+	position: relative;
+	right: 1px;
 }
 
-.navmenu {
-	float: right;
-	margin-right: 10px;
+#do-search:hover {
+	background: white;
 }
 
-ul.navmenu {
-    padding: 0;
+
+.nav-menu {
+	/*float: right;
+	margin-right: 10px;*/
+	margin-top: 15px;
 }
 
-ul.navmenu li {
+.nav-menu ul {
+    /*padding: 0;*/
+    float: right;
+	margin-top: 0px;
+    margin-right: 10px;
+
+}
+
+.nav-menu ul li {
     display: inline;
 }
 
-ul.navmenu li a {
+.nav-menu ul li a {
     padding: 10px 10px;
     text-decoration: none;
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
-ul.navmenu li a:hover {
+.nav-menu  ul li a:hover {
     background-color: white;
 }
-

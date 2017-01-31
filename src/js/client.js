@@ -1,11 +1,11 @@
-import { render } from 'react-dom';
+import {render} from 'react-dom';
 import React from 'react';
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
+import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
+import {Provider} from 'react-redux';
 
-import { store } from './createStore';
-import { fetchSelectedGistOnEnter, fetchGistsOnEnter, login } from './hooks';
-import { fetchUserInfo } from './actions/actions';
+import {store} from './createStore';
+import {fetchSelectedGistOnEnter, fetchGistsOnEnter, login} from './hooks';
+import {fetchUserInfo} from './actions/actions';
 
 import Root from './components/container/Root';
 import ListingPage from './components/presentational/listing/ListingPage';
@@ -18,7 +18,7 @@ store.dispatch(fetchUserInfo());
 
 
 render(
-	<Provider store={store}>					 
+	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path='/' component={Root}>
 				<IndexRoute component={ListingPage}
@@ -29,9 +29,9 @@ render(
 						onEnter={fetchGistsOnEnter}></Route>
 				<Route path='discover(/:page)' component={ListingPage}
 						onEnter={fetchGistsOnEnter}></Route>
-				<Route path='gist/:gistId' component={SingleGist} 
+				<Route path='gist/:gistId' component={SingleGist}
 						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='edit/:gistId' component={EditGist} 
+				<Route path='edit/:gistId' component={EditGist}
 						onEnter={fetchSelectedGistOnEnter}></Route>
 				<Route path='create' component={CreateGist}></Route>
 			</Route>
@@ -39,6 +39,3 @@ render(
 	</Provider>,
 	document.getElementById('container')
 );
-
-
-

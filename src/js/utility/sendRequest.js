@@ -45,17 +45,45 @@ export function sendRequestWithContent(url, httpMethod, content = null) {
 }
 
 
-// Tarkistetaan onnistuiko pyyntö
+//Tarkistetaan onnistuiko pyyntö.
 export function checkStatus(response) {
 	if(response.ok) {
 		return Promise.resolve(response);
-	}	else {
+	} else {
 		throw new Error(response.status + ' ' + response.statusText);
 	}
 }
 
-
-// Luetaan vastauksen sisältö
+//Luetaan vastauksen sisältö.
 export function readJson(response) {
 	return response.json();
 }
+/*
+export function sendRequest(url, httpMethod, content = null) {
+	let fetchInit;
+
+	//Määritellään pyynnön otsikot ja sisältö (POST, PATCH, PUT).
+	if(content) {
+		fetchInit = {
+			method: httpMethod,
+			body: content,
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Content-length': content.length,
+				'Authorization': 'token ' + accessToken,
+			},
+		};
+	//Määritellään pyynnön otsikot, kun pyynnöllä ei ole sisältöä (GET, DELETE).
+	} else {
+		method: httpMethod,
+		headers: {
+			'Accept': 'application/json',
+			'Authorization': 'token ' + accessToken,
+		},
+	}
+
+	//Lähetetään pyyntö.
+	return fetch(url, fetchInit);
+}
+*/

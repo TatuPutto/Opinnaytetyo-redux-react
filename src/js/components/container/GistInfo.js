@@ -19,6 +19,7 @@ class GistInfo extends React.Component {
 		const {
 			gist,
 			isStarred,
+			isStarring,
 			toggleStarredStatus,
 			forkGist,
 			deleteGist,
@@ -26,34 +27,50 @@ class GistInfo extends React.Component {
 		} = this.props;
 
 			return (
-				<div className='gistInfo'>
+				<div className='gist-info'>
 					<span className='owner'>
-						<img className='ownerAvatar' src={gist.owner.avatar_url} />
-						<a id='viewGist'>{gist.owner.login}</a>
+						<img id='owner-avatar' src={gist.owner.avatar_url} />
+						<Link to={'search/' + gist.owner.login} id='view-gist'>
+							{gist.owner.login}
+						</Link>
 					</span>
 
 					{gist.owner.id === Number(userId) &&
-						<GistActionsOwner id={gist.id} isStarred={isStarred}
-								starGist={toggleStarredStatus} deleteGist={deleteGist} />
+						<GistActionsOwner
+							id={gist.id}
+							isStarred={isStarred}
+							isStarring={isStarring}
+							starGist={toggleStarredStatus}
+							deleteGist={deleteGist}
+						/>
 					}
 
 					{gist.owner.id !== Number(userId) &&
-						<GistActions id={gist.id} isStarred={isStarred}
-								starGist={toggleStarredStatus} forkGist={forkGist} />
+						<GistActions
+							id={gist.id}
+							isStarred={isStarred}
+							isStarring={isStarring}
+							starGist={toggleStarredStatus}
+							forkGist={forkGist}
+						/>
 					}
 
-				<br/>
-				<span className='desc'>
+				<div className='active-gist-info'>
 					<Link to={'/gist/' + gist.id}>
-						<p>{gist.files[0].filename}</p>
+						<h2 className='active-gist-name'>
+							{gist.files[0].filename}
+						</h2>
 					</Link>
-
-					<p style={{background: 'yellow', marginLeft: '20px'}}>
+					<span style={{background: 'yellow', marginLeft: '20px'}}>
 						{gist.public ? 'Julkinen' : 'Salainen'}
-					</p>
-					<br/>
-					<p className='description'>{gist.description}</p>
-				</span>
+					</span>
+					{/* }<p style={{background: 'yellow', marginLeft: '20px'}}>
+						{gist.public ? 'Julkinen' : 'Salainen'}
+					</p>*/}
+					<div className='active-gist-description'>
+						<p>{gist.description}</p>
+					</div>
+				</div>
 			</div>
 		);
 	}
@@ -71,6 +88,7 @@ function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
 		isStarred: state.activeGist.isStarred,
+		isStarring: state.activeGist.isStarring,
 		userId: state.user.id,
 	};
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import $ from 'jquery';
 
 
@@ -7,30 +7,28 @@ import UserInfo from '../presentational/header/UserInfo';
 import NavMenu from '../presentational/header/NavMenu';
 import SearchBar from '../presentational/header/SearchBar';
 
-import { fetchGists } from '../../actions/actions';
+import {fetchGists} from '../../actions/actions';
 
 class Header extends React.Component {
-	
 	render() {
 		return (
-			<div className='header'>
-				<div className='headerContent'>
-					<UserInfo userLogin={this.props.userLogin} 
-							avatarUrl={this.props.avatarUrl} />
-					<SearchBar search={this.props.search} />
-					<NavMenu login={this.props.login} loggedIn={true} />
-				</div>	
-			</div>	
+			<div className='header row'>
+				<UserInfo
+					userLogin={this.props.userLogin}
+					avatarUrl={this.props.avatarUrl}
+				/>
+				<SearchBar search={this.props.search} />
+				<NavMenu />
+			</div>
 		);
 	}
-
 }
 
 
 function mapStateToProps(state) {
 	return {
 		userLogin: state.user.userLogin,
-		avatarUrl: state.user.avatarUrl
+		avatarUrl: state.user.avatarUrl,
 	};
 }
 
@@ -43,7 +41,7 @@ function mapDispatchToProps(dispatch) {
 		search: (user) => {
 			console.log(user);
 			dispatch(fetchGists('search', null, user));
-		}
+		},
 	};
 }
 

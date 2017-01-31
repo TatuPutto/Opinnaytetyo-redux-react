@@ -1,8 +1,8 @@
-import React from 'react';  
-import { connect } from 'react-redux';
+import React from 'react';
+import {connect} from 'react-redux';
 
 import Header from './Header';
-import Notification from './Notification';
+import Notifications from './Notification';
 
 
 class Root extends React.Component {
@@ -10,18 +10,11 @@ class Root extends React.Component {
 		return (
 			<div className='content'>
 				<Header />
-				<Notification />
+				<Notifications />
 				{this.props.children}
 			</div>
 		);
 	}
-}	
-
-
+}
 
 export default Root;
-
-
-
-
-

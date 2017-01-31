@@ -6,14 +6,14 @@ import {setSuggestions} from '../../../utility/suggestions';
 class FilteringView extends React.Component {
 	constructor() {
 		super();
+		this.addFilter = this.addFilter.bind(this);
 		this.filterResults = this.filterResults.bind(this);
 		this.getSuggestions = this.getSuggestions.bind(this);
+		this.showSuggestions = this.showSuggestions.bind(this);
+		this.hideSuggestions = this.hideSuggestions.bind(this);
 		this.autoComplete = this.autoComplete.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
-		this.state = {
-			suggestions: [],
-			filter: null
-		}
+		this.state = {suggestions: [], suggestionsVisible: false, filter: null};
 	}
 
 
@@ -24,32 +24,43 @@ class FilteringView extends React.Component {
 		this.setState({suggestions});
 	}
 
+	showSuggestions() {
+		this.setState({suggestionsVisible: true});
+	}
+
+	hideSuggestions() {
+		this.setState({suggestionsVisible: false});
+	}
 
 	filterResults() {
-		const language = $('.filterInput').val();
+		const language = $('.filter-input').val();
 
 		if(language) {
-			this.props.bringFilters(language);
-			this.props.closeView();
-
+			// this.props.actions.addFilter(language);
+			// this.props.closeView();
+			this.addFilter(language);
 			this.setState({suggestions: [], filter: language});
 		}
 	}
 
 
 	autoComplete(e) {
-		this.props.bringFilters(e.currentTarget.textContent);
-		this.props.closeView();
-
+		// this.props.actions.addFilter(e.currentTarget.textContent);
+		// this.props.closeView();
+		this.addFilter(e.currentTarget.textContent);
 		this.setState({suggestions: []});
 	}
 
 
-	removeFilter() {
-		this.setState({filter: null});
-		this.props.removeFilter();
+	addFilter(language) {
+		this.props.actions.addFilter(language);
+		$('.filter-input').val('');
 	}
 
+	removeFilter() {
+		this.setState({filter: null});
+		this.props.actions.removeFilter();
+	}
 
 
 	render() {
@@ -61,39 +72,19 @@ class FilteringView extends React.Component {
 			);
 		});
 
-
 		return (
-			<div className='filteringView'>
-			{/*{!this.state.filter && */}
-					<div>
-						<input type='text' className='filterInput'
-								placeholder='Ohjelmointikieli'
-								onChange={this.getSuggestions} />
+			<div className='filtering-view'>
+				<input type='text' className='filter-input'
+						placeholder='Ohjelmointikieli'
+						onFocus={this.showSuggestions}
 
-						<input type='button' value='Käytä suodattimia'
-								onClick={this.filterResults}  />
-					</div>
+						onChange={this.getSuggestions} />
 
+				<button id='execute-filtering' onClick={this.filterResults}>
+					<i className='fa fa-filter' />
+				</button>
 
-				{/*{this.state.filter &&
-					<input type='button' className='langFilter' value={this.state.filter}
-							onClick={this.removeFilter} />
-				}*/}
-
-				{/*<input type='button' value='Poista suodatin'
-				onClick={removeFilter} />  filter={filterByLanguage} */   }
-
-					{/*onClick={() => filterByLanguage('Java', gists)}*} />
-			<input type='button' value='Poista suodatin'
-					onClick={removeFilter} />
-					*/   }
-
-			<select onChange={() => sortByDate(gists, true)}>
-				<option value='newestToOldest'>Uusimmat ensin</option>
-				<option value='oldestToNewest'>Vanhimmat ensin</option>
-			</select>
-
-				{this.state.suggestions.length > 0 &&
+				{this.state.suggestionsVisible && this.state.suggestions.length > 0 &&
 					<div className='suggestions'>
 						<ul>
 							{suggestions}

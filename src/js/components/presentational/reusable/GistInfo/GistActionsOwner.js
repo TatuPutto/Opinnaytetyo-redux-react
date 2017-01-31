@@ -11,21 +11,18 @@ class GistActions extends React.Component {
 			deleteGist,
 		} = this.props;
 		const starredStatus = isStarred ?
-				'Poista suosikeista' : 'Aseta suosikiksi';
+				'Poista suosikeista' : 'Lisää suosikkeihin';
 		const starIcon = isStarred ? 'fa fa-star-o' : 'fa fa-star';
 
 
 		return (
 			<span className='actions'>
-				{/* <input type='button' id='starGist' value={starredStatus}
-						onClick={() => starGist(isStarred, id)} />*/}
-
 				<button onClick={() => starGist(isStarred, id)}>
 					<i className={starIcon}/> {starredStatus}
 				</button>
 
 				<Link to={'/edit/' + id}>
-					<button>
+					<button id='edit'>
 						<i className='fa fa-edit'/> Muokkaa
 					</button>
 				</Link>

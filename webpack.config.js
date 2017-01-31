@@ -2,7 +2,6 @@ var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path = require('path');
 
-
 module.exports = {
 	context: path.join(__dirname, "/src"),
     devtool: debug ? "inline-sourcemap" : null,
@@ -18,40 +17,28 @@ module.exports = {
 	            query: {
 	            	presets: ['react', 'es2015', 'stage-0'],
 	                plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy'],
-	            }, 
+	            },
 	    },
 	    {
 		    test: /\.html$/,
 		    loader: "file?name=[name].[ext]"
 	    },
 	    {
-	    	test: /\.css$/, 
-	        loader: "style-loader!css-loader" 
+	    	test: /\.css$/,
+	        loader: "style-loader!css-loader"
 	  	 },
-	  	 { 
+	  	 {
 			test: /\.json$/,
-			loader: 'json' 
-	  	 }]	
+			loader: 'json'
+	  	 }]
     },
     output: {
 		path: __dirname + "/src/js",
-		//publicPath: "/assets/",
-    	filename: "client.min.js",
-    	
-    },/*
-    devServer: {
-    	contentBase: __dirname + "/src",
-        hot: true,
-        port: 8080,
-        publicPath: '/assets/',
-        historyApiFallback: true
-      },
-    /*historyApiFallback: {
-		  index: '/assets/'
-  	},*/
+    	filename: "client.min.js"
+    },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}),
     ],
 };

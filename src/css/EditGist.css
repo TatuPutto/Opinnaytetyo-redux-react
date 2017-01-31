@@ -46,19 +46,12 @@ input[type="text"] {
     height: 25px;
 }
 
-.fileInfo {
+.file-info {
 	padding: 6px;
 }
 
 
-.edit .files .gistFile {
-    margin-left: auto;
-    margin-right: auto;
-	border-style: solid;
-    border-width: 1px;
-    border-color: rgb(179, 179, 179);
-	border-radius: 4px;
-	background-color: #D4DDE0;
+.edit .files .gist-file {
 	padding-bottom: 4px;
 	margin-bottom: 20px;
 }
@@ -79,7 +72,7 @@ div[id^="editor"] {
     margin-bottom: 100px;
 }
 
-.removeFile {
+.remove-file {
     -webkit-border-radius: 2;
     -moz-border-radius: 2;
     border-radius: 2px;
@@ -94,36 +87,25 @@ div[id^="editor"] {
 	margin-left: 4px;
 }
 
-.removeFile:hover {
+.remove-file:hover {
   background: #b30d0d;
   text-decoration: none;
 }
 
-
-.addFile {
-    -webkit-border-radius: 4;
-    -moz-border-radius: 4;
-    border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
-    color: #ffffff;
-    font-size: 16px;
-    background: #36ABFE;
-    padding: 6px 12px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
-    margin-top: 5px;
-    margin-right: 6px;
+/*
+.add-file {
+    float: left;
 }
 
-.addFile:hover {
+.add-file:hover {
   background: #3295DB;
   text-decoration: none;
 }
-
-.updateGist {
+*/
+#update-gist {
 	float: right;
-    -webkit-border-radius: 4;
+	margin-right: 0px;
+    /*-webkit-border-radius: 4;
     -moz-border-radius: 4;
     border-radius: 4px;
     font-family: 'Roboto', sans-serif;
@@ -135,10 +117,10 @@ div[id^="editor"] {
     border: 1px solid transparent;
     cursor: pointer;
     margin-top: 5px;
-    margin-right: 6px;
+    margin-right: 6px;*/
 }
-
-.updateGist:hover {
+/*
+.update-gist:hover {
   background: #0dbf3d;
   text-decoration: none;
-}
+}*/

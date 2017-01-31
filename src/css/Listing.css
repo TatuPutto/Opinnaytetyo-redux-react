@@ -2,6 +2,20 @@ body {
 	margin: 0px;
 }
 
+h2 {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+	margin: 0px;
+}
+
+h3 {
+	display: inline;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0px;
+}
+
 p {
 	margin: 0px;
 	font-family: 'Roboto', sans-serif;
@@ -12,33 +26,32 @@ span {
 	display: inline-block;
 }
 
-.contentLeft span {
+
+input:focus, select:focus, button:focus {
+    outline: none;
+}
+
+
+.content-left span {
 	font-family: 'Roboto', sans-serif;
 }
 
+
 a {
-	font-size: 16px;
 	font-family: 'Roboto', sans-serif;
 	text-decoration: none;
+	color: #0000EE;
 }
 
 a:hover {
 	text-decoration: underline;
 }
-/*
-input[type="button"] {
-    -webkit-border-radius: 4;
-    -moz-border-radius: 4;
-    border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    font-size: 14px;
-    padding: 6px 12px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
+
+
+a:visited {
+	color: #0000EE;
 }
-*/
+
 input, select, option {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -62,6 +75,17 @@ button {
     height: 30px;
 }
 
+button:hover {
+	background: #d6d9da;
+	text-decoration: none;
+}
+
+.filters button:hover {
+	background: #d6d9da;
+	text-decoration: none;
+}
+
+
 
 input[type="button"] {
     background: white;
@@ -77,6 +101,7 @@ input[type="button"] {
     border-style: solid;
     border-color: rgb(179, 179, 179);
 }
+
 
 
 input[type="button"]:hover {
@@ -126,7 +151,7 @@ input[type="button"]:hover {
 
 
 /*Vasen content - gistien listaus*/
-.contentLeft {
+.content-left {
 	background-color: #d4dde0;
 	float: left;
     height: 100%;
@@ -135,27 +160,44 @@ input[type="button"]:hover {
 }
 
 
-/*Filtterir*/
+/*Filtterit*/
 .filters {
 	/*height: 35px;*/
 	/*height: 100px;*/
-	float: left;
+	/*float: left;*/
     background: whitesmoke;
-    width: 100%;
-}
+	padding: 5px 0px;
+    /*width: 100%;*/
 
-.filteringOptions {
+}
+/*
+.filtering-options {
 	float: left;
 	padding: 5px;
 	width: 30%;
 }
+*/
 
-
-
-.filteringOptions select {
+.filter-input {
 	height: 28px;
-    width: 44%;
 	font-size: 14px;
+	margin-left: 4px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+
+#execute-filtering {
+	position: relative;
+	right: 1px;
+}
+
+#execute-filtering:hover {
+	background-color: white;
+}
+
+.active-filters {
+	display: inline;
 }
 
 
@@ -180,39 +222,43 @@ input[type="button"]:hover {
 	border-color: rgb(169, 169, 169);
 }
 
-.openFilters {
+.open-filters {
 	width: 44%;
 	margin-left: 4px;
 }
 
-.refresh {
+#refresh {
 	/*background: url(http://localhost:9090/images/refresh.png) white no-repeat center center;*/
 	/*padding-top: 3px;
     padding-bottom: 9px;
 	width: 10%;*/
-	width: 8%;
 	margin-right: 4px;
+	margin-left: 4px;
 }
 
-#fetchMethod {
+#fetch-method {
 	cursor: pointer;
+	height: 28px;
+	width: 11%;
+	font-size: 14px;
 }
 
 
-.listing .filters .langFilter  {
+.listing .filters .language-filter  {
 	background: url(http://localhost:9090/images/remove.png) no-repeat center left 97%;
     margin-left: 10px;
     padding-right: 15px;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 
-.filteringView {
+.filtering-view {
 	/*width: 200px;*/
 	/*position: fixed;*/
 	/*top: 50px;
 	left: 40%;*/
 	z-index: 2;
+	display: inline;
 }
 
 
@@ -246,21 +292,21 @@ input[type="button"]:hover {
 
 
 
-.contentLeft select {
+.content-left select {
 	width: 44%;
 	height: 30px;
 }
 
 
 /*Gist lista*/
-.listGists {
+.gist-list {
 	height: 100%;
 	overflow-y: scroll;
 	background-color: #d4dde0;
 }
 
 
-.listGists ul {
+.gist-list ul {
 	list-style-type: none;
 	padding:0;
 	margin:0;
@@ -268,7 +314,7 @@ input[type="button"]:hover {
 
 
 
-.singleGist {
+.single-gist {
 	/*height: 100px;*/
 	cursor: pointer;
 	/*border-style: solid;*/
@@ -279,15 +325,15 @@ input[type="button"]:hover {
 
 
 
-.contentWrapper {
+.content-wrapper {
 	position: relative;
 	padding: 10px;
-	min-height: 110px;
+	min-height: 130px;
 
 }
 
 
-.listing .listGists .description {
+.listing .gist-list .description {
 	font-family: 'Roboto', sans-serif;
 	display: block;
 	min-height: 40px;
@@ -300,26 +346,32 @@ input[type="button"]:hover {
 }
 
 
-.singleGist a {
+.single-gist a {
 	font-size: 16px;
 }
 
-.gistOwner {
+.gist-owner {
 	font-size: 16px;
 }
 
-.owner img {
+.owner {
+	font-size: 16px;
+}
+
+#owner-avatar {
 	float: left;
     width: 35px;
 }
 
 
-.listing .gistInfo .description {
+
+
+.listing .gist-info .description {
 	margin-top: 5px;
 	font-size: 14px;
 }
 
-#loadMore {
+#load-more {
     font-size: 16px;
     color: black;
     background-color: lightblue;
@@ -340,7 +392,7 @@ input[type="button"]:hover {
 
 
 /*Oikea content - yksittainen gist*/
-.contentRight {
+.content-right {
 	background-color: #D4DDE0;
 	width: 70%;
 	height: 100%;
@@ -349,22 +401,17 @@ input[type="button"]:hover {
 
 
 
-.contentRight a {
+.content-right a {
 	font-size: 14px
 }
 
-.showActiveGist {
+.show-active-gist {
 	height: 100%;
 	overflow-y: auto;
 }
 
-/*
-.showActiveGist:hover {
-	overflow-y: scroll;
-}
-*/
 
-.gistInfo {
+.gist-info {
 	width: 98%;
 	/*height: 100px;*/
     margin-left: auto;
@@ -372,7 +419,7 @@ input[type="button"]:hover {
 	padding-top: 5px;
 	padding-bottom: 10px;
 }
-
+/*
 .anchor {
 	height: 100px;
 }
@@ -390,7 +437,7 @@ input[type="button"]:hover {
 	 width: 30px;
 	 margin-left: 10px;
 }
-
+*/
 
 .title img {
     float: left;
@@ -398,15 +445,10 @@ input[type="button"]:hover {
 }
 
 
-
-.nameOwnerButtons img{
-	height: 40px;
-	background: wheat;
-}
-
 .desc {
 	/*background: wheat;*/
-	padding: 5px;
+	display: inline;
+	/*padding: 5px;*/
 	width: 99%;
 }
 
@@ -414,31 +456,48 @@ input[type="button"]:hover {
 	font-size: 16px;
 }
 
+.active-gist-info {
+	padding-top: 5px;
+}
+
+.active-gist-name {
+	display: inline;
+}
+
+.active-gist-description p {
+	margin-top: 5px;
+	font-size: 14px;
+}
+
+#edit {
+	color: black;
+}
 
 
 
 
-
-
-
-
-#viewGist {
+#view-gist {
 	font-size: 16px;
     margin-top: 8px;
     margin-left: 10px;
     float: left;
 }
 
-.fileInfo {
+.file-info {
 	padding: 4px;
 }
 
-.copy {
+#copy-source {
 	height: 18px;
     float: right;
     cursor: pointer;
+	border-style: none;
+	padding: 0px;
 }
 
+#copy-source:hover {
+	background: white;
+}
 
 .actions {
 	float: right;
@@ -446,21 +505,7 @@ input[type="button"]:hover {
 
 
 
-.gistFirstFile {
-	width: 98%;
-    margin-left: auto;
-    margin-right: auto;
-	/*border-style: solid;
-	border-width: 1px;
-	background-color: #e6e6e6;*/
-	border-radius: 4px;
-	background-color: white;
-	padding-bottom: 4px;
-	margin-bottom: 20px;
-}
-
-
-.showActiveGist .gistFile {
+.show-active-gist .gist-file {
 	width: 98%;
     margin-left: auto;
     margin-right: auto;
@@ -470,15 +515,15 @@ input[type="button"]:hover {
 	border-style: solid;
     border-width: 1px;
     border-color: rgb(175, 175, 175);
-	border-radius: 4px;
+	border-radius: 2px;
 	background-color: white;
-	padding-bottom: 4px;
+	/*padding-bottom: 4px;*/
 	margin-bottom: 10px;
 }
 
 
-.showActiveGist div[id^="editor"] {
-	width: 99%;
+.show-active-gist div[id^="editor"] {
+	width: 100%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 2px;
@@ -495,7 +540,7 @@ input[type="button"]:hover {
 
 
 .language {
-    padding: 2px;
+    padding: 1px;
     border-radius: 2px;
 	position: absolute;
 	bottom: 10px;
@@ -512,95 +557,4 @@ input[type="button"]:hover {
 	display: inline;
 	font-size: 14px;
 	margin-top: 20px;
-}
-
-/*
-#editGist {
-	margin-right: 6px;
-    background: #21e054;
-}
-
-#editGist:hover {
- 	background: #0dbf3d;
-}
-
-
-#deleteGist {
-    background: #db4141;
-}
-
-#deleteGist:hover {
- 	background: #b30d0d;
-}
-
-
-#forkGist {
-	color: black;
-}
-
-#forkGist:hover {
-	background: #A9A4A4;
-}
-*/
-
-#editGist {
-	margin-right: 4px;
-    /*background: #d6d9da;*/
-    background: white;
-    color: black;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-}
-
-#editGist:hover {
- 	background: #d6d9da;
-}
-
-
-#deleteGist {
-    /*background: #d6d9da;*/
-    background: white;
-    color: black;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-}
-
-#deleteGist:hover {
- 	background: #d6d9da;
-}
-
-
-#forkGist {
-	color: black;
-}
-
-#forkGist:hover {
-	background: #d6d9da;
-}
-
-#starGist {
-	margin-right: 4px;
-    /*background: #d6d9da;*/
-    background: white;
-    color: black;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-}
-
-#starGist:hover {
-	background: #d6d9da;
-}
-
-
-#forkGist {
-	margin-right: 4px;
-    /*background: #d6d9da;*/
-    background: white;
-    color: black;
-    border-style: solid;
-    border-color: rgb(179, 179, 179);
-}
-
-#forkGist:hover {
-	background: #d6d9da;
 }

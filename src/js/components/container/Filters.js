@@ -16,20 +16,10 @@ import FilteringView from '../presentational/listing/FilteringView';
 
 
 class Filters extends React.Component {
-	/* static propTypes = {
-		gists: PropTypes.array.isRequired,
-		fetch: PropTypes.func.isRequired,
-		chronologicalOrder: PropTypes.bool.isRequired,
-		sortByDate: PropTypes.func.isRequired,
-		filterByLanguage: PropTypes.func.isRequired,
-		removeFilter: PropTypes.func.isRequired,
-	};
-
-
 	static contextTypes = {
 		router: React.PropTypes.object.isRequired
 	};
-*/
+
 
 	constructor() {
 		super();
@@ -70,50 +60,32 @@ class Filters extends React.Component {
 
 	render() {
 		/* const { fetchMethod, chronologicalOrder, sortByDate,
-				filterByLanguage, removeFilter, gists, filter, filteringActions } = this.props;*/
-		// console.log(this.props.filteringActions);
+				filterByLanguage, removeFilter, gists, filter,
+				 filteringActions } = this.props;*/
 
-		// const { removeFilter } = this.props.filteringActions;
-
-		// const languages = ['Java', 'PHP', 'JavaScript'];
 
 		const {languages} = this.props.filters;
 
 		return (
-			<div className='filters'>
-				<div className='filteringOptions'>
-					{/* <input type='button' id='refresh'
-							onClick={this.refresh}/>*/}
-					<button className="refresh" onClick={this.refresh}>
-						<i className="fa fa-refresh"/>
-					</button>
-					<select id="fetchMethod" value={this.props.fetchMethod}
-							onChange={this.fetch}>
-						<option value='gists'>Omat gistit</option>
-						<option value='starred'>Suosikit</option>
-						<option value='discover'>Discover</option>
-					</select>
+			<div className='filters col-lg-12'>
+				<button id="refresh" onClick={this.refresh}>
+					<i className="fa fa-refresh" />
+				</button>
 
-					<button className="openFilters" onClick={this.toggleFilteringView}>
-						<i className="fa fa-filter"/> Suodata
-					</button>
+				<select id="fetch-method" value={this.props.fetchMethod}
+						onChange={this.fetch}>
+					<option value='gists'>Omat gistit</option>
+					<option value='starred'>Suosikit</option>
+					<option value='discover'>Discover</option>
+				</select>
 
-
-					{/* }<input type='button' id='openFilters' value='Suodata'
-							onClick={this.toggleFilteringView}/>*/}
-
-					{this.state.filteringViewOpen &&
-						<FilteringView
-							removeFilter={this.props.filteringActions.removeFilter}
-							bringFilters={this.useFilters}
-							closeView={this.toggleFilteringView}/>
-					}
-				</div>
+				<FilteringView actions={this.props.filteringActions} />
 
 				{languages &&
-					<div className='currentFilters'>
+					<div className='active-filters'>
 						{languages.map((language) =>
-							<p className='langFilter' onClick={this.removeFilter}>
+							<p className='language-filter'
+									onClick={this.removeFilter}>
 								{language}
 							</p>
 						)}

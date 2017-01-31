@@ -11,12 +11,12 @@ class ShowActiveGist extends React.Component {
 	static propTypes = {
 		gist: PropTypes.object.isRequired,
 		isFetchingGists: PropTypes.bool.isRequired,
-		isFetchingSelectedGist: PropTypes.bool.isRequired
+		//isFetchingSelectedGist: PropTypes.bool.isRequired
 	};
 
 
 	render() {
-		const { isFetching, gist } = this.props.gist;
+		const {isFetching, gist} = this.props.gist;
 		const isFetchingGists = this.props.isFetchingGists;
 
 
@@ -43,14 +43,14 @@ class ShowActiveGist extends React.Component {
 
 			//Renderöidään inforuutu ja tiedostokentät.
 			return (
-				<div className='showActiveGist'>
+				<div className='show-active-gist'>
 					<GistInfo
 						gist={this.props.gist}
 						userId={this.props.userId}
 						gistActions={this.props.gistActions}>
 					</GistInfo>
 
-					<div className='gistFiles'>
+					<div className='gist-files'>
 						{files}
 					</div>
 				</div>

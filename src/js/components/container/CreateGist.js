@@ -27,16 +27,15 @@ class CreateGist extends React.Component {
 		setTimeout(() => this.setState({readyToRender: true}), 200);
 	}
 
-	// Lisätään uusi tiedostokenttä.
+	//Lisätään uusi tiedostokenttä.
 	addFile() {
 		this.setState({
-			editors: this.state.editors.concat(
-					['editor' + this.state.editorsCreated]),
+			editors: this.state.editors.concat(['editor' + this.state.editorsCreated]),
 			editorsCreated: this.state.editorsCreated + 1,
 		});
 	}
 
-	// Poistetaan valittu tiedostokenttä.
+	//Poistetaan valittu tiedostokenttä.
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let editors = this.state.editors;
@@ -47,29 +46,29 @@ class CreateGist extends React.Component {
 	}
 
 
-	// Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin.
+	//Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin.
 	getGistInfo(isPublic) {
 		let gist = {};
 		let files = {};
 		const description = $('.description').val();
-		const fileFields = $('.gistFile');
+		const fileFields = $('.gist-file');
 		const editors = this.state.editors;
 
-		// Kerätään tiedostonimet ja lähdekoodit tiedostokentistä.
+		//Kerätään tiedostonimet ja lähdekoodit tiedostokentistä.
 		for(let i = 0; i < fileFields.length; i++) {
 			const filename = $(fileFields[i]).find('input:text').val();
-			const source = ace.edit(editors[i]).getValue();
+			const content = ace.edit(editors[i]).getValue();
 
-			const file = {filename: filename, content: source};
+			const file = {filename, content};
 			files[filename] = file;
 		}
 
-		// Koostetaan olio.
+		//Koostetaan olio.
 		gist['description'] = description;
 		gist['ispublic'] = isPublic;
 		gist['files'] = files;
 
-		// Lähetetään koostettu olio JSON-muodossa eteenpäin.
+		//Lähetetään koostettu olio JSON-muodossa eteenpäin.
 		this.props.create(JSON.stringify(gist));
 	}
 
@@ -80,12 +79,12 @@ class CreateGist extends React.Component {
 
 		if(readyToRender === false) {
 			return <div className='loading'></div>;
-		}		else {
+		} else {
 			// Jos tiedosto-kenttiä on enemmän kuin 1,
 			// mahdollistetaan kenttien poistaminen
 			const isRemovable = editors.length === 1 ? false : true;
 
-			// Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä.
+			//Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä.
 			const fileFields = this.state.editors.map((editorId) => {
 				return (
 					<GistFile
@@ -93,15 +92,14 @@ class CreateGist extends React.Component {
 						isRemovable={isRemovable}
 						remove={this.removeFile}
 						editorId={editorId}
-						isReadOnly={false}>
-					</GistFile>
+						isReadOnly={false}
+					/>
 				);
 			}, this);
 
 			return (
 				<div className='create'>
-					<input type='text' className='description'
-							placeholder='Kuvaus'/>
+					<input type='text' className='description' placeholder='Kuvaus' />
 
 					<div className='files'>
 						{fileFields}
@@ -130,7 +128,7 @@ class CreateGist extends React.Component {
 
 
 function mapStateToProps(state) {
-	return null;
+	return {};
 }
 
 function mapDispatchToProps(dispatch) {

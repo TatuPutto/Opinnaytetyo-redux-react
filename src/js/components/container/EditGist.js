@@ -21,15 +21,14 @@ class EditGist extends React.Component {
 	}
 
 
-	// Gist on ladattu välimuistista näkymään saavuttaessa
+	// Gist on ladattu välimuistista näkymään saavuttaessa.
 	componentDidMount() {
 		if(this.props.gist.hasOwnProperty('id')) {
 			this.initializeFiles(this.props.gist.files);
 		}
 	}
 
-	// Gist täytyy hakea -> viivytetään tiedostokenttien alustamista
-	// kunnes haku on valmis
+	// Gist täytyy hakea -> viivytetään tiedostokenttien alustamista, kunnes haku on valmis.
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.gist.hasOwnProperty('id')) {
 			this.initializeFiles(nextProps.gist.files);
@@ -45,17 +44,13 @@ class EditGist extends React.Component {
 		}
 
 		// Tallennetaan tiedostot myös erilliseen taulukkoon
-		// muokkausvaiheessa tehtävää vertailua varten
-		this.setState({
-			files,
-			originalFiles: files,
-			editorsCreated: files.length,
-		});
+		// muokkausvaiheessa tehtävää vertailua varten.
+		this.setState({files, originalFiles: files, editorsCreated: files.length});
 	}
 
 	handleOnChange() {}
 
-	// Lisätään tiedostokenttä
+	// Lisätään tiedostokenttä.
 	addFile() {
 		this.setState({
 			files: this.state.files.concat({
@@ -69,7 +64,7 @@ class EditGist extends React.Component {
 		});
 	}
 
-	// Poistetaan tiedostokenttä
+	// Poistetaan tiedostokenttä.
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let files = this.state.files;
@@ -155,9 +150,9 @@ class EditGist extends React.Component {
 
 		if(isFetching || !gist.hasOwnProperty('id')) {
 			return <div className='loading'></div>;
-		}		else {
-			// Luodaan tiedostokentät, jotka ovat aktiivisia
-			let fileFields = this.state.files.map((file) => {
+		} else {
+			// Luodaan tiedostokentät, jotka ovat aktiivisia.
+			const fileFields = this.state.files.map((file) => {
 				if(file.isActive) {
 					return (
 						<GistFile
@@ -168,30 +163,28 @@ class EditGist extends React.Component {
 							onChange={this.handleOnChange}
 							editorId={file.editorId}
 							isReadOnly={false}
-							value={file.content}>
-						</GistFile>
+							value={file.content}
+						/>
 					);
 				}
 			}, this);
 
 			return (
-				<div className='create'>
-					<div className='wrapper'>
-						<input type='text' className='description' placeholder='Kuvaus'
-								defaultValue={gist.description}/>
+				<div className='edit'>
+					<input type='text' className='description'
+							placeholder='Kuvaus' defaultValue={gist.description} />
 
-						<div className='files'>
-							{fileFields}
-						</div>
-
-						<button id='add-file' onClick={this.addFile}>
-							<i className='fa fa-file-text-o'></i> Lisää tiedosto
-						</button>
-
-						<button id='update-gist' onClick={() => this.getEditInfo(false)}>
-							<i className='fa fa-edit'></i> Muokkaa
-						</button>
+					<div className='files'>
+						{fileFields}
 					</div>
+
+					<button id='add-file' onClick={this.addFile}>
+						<i className='fa fa-file-text-o'></i> Lisää tiedosto
+					</button>
+
+					<button id='update-gist' onClick={() => this.getEditInfo(false)}>
+						<i className='fa fa-edit'></i> Muokkaa
+					</button>
 				</div>
 			);
 		}

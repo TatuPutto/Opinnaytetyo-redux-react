@@ -59,11 +59,6 @@ class Filters extends React.Component {
 
 
 	render() {
-		/* const { fetchMethod, chronologicalOrder, sortByDate,
-				filterByLanguage, removeFilter, gists, filter,
-				 filteringActions } = this.props;*/
-
-
 		const {languages} = this.props.filters;
 
 		return (
@@ -84,8 +79,7 @@ class Filters extends React.Component {
 				{languages &&
 					<div className='active-filters'>
 						{languages.map((language) =>
-							<p className='language-filter'
-									onClick={this.removeFilter}>
+							<p className='language-filter' onClick={this.removeFilter}>
 								{language}
 							</p>
 						)}

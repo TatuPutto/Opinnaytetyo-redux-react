@@ -31,6 +31,10 @@ input:focus, select:focus, button:focus {
     outline: none;
 }
 
+input[type="text"] {
+	padding-left: 5px;
+	padding-right: 5px;
+}
 
 .content-left span {
 	font-family: 'Roboto', sans-serif;
@@ -162,6 +166,11 @@ input[type="button"]:hover {
 
 /*Filtterit*/
 .filters {
+	border-style: solid;
+    border-width: 1px;
+    border-left: 0px;
+    border-right: 0;
+    border-color: rgb(169, 169, 169);
 	/*height: 35px;*/
 	/*height: 100px;*/
 	/*float: left;*/
@@ -234,6 +243,7 @@ input[type="button"]:hover {
 	width: 10%;*/
 	margin-right: 4px;
 	margin-left: 4px;
+	float: left;
 }
 
 #fetch-method {
@@ -241,6 +251,7 @@ input[type="button"]:hover {
 	height: 28px;
 	width: 11%;
 	font-size: 14px;
+	float: left;
 }
 
 
@@ -259,16 +270,21 @@ input[type="button"]:hover {
 	left: 40%;*/
 	z-index: 2;
 	display: inline;
+	float: left;
 }
 
 
 .suggestions {
 	background: #D4DDE0;
 	overflow-y: auto;
-	width: 200px;
 	max-height: 400px;
-	position: fixed;
-	z-index: 2;
+	position: absolute;
+	z-index: 1;
+	border-style: solid;
+    border-width: 1px;
+    border-color: rgb(169, 169, 169);
+	margin-top: -1px;
+	margin-left: 4px;
 }
 
 .suggestions ul {
@@ -282,8 +298,7 @@ input[type="button"]:hover {
 .suggestions li {
     background: white;
     cursor: pointer;
-    padding: 10px;
-    margin-bottom: 1px;
+    padding: 5px 10px;
 }
 
 .suggestions li:hover {

@@ -1,5 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
+
+import Suggestions from './FilteringView/Suggestions';
 import {setSuggestions} from '../../../utility/suggestions';
 
 
@@ -20,7 +22,6 @@ class FilteringView extends React.Component {
 	getSuggestions(e) {
 		const value = e.target.value;
 		const suggestions = setSuggestions(value);
-
 		this.setState({suggestions});
 	}
 
@@ -36,8 +37,6 @@ class FilteringView extends React.Component {
 		const language = $('.filter-input').val();
 
 		if(language) {
-			// this.props.actions.addFilter(language);
-			// this.props.closeView();
 			this.addFilter(language);
 			this.setState({suggestions: [], filter: language});
 		}
@@ -45,8 +44,6 @@ class FilteringView extends React.Component {
 
 
 	autoComplete(e) {
-		// this.props.actions.addFilter(e.currentTarget.textContent);
-		// this.props.closeView();
 		this.addFilter(e.currentTarget.textContent);
 		this.setState({suggestions: []});
 	}
@@ -64,32 +61,28 @@ class FilteringView extends React.Component {
 
 
 	render() {
-		const suggestions = this.state.suggestions.map((suggestion) => {
-			return (
-				<li key={suggestion} onClick={this.autoComplete}>
-					{suggestion}
-				</li>
-			);
-		});
+		console.log(this.state.suggestionsVisible);
 
 		return (
 			<div className='filtering-view'>
-				<input type='text' className='filter-input'
-						placeholder='Ohjelmointikieli'
-						onFocus={this.showSuggestions}
-
-						onChange={this.getSuggestions} />
+				<input
+					type='text'
+					className='filter-input'
+					placeholder='Ohjelmointikieli'
+					onFocus={this.showSuggestions}
+					onChange={this.getSuggestions}
+				/>
 
 				<button id='execute-filtering' onClick={this.filterResults}>
 					<i className='fa fa-filter' />
 				</button>
 
 				{this.state.suggestionsVisible && this.state.suggestions.length > 0 &&
-					<div className='suggestions'>
-						<ul>
-							{suggestions}
-						</ul>
-					</div>
+					<Suggestions
+						suggestions={this.state.suggestions}
+						autoComplete={this.autoComplete}
+						hideSuggestions={this.hideSuggestions}
+					/>
 				}
 			</div>
 		);

@@ -30,7 +30,6 @@ function fetchResource() {
 }
 
 
-
 function fetchResource() {
 	//Toiminnon muodostaja palauttaa funktion, toiminnon sijaan.
 	return (dispatch) => {
@@ -230,10 +229,10 @@ export function checkIfStarred(id) {
 			.then((response) => {
 				if(response.ok) {
 					dispatch(starred());
-				//Jos status-koodi on 404, gistiä ei ole asetettu suosikiksi.
+				// Jos status-koodi on 404, gistiä ei ole asetettu suosikiksi.
 				} else if(response.status === 404) {
 					dispatch(notStarred());
-				//Jos joku muu virhekoodi, heitetään virhe.
+				// Jos joku muu virhekoodi, heitetään virhe.
 				} else {
 					throw new Error(response.status + ' ' + response.statusText);
 				}
@@ -261,7 +260,7 @@ function notStarred() {
 }
 
 
-//Lisätään gist suosikkeihin.
+// Lisätään gist suosikkeihin.
 export function starGist(id) {
 	const url = 'https://api.github.com/gists/' + id + '/star';
 
@@ -276,7 +275,7 @@ export function starGist(id) {
 	};
 }
 
-//Poistetaan gist suosikeista.
+// Poistetaan gist suosikeista.
 export function unstarGist(id) {
 	const url = 'https://api.github.com/gists/' + id + '/star';
 
@@ -294,7 +293,6 @@ export function unstarGist(id) {
 // ///////////////////////////////////////////////////////////////////////
 // Gistin forkaaminen/////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
-
 
 
 export function forkGist(id) {
@@ -318,9 +316,9 @@ export function checkIfForked(id) {
 			.then(readJson)
 			.then((data) => {
 				let isForked = false;
-				//Käydään gistin forkkaukset läpi.
+				// Käydään gistin forkkaukset läpi.
 				data.forEach((fork) => {
-					//Jos kirjautuneen käyttäjän id löytyy forkkauksista, estetään forkkaus.
+					// Jos kirjautuneen käyttäjän id löytyy forkkauksista, estetään forkkaus.
 					if(fork.owner.id === Number(userInfo.user.id)) {
 						dispatch(notify('Olet jo forkannut tämän gistin.'));
 						isForked = true;

@@ -1,12 +1,41 @@
 import React from 'react';
 
-function UserInfo(props) {
-	return (
-		<div className='user-info col-lg-4'>
-			<img className='user-avatar' src={props.avatarUrl} />
-			<p>{props.userLogin}</p> <i class="fa fa-caret-down" />
-		</div>
-	);
+import UserInfoDropdown from './UserInfo/UserInfoDropdown';
+
+class UserInfo extends React.Component {
+	constructor() {
+		super();
+		this.toggleDropdown = this.toggleDropdown.bind(this);
+		this.state = {isDropdownOpen: false};
+	}
+
+	toggleDropdown() {
+		if(this.state.isDropdownOpen) {
+			this.setState({isDropdownOpen: false});
+		} else {
+			this.setState({isDropdownOpen: true});
+		}
+	}
+
+	render() {
+		return (
+			<div className='user-info col-lg-4'>
+				<div className='user-info-details' onClick={this.toggleDropdown}>
+					<img className='user-avatar' src={this.props.avatarUrl} />
+					<p>{this.props.userLogin}</p> <i class="fa fa-caret-down" />
+				</div>
+				<div>
+					{this.state.isDropdownOpen &&
+						<UserInfoDropdown
+							{...this.props}
+							closeDropdown={this.toggleDropdown}
+						/>
+					}
+				</div>
+			</div>
+		);
+	}
 }
+
 
 export default UserInfo;

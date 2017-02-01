@@ -14,6 +14,7 @@ class Header extends React.Component {
 		return (
 			<div className='header row'>
 				<UserInfo
+					id={this.props.id}
 					userLogin={this.props.userLogin}
 					avatarUrl={this.props.avatarUrl}
 				/>
@@ -27,6 +28,7 @@ class Header extends React.Component {
 
 function mapStateToProps(state) {
 	return {
+		id: state.user.id,
 		userLogin: state.user.userLogin,
 		avatarUrl: state.user.avatarUrl,
 	};

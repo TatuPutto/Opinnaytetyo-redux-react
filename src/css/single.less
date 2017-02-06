@@ -1,3 +1,5 @@
+@import url("./basicrules.less");
+
 body {
 	margin: 0px;
 }
@@ -9,35 +11,41 @@ p {
 }
 
 
-
+.single {
+	background: whitesmoke;
+	position: absolute;
+	top: 50px;
+	right: 0px;
+    left: 0px;
+    bottom: 0px;
+	overflow-y: auto;
+}
 
 .single .show-active-gist {
-	/*width: 70%;*/
+	width: 70%;
+    height: initial;
 	background-color: white;
-    /* margin-top: 40px; */
+	border-style: solid;
+	border-width: 1px;
+	border-color: @default-border-color;
+	margin-top: 40px;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     overflow-y: initial;
 }
 
-.wrapper-single {
-	background-color: whitesmoke;
-    padding-top: 10px;
-    padding-bottom: 5px;
-}
 
 .single .gist-info {
-	width: 60%;
+	/*width: 60%;*/
 	margin-left: auto;
     margin-right: auto;
-    padding-top: 5px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .single .gist-files {
 	margin-top: 10px;
-	width: 61%;
+	/*width: 61%;*/
 	margin-left: auto;
 	margin-right: auto;
 }

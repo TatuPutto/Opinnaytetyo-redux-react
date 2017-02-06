@@ -1,13 +1,15 @@
-var debug = process.env.NODE_ENV !== "production";
-var webpack = require('webpack');
-var path = require('path');
+'use strict';
+
+let debug = process.env.NODE_ENV !== 'production';
+let webpack = require('webpack');
+let path = require('path');
 
 module.exports = {
-	context: path.join(__dirname, "/src"),
-    devtool: debug ? "inline-sourcemap" : null,
+	context: path.join(__dirname, '/src'),
+    devtool: debug ? 'inline-sourcemap' : null,
     entry: {
-        javascript: "./js/client.js",
-        html: "./index.html",
+        javascript: './js/client.js',
+        html: './index.html',
     },
     module: {
         loaders: [{
@@ -21,20 +23,25 @@ module.exports = {
 	    },
 	    {
 		    test: /\.html$/,
-		    loader: "file?name=[name].[ext]"
+		    loader: 'file?name=[name].[ext]',
 	    },
 	    {
 	    	test: /\.css$/,
-	        loader: "style-loader!css-loader"
-	  	 },
-	  	 {
+	        loader: 'style-loader!css-loader',
+	  	},
+      	{
+			test: /\.less$/,
+        	loader: 'style!css!less',
+      	},
+	  	{
 			test: /\.json$/,
-			loader: 'json'
-	  	 }]
+			loader: 'json',
+	  	}],
     },
     output: {
-		path: __dirname + "/src/js",
-    	filename: "client.min.js"
+		path: __dirname + '/src/js',
+		publicPath: 'http://localhost:9090/Opinnaytetyo_spring_react/',
+    	filename: 'client.min.js',
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),

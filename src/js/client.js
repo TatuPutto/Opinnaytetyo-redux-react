@@ -1,4 +1,4 @@
-import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 import React from 'react';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
@@ -13,27 +13,26 @@ import SingleGist from './components/container/SingleGist';
 import CreateGist from './components/container/CreateGist';
 import EditGist from './components/container/EditGist';
 
+require('../css/basicrules.less');
+require('../css/header.less');
+require('../css/listing.less');
+require('../css/single.less');
+require('../css/creategist.less');
 
 store.dispatch(fetchUserInfo());
 
 
-render(
+ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
-			<Route path='/' component={Root}>
-				<IndexRoute component={ListingPage}
-						onEnter={fetchGistsOnEnter}></IndexRoute>
-				<Route path='gists' component={ListingPage}
-						onEnter={fetchGistsOnEnter}></Route>
-				<Route path='starred' component={ListingPage}
-						onEnter={fetchGistsOnEnter}></Route>
-				<Route path='discover(/:page)' component={ListingPage}
-						onEnter={fetchGistsOnEnter}></Route>
-				<Route path='gist/:gistId' component={SingleGist}
-						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='edit/:gistId' component={EditGist}
-						onEnter={fetchSelectedGistOnEnter}></Route>
-				<Route path='create' component={CreateGist}></Route>
+			<Route path='Opinnaytetyo_spring_react' component={Root}>
+				<IndexRoute component={ListingPage} onEnter={fetchGistsOnEnter} />
+				<Route path='gists' component={ListingPage} onEnter={fetchGistsOnEnter} />
+				<Route path='starred' component={ListingPage} onEnter={fetchGistsOnEnter} />
+				<Route path='discover(/:page)' component={ListingPage} onEnter={fetchGistsOnEnter} />
+				<Route path='gist/:gistId' component={SingleGist} onEnter={fetchSelectedGistOnEnter} />
+				<Route path='edit/:gistId' component={EditGist} onEnter={fetchSelectedGistOnEnter} />
+				<Route path='create' component={CreateGist} />
 			</Route>
 		</Router>
 	</Provider>,

@@ -73,7 +73,7 @@ class FilteringView extends React.Component {
 					onChange={this.getSuggestions}
 				/>
 
-				<button id='execute-filtering' onClick={this.filterResults}>
+				<button className='do-filtering' onClick={this.filterResults}>
 					<i className='fa fa-filter' />
 				</button>
 

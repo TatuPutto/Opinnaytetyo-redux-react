@@ -167,7 +167,6 @@ function invalidateGist() {
 	return {type: 'INVALIDATE_GIST'};
 }
 
-
 export function fetchSelectedGist(id) {
 	const url = 'https://api.github.com/gists/' + id;
 
@@ -179,10 +178,18 @@ export function fetchSelectedGist(id) {
 		return sendRequest(url, 'GET')
 			.then(checkStatus)
 			.then(readJson)
-			.then((data) => dispatch(receiveSelectedGist(parseSingleGistJson(data))))
+			.then((data) => {
+				console.log(JSON.stringify(data));
+				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
+			}
+			)
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
 }
+
+const sampledata = require('../../static/sampledata.json');
+
+const samplesingle = require('../../static/samplesingle.json');
 
 
 export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
@@ -191,10 +198,15 @@ export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 		dispatch(invalidateGist());
 		// Ilmoitetaan haun alkamisesta.
 		dispatch(requestGists(fetchMethod));
+		// console.log(sampledata);
+		dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
+		setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
+		setTimeout(() => dispatch(notify('Gistit haettiin onnistuneesti!')), 1000);
 
+		// dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
 		// Päätepisteenä voi olla: /gists, /gists/starred tai /gists/public.
-		return sendRequest(determineEndpoint(fetchMethod, pageNumber, user), 'GET')
+		/* return sendRequest(determineEndpoint(fetchMethod, pageNumber, user), 'GET')
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -209,7 +221,7 @@ export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 				if(fetchMethod === 'discover') {
 					dispatch(updatePagination(pageNumber));
 				}
-			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
+			}).catch((error) => dispatch(gistsFetchFailed(error.message)));*/
 		};
 }
 
@@ -413,6 +425,7 @@ export function filterByLanguage(language, gists) {
 
 
 export function removeFilter(language) {
+	console.log(language);
 	return {type: 'REMOVE_FILTER', language};
 }
 

@@ -21,7 +21,7 @@ class GistActions extends React.Component {
 					<i className={starIcon}/> {starredStatus}
 				</button>
 
-				<button onClick={() => forkGist(id)}>
+				<button className='fork-gist' onClick={() => forkGist(id)}>
 					<i className='fa fa-code-fork'/> Fork
 				</button>
 			</span>

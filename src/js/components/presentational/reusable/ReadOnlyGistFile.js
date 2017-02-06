@@ -21,7 +21,6 @@ class ReadOnlyGistFile extends React.Component {
 		const {
 			editorId,
 			filename,
-			id,
 			value,
 		} = this.props;
 
@@ -29,7 +28,7 @@ class ReadOnlyGistFile extends React.Component {
 			<div className='gist-file'>
 				<div className='file-info'>
 					<h3>{filename}</h3>
-					<button id='copy-source'>
+					<button className='copy-source'>
 						<i className='fa fa-copy' />
 					</button>
 				</div>

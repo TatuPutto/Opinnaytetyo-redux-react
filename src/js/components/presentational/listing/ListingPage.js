@@ -1,8 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import $ from 'jquery';
-
 
 import GistList from './GistList';
 import Filters from '../../container/Filters';
@@ -18,23 +16,18 @@ import {
 } from '../../../actions/actions';
 import {filterByLanguage} from '../../../utility/filterByLanguage';
 
-require('../../../../css/listing.css');
 
 class ListingPage extends React.Component {
-	componentDidMount() {
-		$('.listing').css('height', ($(window).height() - 95));
-	}
-
 	render() {
 		return (
 			<div className='listing'>
-				<Filters
-					fetchMethod={this.props.gists.fetchMethod}
-					filters={this.props.filters}
-					filteringActions={this.props.filteringActions}
-				/>
-
 				<div className='content-left'>
+					<Filters
+						fetchMethod={this.props.gists.fetchMethod}
+						filters={this.props.filters}
+						filteringActions={this.props.filteringActions}
+					/>
+
 					<GistList
 						gists={this.props.gists}
 						activeGistId={this.props.activeGist.gistId}
@@ -54,19 +47,14 @@ class ListingPage extends React.Component {
 			</div>
 		);
 	}
-
 }
 
-
 let activeId;
-
 
 //Luetaan listausnäkymän tarvitsema tiladata
 //ja määritellään miten data muutetaan attribuuttidataksi.
 function mapStateToProps(state) {
 	activeId = state.activeGist.gistId;
-
-	console.log(state)
 
 	return {
 		gists: {

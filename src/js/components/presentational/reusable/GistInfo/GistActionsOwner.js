@@ -21,13 +21,13 @@ class GistActions extends React.Component {
 					<i className={starIcon}/> {starredStatus}
 				</button>
 
-				<Link to={'/edit/' + id}>
-					<button id='edit'>
+				<Link to={'/Opinnaytetyo_spring_react/edit/' + id}>
+					<button className='edit'>
 						<i className='fa fa-edit'/> Muokkaa
 					</button>
 				</Link>
 
-				<button onClick={() => deleteGist(id)}>
+				<button className='delete-gist' onClick={() => deleteGist(id)}>
 					<i className='fa fa-trash'/> Poista
 				</button>
 			</span>

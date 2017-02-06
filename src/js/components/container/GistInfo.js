@@ -30,7 +30,7 @@ class GistInfo extends React.Component {
 				<div className='gist-info'>
 					<span className='owner'>
 						<img id='owner-avatar' src={gist.owner.avatar_url} />
-						<Link to={'search/' + gist.owner.login} id='view-gist'>
+						<Link to={'/Opinnaytetyo_spring_react/search/' + gist.owner.login} id='view-gist'>
 							{gist.owner.login}
 						</Link>
 					</span>
@@ -56,7 +56,7 @@ class GistInfo extends React.Component {
 					}
 
 				<div className='active-gist-info'>
-					<Link to={'/gist/' + gist.id}>
+					<Link to={'/Opinnaytetyo_spring_react/gist/' + gist.id}>
 						<h2 className='active-gist-name'>
 							{gist.files[0].filename}
 						</h2>
@@ -64,9 +64,6 @@ class GistInfo extends React.Component {
 					<span style={{background: 'yellow', marginLeft: '20px'}}>
 						{gist.public ? 'Julkinen' : 'Salainen'}
 					</span>
-					{/* }<p style={{background: 'yellow', marginLeft: '20px'}}>
-						{gist.public ? 'Julkinen' : 'Salainen'}
-					</p>*/}
 					<div className='active-gist-description'>
 						<p>{gist.description}</p>
 					</div>
@@ -76,12 +73,12 @@ class GistInfo extends React.Component {
 	}
 }
 
-
+/*
 GistInfo.propTypes = {
 	gist: PropTypes.object.isRequired,
 	isStarred: PropTypes.bool.isRequired,
 	currentUser: PropTypes.string.isRequired,
-};
+};*/
 
 
 function mapStateToProps(state) {

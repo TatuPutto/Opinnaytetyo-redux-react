@@ -1,0 +1,147 @@
+@import url("./basicrules.less");
+
+
+/*///////////////////////////////////////////////////////////////////////
+/////////////////////////Ylätunniste/////////////////////////////////////
+///////////////////////////////////////////////////////////////////////*/
+.header {
+	background-color: lightblue;
+	height: 50px;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////
+/////////////////////////Käyttäjätiedot//////////////////////////////////
+///////////////////////////////////////////////////////////////////////*/
+.user-info {
+	margin-top: 8px;
+}
+
+.user-info p {
+	margin-left: 5px;
+}
+
+.user-info-details {
+	display: inline;
+	padding: 10px 10px 10px 0px;
+}
+
+.user-avatar {
+	width: 30px;
+	height: 30px;
+	margin-left: 10px;
+}
+
+.logout {
+	display: inline;
+	border-left: 1px solid black;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////
+/////////////////////////Käyttäjätiedot dropdown/////////////////////////
+///////////////////////////////////////////////////////////////////////*/
+.user-info-dropdown {
+	position: absolute;
+	top: 42px;
+	background-color: white;
+	border-style: solid;
+    border-width: 1px;
+	border-color: @default-border-color;
+    border-radius: @default-border-radius;
+	padding: 20px;
+	z-index: 1;
+}
+
+.user-info-dropdown-avatar {
+	display: inline;
+}
+
+.user-info-dropdown-avatar img {
+	height: 100px;
+	width: 100px;
+}
+
+.user-info-dropdown-details {
+	display: inline;
+}
+
+.user-info-dropdown-details ul {
+	display: inline-block;
+	list-style-type: none;
+	-webkit-padding-start: 20px;
+}
+
+.user-info-dropdown-details ul li {
+	font-size: 16px;
+}
+
+.user-info-dropdown-logout {
+	margin-top: 20px;
+}
+
+.user-info-dropdown-logout button {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////
+/////////////////////////Hakupalkki//////////////////////////////////////
+///////////////////////////////////////////////////////////////////////*/
+.search {
+	margin-top: 8px;
+}
+
+.search-input {
+	height: 30px;
+	width: 70%;
+}
+
+.search-input:focus {
+	background-color: whitesmoke;
+}
+
+.do-search {
+	position: relative;
+	right: 1px;
+}
+
+.do-search:hover {
+	background: white;
+}
+
+
+
+
+/*///////////////////////////////////////////////////////////////////////
+/////////////////////////Navigaatio//////////////////////////////////////
+///////////////////////////////////////////////////////////////////////*/
+.nav-menu {
+	margin-top: 15px;
+}
+
+.nav-menu ul {
+    float: right;
+	margin-top: 0px;
+    margin-right: 10px;
+}
+
+.nav-menu ul li {
+    display: inline;
+}
+
+.nav-menu ul li a {
+    padding: 10px 10px;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+.nav-menu  ul li a:hover {
+    background-color: white;
+}

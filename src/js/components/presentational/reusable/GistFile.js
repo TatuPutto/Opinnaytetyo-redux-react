@@ -5,7 +5,6 @@ import FileInfoWithInput from './FileInfoWithInput';
 
 
 class GistFile extends React.Component {
-
 	render() {
 		const {
 			editorId,
@@ -23,9 +22,10 @@ class GistFile extends React.Component {
 					filename={filename}
 					isRemovable={isRemovable}
 					remove={remove}
-					onChange={onChange}/>
+					onChange={onChange}
+				/>
 
-				<Editor editorId={editorId} isReadOnly={false} value={value}/>
+				<Editor editorId={editorId} isReadOnly={false} value={value} />
 			</div>
 		);
 	}

@@ -2,7 +2,8 @@ import React from 'react';
 import $ from 'jquery';
 
 class Suggestions extends React.Component {
-    componentDidMount() {
+
+    /* componentDidMount() {
         // Suljetaan dropdown, jos klikataan komponentin ulkopuolelle.
         $(document).on('click', () => this.props.hideSuggestions());
     }
@@ -10,7 +11,7 @@ class Suggestions extends React.Component {
     componentWillUnmount() {
         // Poistetaan kuuntelija, kun komponentti irrotetaan DOM:sta.
         $(document).off('click');
-    }
+    }*/
 
     render() {
         const inputWidth = $('.filter-input').outerWidth();

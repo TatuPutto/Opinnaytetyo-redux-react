@@ -9,8 +9,6 @@ import {
 	fetchSelectedGist
 } from '../../actions/actions';
 
-require('../../../css/single.css');
-
 
 class SingleGist extends React.Component {
 	static propTypes = {
@@ -40,10 +38,7 @@ class SingleGist extends React.Component {
 			return (
 				<div className='single'>
 					<div className='show-active-gist'>
-						<div className='wrapper-single'>
-							<GistInfo />
-						</div>
-
+						<GistInfo />
 						<div className='gist-files'>
 							{files}
 						</div>

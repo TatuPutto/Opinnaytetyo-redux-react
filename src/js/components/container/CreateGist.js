@@ -6,8 +6,6 @@ import $ from 'jquery';
 import GistFile from '../presentational/reusable/GistFile';
 import {createGist} from '../../actions/actions';
 
-require('../../../css/header.css');
-require('../../../css/creategist.css');
 
 class CreateGist extends React.Component {
 	constructor() {
@@ -27,7 +25,7 @@ class CreateGist extends React.Component {
 		setTimeout(() => this.setState({readyToRender: true}), 200);
 	}
 
-	//Lisätään uusi tiedostokenttä.
+	// Lisätään uusi tiedostokenttä.
 	addFile() {
 		this.setState({
 			editors: this.state.editors.concat(['editor' + this.state.editorsCreated]),
@@ -35,7 +33,7 @@ class CreateGist extends React.Component {
 		});
 	}
 
-	//Poistetaan valittu tiedostokenttä.
+	// Poistetaan valittu tiedostokenttä.
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let editors = this.state.editors;
@@ -46,7 +44,7 @@ class CreateGist extends React.Component {
 	}
 
 
-	//Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin.
+	// Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin.
 	getGistInfo(isPublic) {
 		let gist = {};
 		let files = {};
@@ -54,7 +52,7 @@ class CreateGist extends React.Component {
 		const fileFields = $('.gist-file');
 		const editors = this.state.editors;
 
-		//Kerätään tiedostonimet ja lähdekoodit tiedostokentistä.
+		// Kerätään tiedostonimet ja lähdekoodit tiedostokentistä.
 		for(let i = 0; i < fileFields.length; i++) {
 			const filename = $(fileFields[i]).find('input:text').val();
 			const content = ace.edit(editors[i]).getValue();
@@ -63,12 +61,12 @@ class CreateGist extends React.Component {
 			files[filename] = file;
 		}
 
-		//Koostetaan olio.
+		// Koostetaan olio.
 		gist['description'] = description;
 		gist['ispublic'] = isPublic;
 		gist['files'] = files;
 
-		//Lähetetään koostettu olio JSON-muodossa eteenpäin.
+		// Lähetetään koostettu olio JSON-muodossa eteenpäin.
 		this.props.create(JSON.stringify(gist));
 	}
 
@@ -84,7 +82,7 @@ class CreateGist extends React.Component {
 			// mahdollistetaan kenttien poistaminen
 			const isRemovable = editors.length === 1 ? false : true;
 
-			//Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä.
+			// Luodaan jokaista tilaan tallennettua editori id:tä kohden yksi tiedostokenttä.
 			const fileFields = this.state.editors.map((editorId) => {
 				return (
 					<GistFile
@@ -99,26 +97,28 @@ class CreateGist extends React.Component {
 
 			return (
 				<div className='create'>
-					<input type='text' className='description' placeholder='Kuvaus' />
+					<div className='wrapper'>
+						<input type='text' className='description' placeholder='Kuvaus' />
 
-					<div className='files'>
-						{fileFields}
-					</div>
+						<div className='files'>
+							{fileFields}
+						</div>
 
-					<div className='buttons'>
-						<button id='add-file' onClick={this.addFile}>
-							<i className='fa fa-file-text-o'></i> Lisää tiedosto
-						</button>
+						<div className='buttons'>
+							<button id='add-file' onClick={this.addFile}>
+								<i className='fa fa-file-text-o'></i> Lisää tiedosto
+							</button>
 
-						<button id='create-secret-gist' onClick={() =>
-								this.getGistInfo(false)}>
-							<i className='fa fa-user-secret'></i> Luo salainen gist
-						</button>
+							<button id='create-secret-gist' onClick={() =>
+									this.getGistInfo(false)}>
+								<i className='fa fa-user-secret'></i> Luo salainen gist
+							</button>
 
-						<button id='create-public-gist' onClick={() =>
-								this.getGistInfo(true)}>
-							<i className='fa fa-file-code-o'></i> Luo julkinen gist
-						</button>
+							<button id='create-public-gist' onClick={() =>
+									this.getGistInfo(true)}>
+								<i className='fa fa-file-code-o'></i> Luo julkinen gist
+							</button>
+						</div>
 					</div>
 				</div>
 			);

@@ -22,12 +22,12 @@ class SearchBar extends React.Component {
 			<div className='search col-lg-5'>
 				<input
 					type='text'
-					id='search-input'
+					className='search-input'
 					placeholder='Haku'
 					onChange={this.getInput}
 				/>
 
-				<button id='do-search' onClick={this.doSearch}>
+				<button className='do-search' onClick={this.doSearch}>
 					<i class="fa fa-search" />
 				</button>
 			</div>

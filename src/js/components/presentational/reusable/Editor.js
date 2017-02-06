@@ -2,8 +2,8 @@ import React from 'react';
 // import AceEditor from 'react-ace';
 
 class Editor extends React.Component {
-	//Muodostetaan editori <div>-elementtiin,
-	//mikäli komponentti liitettiin onnistuneesti DOM:iin.
+	// Muodostetaan editori <div>-elementtiin,
+	// mikäli komponentti liitettiin onnistuneesti DOM:iin.
 	componentDidMount() {
 		const {editorId, value, isReadOnly} = this.props;
 

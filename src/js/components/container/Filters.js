@@ -54,6 +54,8 @@ class Filters extends React.Component {
 	}
 
 	removeFilter(e) {
+
+		console.log(e.currentTarget.textContent);
 		this.props.filteringActions.removeFilter(e.currentTarget.textContent);
 	}
 
@@ -62,13 +64,16 @@ class Filters extends React.Component {
 		const {languages} = this.props.filters;
 
 		return (
-			<div className='filters col-lg-12'>
-				<button id="refresh" onClick={this.refresh}>
+			<div className='filtering-options'>
+				<button className="refresh" onClick={this.refresh}>
 					<i className="fa fa-refresh" />
 				</button>
 
-				<select id="fetch-method" value={this.props.fetchMethod}
-						onChange={this.fetch}>
+				<select
+					className="select-fetch-method"
+					value={this.props.fetchMethod}
+					onChange={this.fetch}
+				>
 					<option value='gists'>Omat gistit</option>
 					<option value='starred'>Suosikit</option>
 					<option value='discover'>Discover</option>
@@ -79,8 +84,8 @@ class Filters extends React.Component {
 				{languages &&
 					<div className='active-filters'>
 						{languages.map((language) =>
-							<p className='language-filter' onClick={this.removeFilter}>
-								{language}
+							<p className='filters' onClick={this.removeFilter}>
+								{language} <i className='fa fa-remove' />
 							</p>
 						)}
 					</div>

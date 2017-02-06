@@ -40,18 +40,15 @@ class GistListItem extends React.Component {
 		return (
 
 
-			<li className={isActive} id={this.props.id} onClick={() => this.props.setActive(this.props.id)}>
-
-
-
+			<li className={isActive} id={id} onClick={() => setActive(id)}>
 				<div className='content-wrapper'>
 					<span className='title'>
 						<h2>
-							<Link to={'search/' + owner}>
+							<Link to={'/Opinnaytetyo_spring_react/search/' + owner}>
 								{owner}
 							</Link>
 							&nbsp;/&nbsp;
-							<Link to={'/gist/' + id}>
+							<Link to={'/Opinnaytetyo_spring_react/gist/' + id}>
 								{filename}
 							</Link>
 						</h2>

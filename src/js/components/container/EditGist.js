@@ -5,9 +5,6 @@ import $ from 'jquery';
 import GistFile from '../presentational/reusable/GistFile';
 import {editGist} from '../../actions/actions';
 
-require('../../../css/header.css');
-require('../../../css/creategist.css');
-
 
 class EditGist extends React.Component {
 
@@ -170,21 +167,23 @@ class EditGist extends React.Component {
 			}, this);
 
 			return (
-				<div className='edit'>
-					<input type='text' className='description'
-							placeholder='Kuvaus' defaultValue={gist.description} />
+				<div className='create'>
+					<div className='wrapper'>
+						<input type='text' className='description'
+								placeholder='Kuvaus' defaultValue={gist.description} />
 
-					<div className='files'>
-						{fileFields}
+						<div className='files'>
+							{fileFields}
+						</div>
+
+						<button id='add-file' onClick={this.addFile}>
+							<i className='fa fa-file-text-o'></i> Lisää tiedosto
+						</button>
+
+						<button id='update-gist' onClick={() => this.getEditInfo(false)}>
+							<i className='fa fa-edit'></i> Muokkaa
+						</button>
 					</div>
-
-					<button id='add-file' onClick={this.addFile}>
-						<i className='fa fa-file-text-o'></i> Lisää tiedosto
-					</button>
-
-					<button id='update-gist' onClick={() => this.getEditInfo(false)}>
-						<i className='fa fa-edit'></i> Muokkaa
-					</button>
 				</div>
 			);
 		}

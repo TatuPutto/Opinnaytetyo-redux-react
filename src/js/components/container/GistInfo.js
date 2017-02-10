@@ -61,7 +61,7 @@ class GistInfo extends React.Component {
 							{gist.files[0].filename}
 						</h2>
 					</Link>
-					<span style={{background: 'yellow', marginLeft: '20px'}}>
+					<span style={{background: 'lightblue', marginLeft: '15px', fontSize: '12px', borderRadius: '2px', padding: '0px 2px'}}>
 						{gist.public ? 'Julkinen' : 'Salainen'}
 					</span>
 					<div className='active-gist-description'>

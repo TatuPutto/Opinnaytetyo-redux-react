@@ -71,14 +71,15 @@ function parseOwnerInfo(ownerJson) {
 	let owner = {};
 
 	try {
-		if(ownerJson == null) {}		else {
+		if(ownerJson == null) {
+		} else {
 			owner['id'] = ownerJson.id;
 			owner['login'] = ownerJson.login;
 			owner['avatarUrl'] = ownerJson.avatar_url;
 
 			return owner;
 		}
-	}	finally {
+	} finally {
 		return owner;
 	}
 }

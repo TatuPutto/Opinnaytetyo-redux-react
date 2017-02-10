@@ -16,7 +16,7 @@ class FileInfoWithInput extends React.Component {
 			filenameField = <input
 				type='text'
 				className='filename'
-				placeholder='Tiedostonimi + tiedostopääte'
+				placeholder='tiedostonimi esim. index.html'
 				defaultValue={filename}
 				onChange={onChange}
 			/>;
@@ -24,7 +24,7 @@ class FileInfoWithInput extends React.Component {
 			filenameField = <input
 				type='text'
 				className='filename'
-				placeholder='Tiedostonimi + tiedostopääte'
+				placeholder='tiedostonimi esim. index.html'
 				onChange={onChange}
 			/>;
 		}

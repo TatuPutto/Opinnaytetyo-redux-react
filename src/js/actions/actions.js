@@ -178,11 +178,7 @@ export function fetchSelectedGist(id) {
 		return sendRequest(url, 'GET')
 			.then(checkStatus)
 			.then(readJson)
-			.then((data) => {
-				console.log(JSON.stringify(data));
-				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
-			}
-			)
+			.then((data) => dispatch(receiveSelectedGist(parseSingleGistJson(data))))
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
 }
@@ -201,7 +197,6 @@ export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 		// console.log(sampledata);
 		dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 		setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
-		setTimeout(() => dispatch(notify('Gistit haettiin onnistuneesti!')), 1000);
 
 		// dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
@@ -425,8 +420,7 @@ export function filterByLanguage(language, gists) {
 
 
 export function removeFilter(language) {
-	console.log(language);
-	return {type: 'REMOVE_FILTER', language};
+	return {type: 'REMOVE_FILTER', language: language.trim()};
 }
 
 
@@ -537,4 +531,53 @@ export function deleteGist(id) {
 
 function removeGistFromList(id) {
 	return {type: 'REMOVE_GIST_FROM_LIST', id};
+}
+
+
+export function fetchComments(id) {
+	const url = 'https://api.github.com/gists/' + id + '/comments';
+	console.log('asdf');
+	return (dispatch) => {
+		return sendRequest(url, 'GET')
+			.then(checkStatus)
+			.then(readJson)
+			.then((data) => {
+				dispatch(receiveComments(data));
+				//dispatch(createComment(id));
+			})
+			.catch((error) => dispatch(notify(error.message)));
+	};
+}
+
+
+function receiveComments(comments) {
+	let parsedComments = [];
+	comments.forEach((comment) => {
+		let commentObj = {};
+		commentObj['commenter'] = comment.user.login;
+		commentObj['commenterAvatarUrl'] = comment.user.avatar_url;
+		commentObj['body'] = comment.body;
+
+		parsedComments.push(commentObj);
+	})
+	console.log(parsedComments);
+
+	return {type: 'RECEIVE_COMMENTS', comments: parsedComments};
+}
+
+export function createComment(id) {
+	const url = 'https://api.github.com/gists/' + id + '/comments';
+
+
+	const comment = {
+		body: "Test comment1"
+	};
+
+	return (dispatch) => {
+		return sendRequestWithContent(url, 'POST', JSON.stringify(comment))
+			.then(checkStatus)
+			.then(readJson)
+			.then((data) => console.log(data))
+			.catch((error) => dispatch(notify(error.message)));
+	};
 }

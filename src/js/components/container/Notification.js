@@ -12,19 +12,21 @@ class Notification extends React.Component {
 	}
 
 	render() {
-		const messageType = 'success';
+		const notificationType = 'failure';
+
+		const icon = notificationType === 'success' ? 'fa fa-check' : 'fa fa-remove';
 
 		return (
 			<div>
 				{this.props.isOpen &&
-					<div className='notification'>
-						<div className='notification-headline'>
+					<div className={'notification ' + notificationType}>
+						{/*}<div className='notification-headline'>
 							<i className='fa fa-remove close-notification' />
-						</div>
+						</div>*/}
 						<div className='notification-message'>
-							<p>{this.props.message}</p>
+							<i className={icon} /> <p>{'Gistin luominen ei onnistunut (422 - Unprocessable Entity).'}</p>
 						</div>
-						<div className={'notification-timer ' + messageType}>
+						<div className='notification-timer'>
 							<div className='notification-time-left'></div>
 						</div>
 					</div>

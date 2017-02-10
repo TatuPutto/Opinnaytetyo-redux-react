@@ -19,7 +19,6 @@ class ShowActiveGist extends React.Component {
 		const {isFetching, gist} = this.props.gist;
 		const isFetchingGists = this.props.isFetchingGists;
 
-
 		if(!isFetchingGists && isFetching) {
 			return <div className='loading'></div>;
 		}
@@ -36,19 +35,20 @@ class ShowActiveGist extends React.Component {
 						filename={file.filename}
 						value={file.content}
 						editorId={'editor' + index}
-						isReadOnly={true}>
-					</ReadOnlyGistFile>
+						isReadOnly={true}
+					/>
 				);
 			});
-
+		
 			//Renderöidään inforuutu ja tiedostokentät.
 			return (
 				<div className='show-active-gist'>
 					<GistInfo
 						gist={this.props.gist}
 						userId={this.props.userId}
-						gistActions={this.props.gistActions}>
-					</GistInfo>
+						gistActions={this.props.gistActions}
+					/>
+
 
 					<div className='gist-files'>
 						{files}

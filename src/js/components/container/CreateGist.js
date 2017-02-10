@@ -98,7 +98,7 @@ class CreateGist extends React.Component {
 			return (
 				<div className='create'>
 					<div className='wrapper'>
-						<input type='text' className='description' placeholder='Kuvaus' />
+						<input type='text' className='description' placeholder='kuvaus' />
 
 						<div className='files'>
 							{fileFields}

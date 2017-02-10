@@ -29,37 +29,32 @@ class GistListItem extends React.Component {
 		}
 
 
-		// Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri
-		const languageSpanColor = {background: color};
+		// Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri.
+		const languageSpanColor = {backgroundColor: color};
 
-		// Tarkistetaan onko tämä gist asetettu aktiiviseksi
+		//Tarkistetaan onko tämä gist asetettu aktiiviseksi.
 		const isActive = activeGistId === id ?
 				'single-gist active' : 'single-gist';
 
-		// Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti
+		//Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti.
 		return (
-
-
 			<li className={isActive} id={id} onClick={() => setActive(id)}>
 				<div className='content-wrapper'>
-					<span className='title'>
-						<h2>
-							<Link to={'/Opinnaytetyo_spring_react/search/' + owner}>
-								{owner}
-							</Link>
-							&nbsp;/&nbsp;
-							<Link to={'/Opinnaytetyo_spring_react/gist/' + id}>
-								{filename}
-							</Link>
-						</h2>
-					</span>
-					<span className='description'>
+					<h2 className='title'>
+						<Link to={'/Opinnaytetyo_spring_react/search/' + owner}>
+							{owner} /&nbsp;
+						</Link>
+						<Link to={'/Opinnaytetyo_spring_react/gist/' + id}>
+							{filename}
+						</Link>
+					</h2>
+					<div className='description'>
 						{description}
-					</span>
+					</div>
 					<span className='created'>
 						Luotu: {updatedAt}
 					</span>
-					<span className='language' style={languageSpanColor}>
+					<span className='language' style={{backgroundColor: color}}>
 						{language}
 					</span>
 				</div>

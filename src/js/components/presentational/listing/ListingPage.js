@@ -9,6 +9,7 @@ import ShowActiveGist from '../../container/ShowActiveGist';
 import {
 	fetchGists,
 	fetchSelectedGist,
+	fetchSelectedGistFiles,
 	sortOldestToNewest,
 	sortNewestToOldest,
 	addFilter,

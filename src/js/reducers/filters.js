@@ -3,22 +3,21 @@ export function filters(state = {languages: []}, action) {
 	switch(action.type) {
 		case 'ADD_FILTER':
 			return {
-				languages: state.languages.concat(action.language),
+				languages: state.languages.concat(action.language)
 			};
 			break;
-
-		/*
-		//@actions.js
-		//Ilmoitetaan mikä suodatin halutaan poistaa.
-		function removeFilter(language) {
-			return {type: 'REMOVE_FILTER', language};
-		}
-			*/
-		// @filters.js - suodattimien osalta tilaa hallitseva käsittelijä.
-		// Poistetaan suodatin.
 		case 'REMOVE_FILTER':
+			console.log(action.language);
+			console.log(state.languages);
+			console.log(state.languages.filter(function (language) {
+				console.log('Parametri:' + language + ', tyyppi: ' + typeof language);
+				console.log('Action:' + action.language + ', tyyppi: ' + typeof action.language);
+				console.log(language === action.language);
+				return language !== action.language;
+			}));
+
 			return {
-				languages: state.languages.filter((language) => language !== action.language),
+				languages: state.languages.filter((language) => language !== action.language)
 			};
 			break;
 

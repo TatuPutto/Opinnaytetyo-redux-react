@@ -9,11 +9,12 @@ class Editor extends React.Component {
 
 		const editor = ace.edit(editorId);
 		editor.$blockScrolling = Infinity;
-		editor.setTheme('ace/theme/cobalt');
+		editor.setTheme('ace/theme/tomorrow');
 		editor.getSession().setMode('ace/mode/javascript');
 		editor.setShowPrintMargin(false);
 		editor.setReadOnly(isReadOnly);
-
+		editor.setOptions({fontSize: '10pt'});
+	
 
 		if(value) {
 			const lines = value.split('\n').length;

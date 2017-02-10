@@ -54,8 +54,6 @@ class Filters extends React.Component {
 	}
 
 	removeFilter(e) {
-
-		console.log(e.currentTarget.textContent);
 		this.props.filteringActions.removeFilter(e.currentTarget.textContent);
 	}
 
@@ -84,7 +82,7 @@ class Filters extends React.Component {
 				{languages &&
 					<div className='active-filters'>
 						{languages.map((language) =>
-							<p className='filters' onClick={this.removeFilter}>
+							<p key={language} className='filters' onClick={this.removeFilter}>
 								{language} <i className='fa fa-remove' />
 							</p>
 						)}

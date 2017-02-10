@@ -5,7 +5,8 @@ export function activeGist(state = {
 	gistId: null,
 	isStarred: null,
 	isFetching: false,
-	fetchError: null
+	fetchError: null,
+	comments: []
 }, action) {
 	switch(action.type) {
 		//Mitätöidään aktiivinen gist.
@@ -43,6 +44,9 @@ export function activeGist(state = {
 				...state,
 				isStarring: true
 			};
+			break;
+		case 'RECEIVE_COMMENTS':
+			return {...state, comments: action.comments};
 			break;
 		default:
 			return state;

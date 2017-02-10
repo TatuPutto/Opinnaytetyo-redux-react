@@ -22,11 +22,17 @@ class FilteringView extends React.Component {
 	getSuggestions(e) {
 		const value = e.target.value;
 		const suggestions = setSuggestions(value);
-		this.setState({suggestions});
+		this.setState({suggestions, suggestionsVisible: true});
 	}
 
 	showSuggestions() {
-		this.setState({suggestionsVisible: true});
+		setTimeout(() => {
+			if(this.state.suggestionsVisible) {
+				this.setState({suggestionsVisible: false});
+			} else {
+				this.setState({suggestionsVisible: true});
+			}
+		}, 200);
 	}
 
 	hideSuggestions() {
@@ -61,15 +67,12 @@ class FilteringView extends React.Component {
 
 
 	render() {
-		console.log(this.state.suggestionsVisible);
-
 		return (
 			<div className='filtering-view'>
 				<input
 					type='text'
 					className='filter-input'
 					placeholder='Ohjelmointikieli'
-					onFocus={this.showSuggestions}
 					onChange={this.getSuggestions}
 				/>
 

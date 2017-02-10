@@ -97,8 +97,7 @@ class GistList extends React.Component {
 		} = this.props.pagination;
 		const fetchError = null;
 
-		//Käydään gistien tiedot sisältävä taulukko läpi ja
-		//luodaan jokaista gistiä kohden yksi ilmentymä GistListItem-komponentti.
+		//luodaan jokaista taulukon sisältämää gistiä kohden yksi ilmentymä GistListItem-komponentti.
 		const listItems = gists.map(gist => {
 			return (
 				<GistListItem
@@ -116,23 +115,18 @@ class GistList extends React.Component {
 			);
 		}, this);
 
-		//Renderöidään lista ja asetetaan GistListItem-komponentista
-		//luodut ilmentymät listan sisällöksi.
+		//Renderöidään lista ja asetetaan GistListItem-komponentista luodut ilmentymät listan sisällöksi.
 		return (
-
 			<div className='gist-list' ref='gistlist'>
 				{fetchError &&
 					<p>Gistien hakemisessa tapahtui virhe.</p>
 				}
-
 				{isFetching && listItems.length === 0 && !fetchError &&
 					<div className='loading'></div>
 				}
-
 				{!isFetching && listItems.length === 0 && !fetchError &&
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}
-
 				{listItems.length > 0 && !fetchError &&
 					<div style={{opacity: isFetching ? 0.5 : 1}}>
 						<ul>
@@ -140,7 +134,6 @@ class GistList extends React.Component {
 						</ul>
 					</div>
 				}
-
 
 				{fetchMethod === 'discover' &&
 					<PaginationLinks

@@ -18,6 +18,8 @@ require('../css/header.less');
 require('../css/listing.less');
 require('../css/single.less');
 require('../css/creategist.less');
+require('../css/comments.less');
+
 
 store.dispatch(fetchUserInfo());
 

@@ -1,12 +1,17 @@
-export function notifications(state = { isOpen: false, message: null }, action) {
+export function notifications(state = {
+	isOpen: false,
+	notificationType: null,
+	message: null
+}, action) {
 	switch (action.type) {
-		case 'SHOW_NOTIFICATION': 
+		case 'SHOW_NOTIFICATION':
 			return {
 				isOpen: true,
+				notificationType: action.notificationType,
 				message: action.message
 			};
 			break;
-	    case 'CLOSE_NOTIFICATION': 
+	    case 'CLOSE_NOTIFICATION':
 	    	return {
 				isOpen: false,
 				message: null

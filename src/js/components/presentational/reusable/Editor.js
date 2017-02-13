@@ -1,5 +1,7 @@
 import React from 'react';
-// import AceEditor from 'react-ace';
+const ace = require('brace');
+require('brace/mode/javascript');
+require('brace/theme/eclipse');
 
 class Editor extends React.Component {
 	// Muodostetaan editori <div>-elementtiin,
@@ -9,16 +11,24 @@ class Editor extends React.Component {
 
 		const editor = ace.edit(editorId);
 		editor.$blockScrolling = Infinity;
-		editor.setTheme('ace/theme/tomorrow');
+		editor.setTheme('ace/theme/eclipse');
 		editor.getSession().setMode('ace/mode/javascript');
+		editor.getSession().setUseWorker(false);
 		editor.setShowPrintMargin(false);
 		editor.setReadOnly(isReadOnly);
-		editor.setOptions({fontSize: '10pt'});
-	
+		editor.setOptions({fontSize: '14px'});
+
+
 
 		if(value) {
-			const lines = value.split('\n').length;
-			editor.setValue(value);
+			const lines = value.split('\n').length + 1;
+			if(value.endsWith('\n')) {
+				editor.setValue(value);
+			}
+			else {
+				editor.setValue(value + '\n');
+			}
+
 
 			if(isReadOnly) {
 				editor.setOptions({maxLines: lines});

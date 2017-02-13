@@ -16,8 +16,20 @@ class FilteringView extends React.Component {
 		this.autoComplete = this.autoComplete.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
 		this.state = {suggestions: [], suggestionsVisible: false, filter: null};
+
+		this.getValueOnEnterPress = this.getValueOnEnterPress.bind(this);
 	}
 
+	getValueOnEnterPress(e) {
+		const isEnterPressed = e.keyCode === 13;
+		const language = e.currentTarget.value;
+
+		if(isEnterPressed && language) {
+			this.props.actions.addFilter(language);
+			e.currentTarget.value = '';
+			this.setState({suggestions: [], suggestionsVisible: false});
+		}
+	}
 
 	getSuggestions(e) {
 		const value = e.target.value;
@@ -74,11 +86,12 @@ class FilteringView extends React.Component {
 					className='filter-input'
 					placeholder='Ohjelmointikieli'
 					onChange={this.getSuggestions}
+					onKeyUp={this.getValueOnEnterPress}
 				/>
 
-				<button className='do-filtering' onClick={this.filterResults}>
+				{/*}<button className='do-filtering' onClick={this.filterResults}>
 					<i className='fa fa-filter' />
-				</button>
+				</button>*/}
 
 				{this.state.suggestionsVisible && this.state.suggestions.length > 0 &&
 					<Suggestions

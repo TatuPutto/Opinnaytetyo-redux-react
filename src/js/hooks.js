@@ -7,13 +7,14 @@ import {store} from './createStore';
 
 
 export function fetchSelectedGistOnEnter(nextState) {
-	let gistId = nextState.params.gistId;
+	let requestedGistId = nextState.params.gistId;
 	let state = store.getState();
 
 	// Haetaan gist, jos tilaan ei ole tallennettu gistiä
 	// tai käyttäjän pyytämä gist ei vastaa tilaan tallennettua gist.
-	if(!state.activeGist.gist.hasOwnProperty('id') || state.activeGist.gistId !== gistId) {
-		return store.dispatch(fetchSelectedGist(gistId));
+	if(!state.activeGist.gist.hasOwnProperty('id') ||
+			state.activeGist.gistId !== requestedGistId) {
+		return store.dispatch(fetchSelectedGist(requestedGistId));
 	}
 }
 
@@ -24,14 +25,17 @@ export function fetchGistsOnEnter(nextState) {
 	let fetchMethod = nextState.location.pathname.match(/gists|starred|discover/g);
 
 	//Jos polkunimeä ei ole, haetaan käyttäjän gistit.
+
+
 	if(fetchMethod == null) {
 		fetchMethod = 'gists';
-	} else {
+	}
+	else {
 		fetchMethod = fetchMethod[0];
 	}
 
 	//Haetaanko gistit, vai käytetäänkö välimuistista löytyviä gistejä.
-	if(shouldFetch(store.getState(), fetchMethod)) {
+	if(shouldFetch(store.getState(), fetchMethod, nextState.params.page)) {
 		if(fetchMethod === 'discover') {
 			return store.dispatch(fetchGists('discover', nextState.params.page));
 		}

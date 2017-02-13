@@ -33,36 +33,10 @@ class GistList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		//Scrollataan listan alkuun discover-toiminnallisuudessa sivua vaihdettaessa.
-		if(nextProps.currentPage !== this.props.currentpage
+		/*if(nextProps.currentPage !== this.props.currentpage
 				&& nextProps.gists.items.length > 0) {
 			ReactDOM.findDOMNode(this.refs.gistlist).scrollTop = 0;
-		}
-
-		//Jos listassa on tuloksia ja tällä hetkellä ei ole aktiivista gistiä
-		/*if(nextProps.gists.length > 0 && !this.props.activeGistId) {
-
-			{this.props.setActive(nextProps.gists[0].id)}
 		}*/
-
-		//&& nextProps.fetchMethod === this.props.fetchMethod
-
-		/*
-		if(nextProps.gists.length > 0 && !nextProps.activeGistId ) {
-				//nextProps.currentPage !== this.props.currentpage) {
-
-			console.log('täällä');
-			{this.props.setActive(nextProps.gists[0].id)}
-		}
-	}
-
-	/*
-	setActive(id) {
-		const pushUrl = location.pathname + '?gist=' + id;
-		this.context.router.push(pushUrl);
-		{this.props.setActive(id)}
-	}
-	*/
-
 	}
 
 	/**

@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 
 function NavMenu(props) {
 	return (
-		<div className='nav-menu col-lg-3'>
+		<div className='nav-menu'>
 			<ul>
 				<li><Link to='/Opinnaytetyo_spring_react'>Listaa gistit</Link></li>
 				<li><Link to='/Opinnaytetyo_spring_react/create'>Luo uusi gist</Link></li>

@@ -12,14 +12,15 @@ import {fetchGists} from '../../actions/actions';
 class Header extends React.Component {
 	render() {
 		return (
-			<div className='header row'>
+			<div className='header'>
+				<img className='logo' src="http://placehold.it/150x50" />
+				<SearchBar search={this.props.search} />
+				<NavMenu />
 				<UserInfo
 					id={this.props.id}
 					userLogin={this.props.userLogin}
 					avatarUrl={this.props.avatarUrl}
 				/>
-				<SearchBar search={this.props.search} />
-				<NavMenu />
 			</div>
 		);
 	}

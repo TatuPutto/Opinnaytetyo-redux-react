@@ -53,8 +53,8 @@ function fetchResource() {
 
 */
 
-function notify(message) {
-	return {type: 'SHOW_NOTIFICATION', message};
+function notify(notificationType = 'success', message) {
+	return {type: 'SHOW_NOTIFICATION', notificationType, message};
 }
 
 export function closeNotification() {
@@ -182,11 +182,11 @@ export function fetchSelectedGist(id) {
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
 }
-
+/*
 const sampledata = require('../../static/sampledata.json');
 
 const samplesingle = require('../../static/samplesingle.json');
-
+*/
 
 export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 	return (dispatch) => {
@@ -195,13 +195,14 @@ export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 		// Ilmoitetaan haun alkamisesta.
 		dispatch(requestGists(fetchMethod));
 		// console.log(sampledata);
-		dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
-		setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
-
+		//dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
+		//setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
+		//setTimeout(() => dispatch(notify('success', 'Gistien hakeminen onnistui.'), 200));
 		// dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
 		// Päätepisteenä voi olla: /gists, /gists/starred tai /gists/public.
-		/* return sendRequest(determineEndpoint(fetchMethod, pageNumber, user), 'GET')
+		console.log(determineEndpoint(fetchMethod, pageNumber, user));
+		return sendRequest(determineEndpoint(fetchMethod, pageNumber, user), 'GET')
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -216,7 +217,7 @@ export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 				if(fetchMethod === 'discover') {
 					dispatch(updatePagination(pageNumber));
 				}
-			}).catch((error) => dispatch(gistsFetchFailed(error.message)));*/
+			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
 		};
 }
 
@@ -243,7 +244,7 @@ export function checkIfStarred(id) {
 				} else {
 					throw new Error(response.status + ' ' + response.statusText);
 				}
-			}).catch((error) => dispatch(notify(error.message)));
+			}).catch((error) => dispatch(notify('failure', error.message)));
 	};
 }
 
@@ -277,8 +278,8 @@ export function starGist(id) {
 			.then(checkStatus)
 			.then(() => {
 				dispatch(starred());
-				dispatch(notify('Lisätty suosikkeihin.'));
-			}).catch((error) => dispatch(notify(error.message)));
+				dispatch(notify('success', 'Lisätty suosikkeihin.'));
+			}).catch((error) => dispatch(notify('failure', error.message)));
 	};
 }
 
@@ -292,8 +293,8 @@ export function unstarGist(id) {
 			.then(checkStatus)
 			.then(() => {
 				dispatch(notStarred());
-				dispatch(notify('Poistettu suosikeista.'));
-			}).catch((error) => dispatch(notify(error.message)));
+				dispatch(notify('success', 'Poistettu suosikeista.'));
+			}).catch((error) => dispatch(notify('failure', error.message)));
 	};
 }
 
@@ -370,15 +371,17 @@ function gistsFetchFailed(error) {
 
 
 // Päivitetäänkö lista.
-export function shouldFetch(state, fetchMethod) {
+export function shouldFetch(state, fetchMethod, requestedPage) {
 	const fetchedAt = state.gists.fetchedAt;
 	const previousFetchMethod = state.gists.fetchMethod;
+	const currentPage = state.pagination.currentPage;
 
 	// Kuinka kauan gistien hakemisesta on kulunut.
 	const timeSinceFetch = Date.now() / 1000 - fetchedAt;
 
 	// Mikäli hausta on kulunut vähemmän kuin minuutti, uusia tuloksia ei ladata.
-	if(timeSinceFetch < 60 && previousFetchMethod === fetchMethod) {
+	if(timeSinceFetch < 60 && previousFetchMethod === fetchMethod &&
+			currentPage === requestedPage) {
 		return false;
 	}
 

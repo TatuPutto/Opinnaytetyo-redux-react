@@ -34,7 +34,7 @@ class Filters extends React.Component {
 
 	fetch(e) {
 		const fetchMethod = e.target.value;
-		this.context.router.push('/' + fetchMethod);
+		this.context.router.push('/Opinnaytetyo_spring_react/' + fetchMethod);
 	}
 
 
@@ -63,6 +63,9 @@ class Filters extends React.Component {
 
 		return (
 			<div className='filtering-options'>
+
+
+				<div>
 				<button className="refresh" onClick={this.refresh}>
 					<i className="fa fa-refresh" />
 				</button>
@@ -76,7 +79,7 @@ class Filters extends React.Component {
 					<option value='starred'>Suosikit</option>
 					<option value='discover'>Discover</option>
 				</select>
-
+				</div>
 				<FilteringView actions={this.props.filteringActions} />
 
 				{languages &&

@@ -19,7 +19,7 @@ class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<div className='search col-lg-5'>
+			<div className='search'>
 				<input
 					type='text'
 					className='search-input'

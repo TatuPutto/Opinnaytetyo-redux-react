@@ -11,12 +11,18 @@
 	margin-left: 0px;
 }
 
+.logo {
+	float: left;
+}
+
 
 /*///////////////////////////////////////////////////////////////////////
 /////////////////////////Käyttäjätiedot//////////////////////////////////
 ///////////////////////////////////////////////////////////////////////*/
 .user-info {
+	float: right;
 	margin-top: 8px;
+	width: 15%;
 }
 
 .user-info p {
@@ -96,20 +102,40 @@
 ///////////////////////////////////////////////////////////////////////*/
 .search {
 	margin-top: 8px;
+	margin-left: 20px;
+	width: 20%;
+	float: left;
 }
 
 .search-input {
 	height: 30px;
-	width: 70%;
+	//width: 81%;
+	width: 60%;
+	background: lightblue;
+	border-top: none !important;
+	border-right: none !important;
+	border-left: none !important;
+	border-color: black !important;
+	border-radius: 0px !important;
+	color: black;
+
 }
 
 .search-input:focus {
-	background-color: whitesmoke;
+	//background-color: white;
 }
 
 .do-search {
+	//display: none;
+	background-color: lightblue;
 	position: relative;
-	right: 1px;
+	right: 0px;
+	border-top: none !important;
+	border-right: none !important;
+	border-left: none !important;
+	border-radius: 0px !important;
+	border-color: black !important;
+	color: black !important;
 }
 
 .do-search:hover {
@@ -123,11 +149,14 @@
 /////////////////////////Navigaatio//////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////*/
 .nav-menu {
-	margin-top: 15px;
+    margin-top: 14px;
+	width: 20%;
+	float: left;
 }
 
 .nav-menu ul {
-    float: right;
+    float: left;
+	-webkit-padding-start: 0px;
 	margin-top: 0px;
     margin-right: 10px;
 }
@@ -140,6 +169,7 @@
     padding: 10px 10px;
     text-decoration: none;
     border-radius: 2px;
+	color: black;
 }
 
 .nav-menu  ul li a:hover {

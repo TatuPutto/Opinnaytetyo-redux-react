@@ -26,6 +26,8 @@ class GistInfo extends React.Component {
 			userId,
 		} = this.props;
 
+		console.log(gist.owner);
+
 			return (
 				<div className='gist-info'>
 					<span className='owner'>

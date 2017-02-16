@@ -111,12 +111,12 @@ class CreateGist extends React.Component {
 
 							<button id='create-secret-gist' onClick={() =>
 									this.getGistInfo(false)}>
-								<i className='fa fa-user-secret'></i> Luo salainen gist
+								<i className='fa fa-paper-plane'></i> Luo salainen gist
 							</button>
 
 							<button id='create-public-gist' onClick={() =>
 									this.getGistInfo(true)}>
-								<i className='fa fa-file-code-o'></i> Luo julkinen gist
+								<i className='fa fa-paper-plane-o'></i> Luo julkinen gist
 							</button>
 						</div>
 					</div>

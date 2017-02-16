@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router';
 
 class SearchBar extends React.Component {
 	constructor() {
@@ -27,9 +27,11 @@ class SearchBar extends React.Component {
 					onChange={this.getInput}
 				/>
 
-				<button className='do-search' onClick={this.doSearch}>
-					<i class="fa fa-search" />
-				</button>
+				<Link to={'/Opinnaytetyo_spring_react/search/' + this.state.input}>
+					<button className='do-search'>
+						<i class="fa fa-search" />
+					</button>
+				</Link>
 			</div>
 		);
 	}

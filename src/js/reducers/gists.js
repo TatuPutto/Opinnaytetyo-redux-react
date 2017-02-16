@@ -1,6 +1,7 @@
 //Käsittelijä-funktio gistien hallintaan.
 export function gists(state = {
 	fetchMethod: 'gists',
+	fetchError: null,
 	isFetching: true,
 	items: []
 }, action) {

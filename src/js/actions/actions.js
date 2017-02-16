@@ -77,10 +77,10 @@ export function receiveUserInfo() {
 		avatarUrl: userInfoJson.user.avatar_url,
 		accessToken: userInfoJson.user.accessToken*/
 		type: 'FETCH_USER_INFO_SUCCESS',
-		id: '',
-		userLogin: '',
+		id: '5699778',
+		userLogin: 'TatuPutto',
 		avatarUrl: 'https://avatars.githubusercontent.com/u/5699778?v=3',
-		accessToken: '',
+		accessToken: 'eb0fdf1817a33c1221db075c3276da539f757e91',
 	};
 }
 
@@ -172,7 +172,7 @@ export function fetchSelectedGist(id) {
 
 	return (dispatch) => {
 		dispatch(requestSelectedGist(id));
-		// Tarkistetaan onko gist käyttäjän suosikeissa.
+		//Tarkistetaan onko gist käyttäjän suosikeissa.
 		dispatch(checkIfStarred(id));
 
 		return sendRequest(url, 'GET')
@@ -182,38 +182,62 @@ export function fetchSelectedGist(id) {
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
 }
+
 /*
 const sampledata = require('../../static/sampledata.json');
 
 const samplesingle = require('../../static/samplesingle.json');
+
+// console.log(sampledata);
+//dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
+//setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
+//setTimeout(() => dispatch(notify('success', 'Gistien hakeminen onnistui.'), 200));
+// dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 */
+
+export function refresh(fetchMethod, pageNumber = 1) {
+	return (dispatch) => {
+		dispatch(invalidateGist());
+		dispatch(requestGists(fetchMethod));
+
+		return sendRequest(
+				determineEndpoint(fetchMethod, pageNumber) + '?cache-bust=' + Date.now(), 'GET')
+			.then(checkStatus)
+			.then(readJson)
+			.then((data) => {
+				const parsedGists = parseMultipleGistsJson(data);
+				dispatch(receiveGists(parsedGists));
+				dispatch(fetchSelectedGist(parsedGists[0].id));
+
+				if(fetchMethod === 'discover') {
+					dispatch(updatePagination(pageNumber));
+				}
+			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
+		};
+}
+
+
 
 export function fetchGists(fetchMethod, pageNumber = 1, user = null) {
 	return (dispatch) => {
-		// Mitätöidään aktiivinen gist.
+		//Mitätöidään aktiivinen gist.
 		dispatch(invalidateGist());
-		// Ilmoitetaan haun alkamisesta.
+		//Ilmoitetaan haun alkamisesta.
 		dispatch(requestGists(fetchMethod));
-		// console.log(sampledata);
-		//dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
-		//setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
-		//setTimeout(() => dispatch(notify('success', 'Gistien hakeminen onnistui.'), 200));
-		// dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
-		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
-		// Päätepisteenä voi olla: /gists, /gists/starred tai /gists/public.
-		console.log(determineEndpoint(fetchMethod, pageNumber, user));
+
+		//Lähetetetään pyyntö ja jäädään odottamaan vastausta.
+		//Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
 		return sendRequest(determineEndpoint(fetchMethod, pageNumber, user), 'GET')
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
-				// Parsitaan vastauksen sisältö ja lähetetään parsittu data varastolle.
+				//Parsitaan vastauksen sisältö ja lähetetään parsittu data varastolle.
 				const parsedGists = parseMultipleGistsJson(data);
-
-
 				dispatch(receiveGists(parsedGists));
+				//Haetaan ensimmäisen gistin tarkemmat tiedot.
 				dispatch(fetchSelectedGist(parsedGists[0].id));
 
-				// Päivitetään sivutus, jos hakutyyppinä discover.
+				//Päivitetään sivutus jos hakutyyppinä on discover.
 				if(fetchMethod === 'discover') {
 					dispatch(updatePagination(pageNumber));
 				}
@@ -237,10 +261,10 @@ export function checkIfStarred(id) {
 			.then((response) => {
 				if(response.ok) {
 					dispatch(starred());
-				// Jos status-koodi on 404, gistiä ei ole asetettu suosikiksi.
+				//Jos status-koodi on 404, gistiä ei ole asetettu suosikiksi.
 				} else if(response.status === 404) {
 					dispatch(notStarred());
-				// Jos joku muu virhekoodi, heitetään virhe.
+				//Jos joku muu virhekoodi, heitetään virhe.
 				} else {
 					throw new Error(response.status + ' ' + response.statusText);
 				}
@@ -268,7 +292,7 @@ function notStarred() {
 }
 
 
-// Lisätään gist suosikkeihin.
+//Lisätään gist suosikkeihin.
 export function starGist(id) {
 	const url = 'https://api.github.com/gists/' + id + '/star';
 
@@ -279,11 +303,14 @@ export function starGist(id) {
 			.then(() => {
 				dispatch(starred());
 				dispatch(notify('success', 'Lisätty suosikkeihin.'));
-			}).catch((error) => dispatch(notify('failure', error.message)));
+			}).catch((error) => dispatch(notify(
+				'failure',
+				'Suosikkeihin lisääminen epäonnistui (' + error.message + ').'
+			)));
 	};
 }
 
-// Poistetaan gist suosikeista.
+//Poistetaan gist suosikeista.
 export function unstarGist(id) {
 	const url = 'https://api.github.com/gists/' + id + '/star';
 
@@ -294,7 +321,10 @@ export function unstarGist(id) {
 			.then(() => {
 				dispatch(notStarred());
 				dispatch(notify('success', 'Poistettu suosikeista.'));
-			}).catch((error) => dispatch(notify('failure', error.message)));
+			}).catch((error) => dispatch(notify(
+				'failure',
+				'Suosikeista poistaminen epäonnistui (' + error.message + ').'
+			)));
 	};
 }
 
@@ -309,8 +339,11 @@ export function forkGist(id) {
 	return (dispatch) => {
 		return sendRequest(url, 'POST')
 			.then(checkStatus)
-			.then(() => dispatch(notify('Gistin kopioiminen onnistui.')))
-			.catch((error) => dispatch(notify(error.message)));
+			.then(() => dispatch(notify('success', 'Kopioitu tilille.')))
+			.catch((error) => dispatch(notify(
+				'failure',
+				'Kopioiminen epäonnistui (' + error.message + ').'
+			)));
 	};
 }
 
@@ -324,20 +357,21 @@ export function checkIfForked(id) {
 			.then(readJson)
 			.then((data) => {
 				let isForked = false;
-				// Käydään gistin forkkaukset läpi.
+
+				//Käydään gistin forkkaukset läpi.
 				data.forEach((fork) => {
-					// Jos kirjautuneen käyttäjän id löytyy forkkauksista, estetään forkkaus.
+					//Jos kirjautuneen käyttäjän id löytyy forkkauksista, estetään forkkaus.
 					if(fork.owner.id === Number(userInfo.user.id)) {
-						dispatch(notify('Olet jo forkannut tämän gistin.'));
+						dispatch(notify('failure', 'Olet jo forkannut tämän gistin.'));
 						isForked = true;
 					}
 				});
 
-			// Forkataan gist, jos käyttäjä ei ole jo forkannut gistiä.
+			//Forkataan gist jos käyttäjä ei ole jo forkannut gistiä.
 			if (!isForked) {
 				dispatch(forkGist(id));
 			}
-		}).catch((error) => dispatch(notify(error.message)));
+		}).catch((error) => dispatch(notify('failure', error.message)));
 	};
 }
 
@@ -371,7 +405,7 @@ function gistsFetchFailed(error) {
 
 
 // Päivitetäänkö lista.
-export function shouldFetch(state, fetchMethod, requestedPage) {
+export function shouldFetch(state, fetchMethod, requestedPage = 1) {
 	const fetchedAt = state.gists.fetchedAt;
 	const previousFetchMethod = state.gists.fetchMethod;
 	const currentPage = state.pagination.currentPage;
@@ -382,6 +416,7 @@ export function shouldFetch(state, fetchMethod, requestedPage) {
 	// Mikäli hausta on kulunut vähemmän kuin minuutti, uusia tuloksia ei ladata.
 	if(timeSinceFetch < 60 && previousFetchMethod === fetchMethod &&
 			currentPage === requestedPage) {
+				console.log('täällä');
 		return false;
 	}
 
@@ -468,17 +503,19 @@ export function createGist(gistJson) {
 	const url = 'https://api.github.com/gists';
 
 	return (dispatch) => {
-		return sendRequestWithContent(url, 'POST', gistJson)
+		return sendRequest(url, 'POST', gistJson)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
-				// Asetetaan muokattu gist aktiiviseksi
-				// ja ohjataan käyttäjä luodun gistin näkymään.
+				//Asetetaan muokattu gist aktiiviseksi
+				//ja ohjataan käyttäjä luodun gistin näkymään.
 				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
-				dispatch(notify('Gistin luominen onnistui.'));
-				browserHistory.push('/gist/' + data.id);
+				dispatch(notify('success', 'Gistin luominen onnistui.'));
+				browserHistory.push('/opinnaytetyo/gist/' + data.id);
 			}).catch((error) => dispatch(notify(
-				'Gistin luominen ei onnistunut. ' + error.message)));
+				'failure',
+				'Gistin luominen epäonnistui (' + error.message + ').'
+			)));
 	};
 }
 
@@ -492,17 +529,19 @@ export function editGist(id, editJson) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
-		return sendRequestWithContent(url, 'PATCH', editJson)
+		return sendRequest(url, 'PATCH', editJson)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
-				dispatch(notify('Gistin muokkaaminen onnistui.'));
-				// Asetetaan muokattu gist aktiiviseksi
-				// ja ohjataan käyttäjä muokatun gistin näkymään.
+				dispatch(notify('success', 'Gistin muokkaaminen onnistui.'));
+				//Asetetaan muokattu gist aktiiviseksi
+				//ja ohjataan käyttäjä muokatun gistin näkymään.
 				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
-				browserHistory.push('/gist/' + data.id);
+				browserHistory.push('/opinnaytetyo/gist/' + data.id);
 			}).catch((error) => dispatch(notify(
-				'Gistin muokkaaminen ei onnistunut. ' + error.message)));
+				'failure',
+				'Gistin muokkaaminen ei onnistunut (' + error.message + ').'
+			)));
 	};
 }
 
@@ -518,16 +557,18 @@ export function deleteGist(id) {
 		return sendRequest(url, 'DELETE')
 			.then(checkStatus)
 			.then(() => {
+				//Jos poistetaan yksittäisen gistin näkymässä,
+				//ohjataan käyttäjä takaisin listausnäkymään.
+				if(location.pathname === '/Opinnaytetyo_spring_react/gist/' + id) {
+					browserHistory.push('/Opinnaytetyo_spring_react');
+				}
+
 				dispatch(invalidateGist());
 				dispatch(removeGistFromList(id));
-				dispatch(notify('Gistin poistaminen onnistui.'));
-
-				// Jos poistetaan yksittäisen gistin näkymässä
-				// Ohjataan käyttäjä takaisin listausnäkymään
-				if(location.pathname === '/gist/' + id) {
-					browserHistory.push('/');
-				}
-			}).catch((error) => dispatch(notify( error.message)));
+			}).catch((error) => dispatch(notify(
+				'failure',
+				'Poistaminen epäonnistui (' + error.message + ').'
+			)));
 	};
 }
 

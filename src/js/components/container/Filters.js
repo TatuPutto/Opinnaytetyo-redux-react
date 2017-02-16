@@ -39,7 +39,9 @@ class Filters extends React.Component {
 
 
 	refresh() {
-		this.props.filteringActions.refresh(this.props.fetchMethod);
+		if(this.props.fetchMethod !== 'search') {
+			this.props.filteringActions.refresh(this.props.fetchMethod);
+		}
 	}
 
 
@@ -63,23 +65,23 @@ class Filters extends React.Component {
 
 		return (
 			<div className='filtering-options'>
-
-
 				<div>
-				<button className="refresh" onClick={this.refresh}>
-					<i className="fa fa-refresh" />
-				</button>
+					<button className='refresh' onClick={this.refresh}>
+						<i className='fa fa-refresh' />
+					</button>
 
-				<select
-					className="select-fetch-method"
-					value={this.props.fetchMethod}
-					onChange={this.fetch}
-				>
-					<option value='gists'>Omat gistit</option>
-					<option value='starred'>Suosikit</option>
-					<option value='discover'>Discover</option>
-				</select>
+					<select
+						className='select-fetch-method'
+						value={this.props.fetchMethod}
+						onChange={this.fetch}
+					>
+						<option value='gists'>Omat gistit</option>
+						<option value='starred'>Suosikit</option>
+						<option value='discover'>Discover</option>
+						<option value='search' disabled>Haku</option>
+					</select>
 				</div>
+
 				<FilteringView actions={this.props.filteringActions} />
 
 				{languages &&

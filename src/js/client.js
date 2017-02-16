@@ -32,6 +32,7 @@ ReactDOM.render(
 				<Route path='gists' component={ListingPage} onEnter={fetchGistsOnEnter} />
 				<Route path='starred' component={ListingPage} onEnter={fetchGistsOnEnter} />
 				<Route path='discover(/:page)' component={ListingPage} onEnter={fetchGistsOnEnter} />
+				<Route path='search(/:user)' component={ListingPage} onEnter={fetchGistsOnEnter} />
 				<Route path='gist/:gistId' component={SingleGist} onEnter={fetchSelectedGistOnEnter} />
 				<Route path='edit/:gistId' component={EditGist} onEnter={fetchSelectedGistOnEnter} />
 				<Route path='create' component={CreateGist} />

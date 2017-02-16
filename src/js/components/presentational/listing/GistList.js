@@ -86,10 +86,11 @@ class GistList extends React.Component {
 					owner={gist.owner.login}
 					activeGistId={this.props.activeGistId}
 					setActive={this.props.setActive}
+					addFilter={this.props.addFilter}
 				/>
 			);
 		}, this);
-	
+
 		//Renderöidään lista ja asetetaan GistListItem-komponentista luodut ilmentymät listan sisällöksi.
 		return (
 			<div className='gist-list' ref='gistlist'>

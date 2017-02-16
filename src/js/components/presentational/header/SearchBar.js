@@ -27,7 +27,7 @@ class SearchBar extends React.Component {
 					onChange={this.getInput}
 				/>
 
-				<Link to={'/Opinnaytetyo_spring_react/search/' + this.state.input}>
+				<Link to={'/opinnaytetyo/search/' + this.state.input}>
 					<button className='do-search'>
 						<i class="fa fa-search" />
 					</button>

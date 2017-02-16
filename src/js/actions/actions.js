@@ -80,7 +80,7 @@ export function receiveUserInfo() {
 		id: '5699778',
 		userLogin: 'TatuPutto',
 		avatarUrl: 'https://avatars.githubusercontent.com/u/5699778?v=3',
-		accessToken: 'eb0fdf1817a33c1221db075c3276da539f757e91',
+		accessToken: '7cfe9ad90c31ef3a35f1a0b41187983c73dcad1b',
 	};
 }
 
@@ -93,53 +93,6 @@ export function fetchUserInfo() {
 	return (dispatch) => {
 		dispatch(receiveUserInfo());
 		getAccessToken();
-		/*
-		//Jos eväste löytyy, tarkistetaan onko access token voimassa.
-		if(doesUserInfoCookieExist()) {
-			dispatch(requestUserInfo);
-
-			fetch('http://localhost:8080/Opinnaytetyo_spring_react/login', {method: 'GET', credentials: 'include', headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
-			 .then(response => {
-		    	//(Promise - fulfill) Jos haku onnistui, lähetetään vastaus käsiteltäväksi
-		    	if(response.ok) {
-
-		    		response.json().then(json => {
-		    			console.log(json);
-		    			dispatch(receiveUserInfo(json))
-		    		})
-		    	}
-		    	//(Promise - reject) Jos haku epäonnistui heitetään error
-		    	else {
-		    		throw response.status + ' ' + response.statusText;
-		    	}
-		    //Otetaan heitetty error kiinni ja ilmoitetaan haun epäonnistumisesta
-		    }).catch(error => {
-
-		    });
-		}
-		else {
-			return null;
-		}
-
-*/
-
-	/* return dispatch => {
-		dispatch(requestUserInfo);
-
-		userInfo = getUserInfoFromStorage();
-
-
-		console.log(userInfo);
-		//userInfo = getUserInfoFromCookie();
-		//console.log(userInfo);
-		if(userInfo != null) {
-			dispatch(receiveUserInfo(userInfo));
-		}
-		else {
-			console.log('localstorage on tyhjä');
-		}
-
-	}*/
 	};
 }
 
@@ -160,7 +113,7 @@ function receiveSelectedGist(gistJson) {
 }
 
 function gistFetchFailed(error) {
-	return {type: 'GIST_FETCH_FAILED'};
+	return {type: 'GIST_FETCH_FAILED', error};
 }
 
 function invalidateGist() {
@@ -433,67 +386,9 @@ function updatePagination(current = 1) {
 	};
 }
 
-// ///////////////////////////////////////////////////////////////////////
-// Näytettävien tulosten suodattaminen////////////////////////////////////
-// ///////////////////////////////////////////////////////////////////////
-export function filterByLanguage(language, gists) {
-	let filteredGists = [];
-
-	gists.forEach((gist) => {
-		for(let i = 0; i < gist.files.length; i++) {
-			if(gist.files[i].language) {
-				if(gist.files[i].language.toLowerCase() === language.toLowerCase()) {
-					filteredGists.push(gist);
-				}
-			}
-		}
-	});
-
-	return {
-		type: 'FILTER_BY_LANGUAGE',
-		language,
-		gists: filteredGists,
-	};
-}
-
-
 export function removeFilter(language) {
 	return {type: 'REMOVE_FILTER', language: language.trim()};
 }
-
-
-// Järjestetään gistit vanhimmasta uusimpaan
-export function sortOldestToNewest(gists) {
-	let sorted = gists.sort((a, b) => {
-		let dateA = new Date(a.updated_at);
-		let dateB = new Date(b.updated_at);
-
-		return dateA - dateB;
-	});
-
-	return {
-		type: 'SORT_OLDEST_TO_NEWEST',
-		chronologicalOrder: true,
-		gists: sorted,
-	};
-}
-
-// Järjestetään gistit uusimmasta vanhimpaan
-export function sortNewestToOldest(gists) {
-	let sorted = gists.sort((a, b) => {
-		let dateA = new Date(a.updated_at);
-		let dateB = new Date(b.updated_at);
-
-		return dateB - dateA;
-	});
-
-	return {
-		type: 'SORT_NEWEST_TO_OLDEST',
-		chronologicalOrder: false,
-		gists: sorted,
-	};
-}
-
 
 // ///////////////////////////////////////////////////////////////////////
 // Gistin luominen////////////////////////////////////////////////////////
@@ -503,7 +398,7 @@ export function createGist(gistJson) {
 	const url = 'https://api.github.com/gists';
 
 	return (dispatch) => {
-		return sendRequest(url, 'POST', gistJson)
+		return sendRequestWithContent(url, 'POST', gistJson)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -529,7 +424,7 @@ export function editGist(id, editJson) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
-		return sendRequest(url, 'PATCH', editJson)
+		return sendRequestWithContent(url, 'PATCH', editJson)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -559,8 +454,8 @@ export function deleteGist(id) {
 			.then(() => {
 				//Jos poistetaan yksittäisen gistin näkymässä,
 				//ohjataan käyttäjä takaisin listausnäkymään.
-				if(location.pathname === '/Opinnaytetyo_spring_react/gist/' + id) {
-					browserHistory.push('/Opinnaytetyo_spring_react');
+				if(location.pathname === '/opinnaytetyo/gist/' + id) {
+					browserHistory.push('/opinnaytetyo');
 				}
 
 				dispatch(invalidateGist());

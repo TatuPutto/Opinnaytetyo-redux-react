@@ -42,11 +42,11 @@ class ListingPage extends React.Component {
 		const gists = this.props.gists.items;
 
  		if(e.shiftKey && e.keyCode === 69) {
-			router.push('/Opinnaytetyo_spring_react/edit/' + gistId);
+			router.push('/opinnaytetyo/edit/' + gistId);
 		} else if(e.shiftKey && e.keyCode === 83){
-			router.push('/Opinnaytetyo_spring_react/gist/' + gistId);
+			router.push('/opinnaytetyo/gist/' + gistId);
 		} else if(e.shiftKey && e.keyCode === 72){
-			router.push('/Opinnaytetyo_spring_react');
+			router.push('/opinnaytetyo');
 		} else if(e.keyCode === 38) {
 			let activeGistIndex;
 
@@ -56,9 +56,6 @@ class ListingPage extends React.Component {
 					break;
 				}
 			}
-
-			console.log(activeGistIndex);
-
 			if(activeGistIndex > 0) {
 				this.props.gistActions.setActive(gists[activeGistIndex - 1].id);
 			}
@@ -72,8 +69,6 @@ class ListingPage extends React.Component {
 					break;
 				}
 			}
-
-			console.log(activeGistIndex);
 
 			if(activeGistIndex < gists.length - 1) {
 				this.props.gistActions.setActive(gists[activeGistIndex + 1].id);
@@ -99,6 +94,7 @@ class ListingPage extends React.Component {
 						activeGistId={this.props.activeGist.gistId}
 						pagination={this.props.pagination}
 						setActive={this.props.gistActions.setActive}
+						addFilter={this.props.filteringActions.addFilter}
 					/>
 				</div>
 

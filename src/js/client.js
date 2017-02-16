@@ -27,7 +27,7 @@ store.dispatch(fetchUserInfo());
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
-			<Route path='Opinnaytetyo_spring_react' component={Root}>
+			<Route path='opinnaytetyo' component={Root}>
 				<IndexRoute component={ListingPage} onEnter={fetchGistsOnEnter} />
 				<Route path='gists' component={ListingPage} onEnter={fetchGistsOnEnter} />
 				<Route path='starred' component={ListingPage} onEnter={fetchGistsOnEnter} />

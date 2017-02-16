@@ -40,7 +40,7 @@ module.exports = {
     },
     output: {
 		path: __dirname + '/src/js',
-		publicPath: 'http://localhost:9090/Opinnaytetyo_spring_react/',
+		publicPath: 'http://localhost:9090/opinnaytetyo/',
     	filename: 'client.min.js',
     },
     plugins: debug ? [] : [

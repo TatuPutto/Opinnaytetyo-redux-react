@@ -207,7 +207,7 @@ function mapStateToProps(state) {
 	return {
 		gist: state.activeGist.gist,
 		isFetching: state.activeGist.isFetching,
-		fetchError: state.activeGist.fetchError
+		fetchError: state.activeGist.fetchError,
 	};
 }
 

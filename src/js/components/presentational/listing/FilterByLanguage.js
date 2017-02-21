@@ -1,11 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
 
-import Suggestions from './FilteringView/Suggestions';
+import Suggestions from './FilterByLanguage/Suggestions';
 import {setSuggestions} from '../../../utility/suggestions';
 
 
-class FilteringView extends React.Component {
+class FilterByLanguage extends React.Component {
 	constructor() {
 		super();
 		this.addFilter = this.addFilter.bind(this);
@@ -15,9 +15,8 @@ class FilteringView extends React.Component {
 		this.hideSuggestions = this.hideSuggestions.bind(this);
 		this.autoComplete = this.autoComplete.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
-		this.state = {suggestions: [], suggestionsVisible: false, filter: null};
-
 		this.getValueOnEnterPress = this.getValueOnEnterPress.bind(this);
+		this.state = {suggestions: [], suggestionsVisible: false, filter: null};
 	}
 
 	getValueOnEnterPress(e) {
@@ -80,7 +79,7 @@ class FilteringView extends React.Component {
 
 	render() {
 		return (
-			<div className='filtering-view'>
+			<div className='filter-by-language'>
 				<input
 					type='text'
 					className='filter-input'
@@ -88,10 +87,6 @@ class FilteringView extends React.Component {
 					onChange={this.getSuggestions}
 					onKeyUp={this.getValueOnEnterPress}
 				/>
-
-				{/*}<button className='do-filtering' onClick={this.filterResults}>
-					<i className='fa fa-filter' />
-				</button>*/}
 
 				{this.state.suggestionsVisible && this.state.suggestions.length > 0 &&
 					<Suggestions
@@ -105,4 +100,4 @@ class FilteringView extends React.Component {
 	}
 }
 
-export default FilteringView;
+export default FilterByLanguage;

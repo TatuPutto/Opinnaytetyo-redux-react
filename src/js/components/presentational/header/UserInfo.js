@@ -20,7 +20,7 @@ class UserInfo extends React.Component {
 
 	render() {
 		return (
-			<div className='user-info col-lg-4'>
+			<div className='user-info'>
 				<div className='user-info-details' onClick={this.toggleDropdown}>
 					<img className='user-avatar' src={this.props.avatarUrl} />
 					<p>{this.props.userLogin}</p>

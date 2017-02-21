@@ -142,8 +142,16 @@ function mapDispatchToProps(dispatch) {
 	return {
 		//Suodatustoiminnot.
 		filteringActions: {
-		 	addFilter: (language) => dispatch(addFilter(language)),
-		 	removeFilter: (language) => dispatch(removeFilter(language)),
+		 	addFilter: (language) => {
+				const currentHeight = $('.gist-list').height();
+				$('.gist-list').css('height', currentHeight - 20);
+				dispatch(addFilter(language));
+			},
+		 	removeFilter: (language) => {
+				const currentHeight = $('.gist-list').height();
+				$('.gist-list').css('height', currentHeight + 20);
+				dispatch(removeFilter(language));
+			},
 		 	refresh: () => dispatch(refresh(fetchParams.method, fetchParams.page))
 		},
 

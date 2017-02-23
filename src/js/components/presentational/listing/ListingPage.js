@@ -143,13 +143,13 @@ function mapDispatchToProps(dispatch) {
 		//Suodatustoiminnot.
 		filteringActions: {
 		 	addFilter: (language) => {
-				const currentHeight = $('.gist-list').height();
-				$('.gist-list').css('height', currentHeight - 20);
+				//const currentHeight = $('.gist-list').height();
+				//$('.gist-list').css('height', currentHeight - 20);
 				dispatch(addFilter(language));
 			},
 		 	removeFilter: (language) => {
-				const currentHeight = $('.gist-list').height();
-				$('.gist-list').css('height', currentHeight + 20);
+				//const currentHeight = $('.gist-list').height();
+				//$('.gist-list').css('height', currentHeight + 20);
 				dispatch(removeFilter(language));
 			},
 		 	refresh: () => dispatch(refresh(fetchParams.method, fetchParams.page))

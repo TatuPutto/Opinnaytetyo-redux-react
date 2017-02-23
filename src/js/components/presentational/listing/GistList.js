@@ -1,12 +1,11 @@
-import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router';
 import $ from 'jquery';
 
 import GistListItem from './GistListItem';
 import PaginationLinks from './PaginationLinks';
-import { fetchSelectedGist, fetchMoreGists } from '../../../actions/actions';
+import {fetchSelectedGist, fetchMoreGists} from '../../../actions/actions';
 
 import {filterByLanguage} from '../../../utility/filterByLanguage';
 //Ladataan värikoodit ohjelmointikielille
@@ -67,15 +66,14 @@ class GistList extends React.Component {
 			items: gists,
 			fetchMethod,
 			fetchError,
-			isFetching
+			isFetching,
 		} = this.props.gists;
 		const {
 			currentPage,
 			nextPage,
 			previousPage,
-			lastPage
+			lastPage,
 		} = this.props.pagination;
-
 
 		//luodaan jokaista taulukon sisältämää gistiä kohden yksi ilmentymä GistListItem-komponentti.
 		const listItems = gists.map(gist => {
@@ -85,6 +83,7 @@ class GistList extends React.Component {
 					id={gist.id}
 					filename={gist.files[0].filename}
 					description={gist.description}
+					fileCount={gist.files.length}
 					language={gist.files[0].language}
 					color={this.getColorCode(gist.files[0].language)}
 					updatedAt={gist.formattedTime}
@@ -100,7 +99,7 @@ class GistList extends React.Component {
 		return (
 			<div className='gist-list' ref='gistlist'>
 				{fetchError &&
-					<p>Gistien hakemisessa tapahtui virhe ({fetchError}).</p>
+					<p>Gistien hakemisessa tapahtui virhe.</p>
 				}
 				{isFetching && listItems.length === 0 && !fetchError &&
 					<div className='loading'></div>

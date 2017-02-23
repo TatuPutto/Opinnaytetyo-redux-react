@@ -13,7 +13,9 @@ class GistListItem extends React.Component {
 			setActive,
 			addFilter,
 			color,
+			fileCount,
 		} = this.props;
+
 		let {filename, description} = this.props;
 
 
@@ -29,14 +31,11 @@ class GistListItem extends React.Component {
 					description : description.substring(0, 150) + '...';
 		}
 
-		// Määritetään ohjelmointikielen sisältävän <span> elementin taustaväri.
-		const languageSpanColor = {backgroundColor: color};
-
-		//Tarkistetaan onko tämä gist asetettu aktiiviseksi.
+		// Tarkistetaan onko tämä gist asetettu aktiiviseksi.
 		const isActive = activeGistId === id ?
 				'single-gist active' : 'single-gist';
 
-		//Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti.
+		// Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti.
 		return (
 			<li className={isActive} id={id} onClick={() => setActive(id)}>
 				<div className='content-wrapper'>
@@ -55,6 +54,12 @@ class GistListItem extends React.Component {
 					<span className='created'>
 						Luotu: {updatedAt}
 					</span>
+
+					<span className='file-count'>
+						<i className='fa fa-file-code-o' /> {fileCount}
+					</span>
+
+
 					{language &&
 						<span
 							className='language'

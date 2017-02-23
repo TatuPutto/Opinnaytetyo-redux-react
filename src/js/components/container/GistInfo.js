@@ -26,36 +26,34 @@ class GistInfo extends React.Component {
 			userId,
 		} = this.props;
 
-		console.log(gist.owner);
+		return (
+			<div className='gist-info'>
+				<span className='owner'>
+					<img id='owner-avatar' src={gist.owner.avatar_url} />
+					<Link to={'/opinnaytetyo/search/' + gist.owner.login} id='view-gist'>
+						{gist.owner.login}
+					</Link>
+				</span>
 
-			return (
-				<div className='gist-info'>
-					<span className='owner'>
-						<img id='owner-avatar' src={gist.owner.avatar_url} />
-						<Link to={'/opinnaytetyo/search/' + gist.owner.login} id='view-gist'>
-							{gist.owner.login}
-						</Link>
-					</span>
+				{gist.owner.id === Number(userId) &&
+					<GistActionsOwner
+						id={gist.id}
+						isStarred={isStarred}
+						isStarring={isStarring}
+						starGist={toggleStarredStatus}
+						deleteGist={deleteGist}
+					/>
+				}
 
-					{gist.owner.id === Number(userId) &&
-						<GistActionsOwner
-							id={gist.id}
-							isStarred={isStarred}
-							isStarring={isStarring}
-							starGist={toggleStarredStatus}
-							deleteGist={deleteGist}
-						/>
-					}
-
-					{gist.owner.id !== Number(userId) &&
-						<GistActions
-							id={gist.id}
-							isStarred={isStarred}
-							isStarring={isStarring}
-							starGist={toggleStarredStatus}
-							forkGist={forkGist}
-						/>
-					}
+				{gist.owner.id !== Number(userId) &&
+					<GistActions
+						id={gist.id}
+						isStarred={isStarred}
+						isStarring={isStarring}
+						starGist={toggleStarredStatus}
+						forkGist={forkGist}
+					/>
+				}
 
 				<div className='active-gist-info'>
 					<Link to={'/opinnaytetyo/gist/' + gist.id}>
@@ -63,7 +61,8 @@ class GistInfo extends React.Component {
 							{gist.files[0].filename}
 						</h2>
 					</Link>
-					<span style={{background: 'lightblue', marginLeft: '15px', fontSize: '12px', borderRadius: '2px', padding: '0px 2px'}}>
+
+					<span>
 						{gist.public ? 'Julkinen' : 'Salainen'}
 					</span>
 					<div className='active-gist-description'>

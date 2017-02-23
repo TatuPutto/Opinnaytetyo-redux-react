@@ -39,7 +39,8 @@ export function gists(state = {
 				...state,
 				items: action.gists,
 				fetchedAt: action.fetchedAt,
-				isFetching: false
+				isFetching: false,
+				fetchError: null,
 			};
 			break;
 

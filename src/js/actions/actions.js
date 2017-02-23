@@ -35,10 +35,10 @@ export function requestUserInfo() {
 export function receiveUserInfo() {
 	return {
 		type: 'FETCH_USER_INFO_SUCCESS',
-		id: '',
-		userLogin: '',
+		id: '5699778',
+		userLogin: 'TatuPutto',
 		avatarUrl: 'https://avatars.githubusercontent.com/u/5699778?v=3',
-		accessToken: '',
+		accessToken: '099696c5964f977be8e104bbbb440d8c0821bf4f',
 	};
 }
 
@@ -67,6 +67,7 @@ function receiveSelectedGist(gistJson) {
 	return {
 		type: 'RECEIVE_SELECTED_GIST',
 		activeGist: parseSingleGistJson(gistJson),
+		fetchError: null,
 	};
 }
 
@@ -106,6 +107,21 @@ const samplesingle = require('../../static/samplesingle.json');
 // dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 */
 
+
+function determineEndpoint(fetchMethod, page = 1) {
+	let url;
+	if(fetchMethod === 'gists') {
+		url = 'https://api.github.com/gists';
+	}	else if(fetchMethod === 'starred') {
+		url = 'https://api.github.com/gists/starred';
+	}	else if(fetchMethod === 'discover') {
+		url = 'https://api.github.com/gists/public?page=' + page + '&per_page=100';
+	}	else {
+		url = 'https://api.github.com/gists';
+	}
+}
+
+
 export function refresh(fetchMethod, pageNumber = 1) {
 	return (dispatch) => {
 		dispatch(invalidateGist());
@@ -128,7 +144,7 @@ export function refresh(fetchMethod, pageNumber = 1) {
 }
 
 
-export function fetchGistsLatestPublicGists(page) {
+export function fetchLatestPublicGists(page) {
 	const url = 'https://api.github.com/gists/public?page=' + page + '&per_page=100';
 
 	return (dispatch) => {
@@ -165,7 +181,28 @@ export function fetchGistsBySpecificUser(user) {
 }
 
 
-export function fetchGists(fetchMethod) {
+export function fetchStarredGists() {
+	return (dispatch) => {
+		// Mitätöidään aktiivinen gist.
+		dispatch(invalidateGist());
+		// Ilmoitetaan haun alkamisesta.
+		dispatch(requestGists('starred'));
+
+		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
+		// Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
+		return sendRequest('https://api.github.com/gists/starred', 'GET')
+			.then(checkStatus)
+			.then(readJson)
+			.then((data) => {
+				// Parsitaan vastauksen sisältö ja lähetetään parsittu data varastolle.
+				const parsedGists = parseMultipleGistsJson(data);
+				dispatch(receiveGists(parsedGists));
+			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
+		};
+}
+
+
+export function fetchGists() {
 	return (dispatch) => {
 		// Mitätöidään aktiivinen gist.
 		dispatch(invalidateGist());

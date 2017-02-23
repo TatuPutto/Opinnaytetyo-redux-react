@@ -1,7 +1,8 @@
 import {
 	fetchSelectedGist,
 	fetchGists,
-	fetchGistsLatestPublicGists,
+	fetchStarredGists,
+	fetchLatestPublicGists,
 	fetchGistsBySpecificUser,
 } from './actions/actions';
 
@@ -18,11 +19,15 @@ export function fetchGistsOnEnter(nextState) {
 	// Haetaanko gistit, vai käytetäänkö välimuistista löytyviä gistejä.
 //	if(shouldFetch(store.getState(), fetchMethod, nextState.params.page)) {
 		if(fetchMethod === 'discover') {
-			return store.dispatch(fetchGistsLatestPublicGists(nextState.params.page));
+			return store.dispatch(fetchLatestPublicGists(nextState.params.page));
 		} else if(fetchMethod === 'search') {
 			return store.dispatch(fetchGistsBySpecificUser(nextState.params.user));
+		} else if(fetchMethod === 'starred') {
+			return store.dispatch(fetchStarredGists());
+		} else {
+			return store.dispatch(fetchGists());
 		}
-		return store.dispatch(fetchGists(fetchMethod));
+
 	// }
 }
 

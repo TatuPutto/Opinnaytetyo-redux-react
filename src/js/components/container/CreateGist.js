@@ -50,7 +50,6 @@ class CreateGist extends React.Component {
 		for(let i = 0; i < fileFields.length; i++) {
 			const filename = $(fileFields[i]).find('input:text').val();
 			const content = ace.edit(editors[i]).getValue();
-
 			const file = {filename, content};
 			files[filename] = file;
 		}
@@ -93,6 +92,7 @@ class CreateGist extends React.Component {
 			);
 		}, this);
 
+
 		return (
 			<div className='create'>
 				<div className='wrapper'>
@@ -116,7 +116,9 @@ class CreateGist extends React.Component {
 							onClick={() => this.getGistInfo(false)}
 							disabled={isCreating}
 						>
-							<i className='fa fa-paper-plane'></i> {creationStatusSecret}
+							<i className={isCreating ?
+									'fa fa-spinner fa-spin' : 'fa fa-paper-plane'} />
+									&nbsp;{creationStatusSecret}
 						</button>
 
 						<button
@@ -124,7 +126,9 @@ class CreateGist extends React.Component {
 							onClick={() => this.getGistInfo(true)}
 							disabled={isCreating}
 						>
-							<i className='fa fa-paper-plane-o'></i> {creationStatusPublic}
+							<i className={isCreating ?
+									'fa fa-spinner fa-spin' : 'fa fa-paper-plane-o'} />
+									&nbsp;{creationStatusPublic}
 						</button>
 					</div>
 

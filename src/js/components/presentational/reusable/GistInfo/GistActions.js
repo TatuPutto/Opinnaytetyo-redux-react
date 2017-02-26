@@ -27,7 +27,8 @@ class GistActions extends React.Component {
 					onClick={() => forkGist(id)}
 					disabled={isForking}
 				>
-					<i className='fa fa-code-fork'/> {forkingStatus}
+					<i className={isForking ?
+							'fa fa-spinner fa-spin' : 'fa fa-code-fork'}/> {forkingStatus}
 				</button>
 			</span>
 		);

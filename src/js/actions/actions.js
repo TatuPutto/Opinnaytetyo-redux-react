@@ -492,7 +492,7 @@ export function removeFilter(language) {
 
 export function createGist(gistJson, isPublic) {
 	const url = 'https://api.github.com/gists';
-	console.log('täällä');
+
 	return (dispatch) => {
 		if(isPublic) {
 			dispatch({type: 'IS_CREATING_PUBLIC'});

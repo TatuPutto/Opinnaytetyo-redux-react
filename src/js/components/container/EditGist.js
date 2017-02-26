@@ -145,7 +145,7 @@ class EditGist extends React.Component {
 		const {originalFiles, files} = this.state;
 
 		const editingStatus = isEditing ? 'Muokataan...' : 'Muokkaa';
-		console.log(isEditing);
+
 		if(isFetching || gist.id === null && !fetchError) {
 			return (
 				<div className='create'>
@@ -194,7 +194,8 @@ class EditGist extends React.Component {
 							onClick={() => this.getEditInfo(false)}
 							disabled={isEditing}
 						>
-							<i className='fa fa-edit'></i> {editingStatus}
+							<i className={isEditing ?
+									'fa fa-spinner fa-spin' : 'fa fa-edit'} /> {editingStatus}
 						</button>
 					</div>
 				</div>

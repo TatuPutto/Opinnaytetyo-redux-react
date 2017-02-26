@@ -23,6 +23,7 @@ class GistInfo extends React.Component {
 			isPublic,
 			isStarred,
 			owner,
+			isForking,
 		} = this.props.gist;
 
 		return (
@@ -47,6 +48,7 @@ class GistInfo extends React.Component {
 					<GistActions
 						id={id}
 						isStarred={isStarred}
+						isForking={isForking}
 						starGist={this.props.toggleStarredStatus}
 						forkGist={this.props.forkGist}
 					/>

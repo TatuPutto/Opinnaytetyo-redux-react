@@ -11,6 +11,7 @@ export function activeGist(state = {
 	isStarred: null,
 	isFetching: false,
 	isFetchingFiles: false,
+	isForking: false,
 	fetchError: null,
 }, action) {
 	switch(action.type) {
@@ -69,6 +70,18 @@ export function activeGist(state = {
 			return {
 				...state,
 				isStarred: false,
+			};
+			break;
+		case 'FORKING':
+			return {
+				...state,
+				isForking: true,
+			};
+			break;
+		case 'FORKED':
+			return {
+				...state,
+				isForking: false,
 			};
 			break;
 	/*	case 'RECEIVE_COMMENTS':

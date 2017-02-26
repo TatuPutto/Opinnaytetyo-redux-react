@@ -11,19 +11,15 @@ import {
 } from '../utility/parsegists';
 
 import {
-	sendRequest,
-	sendRequestWithContent,
-	checkStatus,
-	readJson,
-	getAccessToken,
-} from '../utility/sendrequest';
-
-
-
-import {
+	create,
 	read,
-	updatePut,
+	update,
+	patch,
+	destroy,
+	setAcccessToken,
 } from '../utility/fetchmethods';
+
+import {checkStatus, readJson} from '../utility/handleresponse'
 
 
 function notify(notificationType = 'success', message) {
@@ -42,13 +38,14 @@ export function requestUserInfo() {
 	return {type: 'FETCH_USER_INFO_REQUEST'};
 }
 
-export function receiveUserInfo() {
+export function receiveUserInfo(userInfo) {
+	setAcccessToken(userInfo[3]);
 	return {
 		type: 'FETCH_USER_INFO_SUCCESS',
-		id: '5699778',
-		userLogin: 'TatuPutto',
-		avatarUrl: 'https://avatars.githubusercontent.com/u/5699778?v=3',
-		accessToken: '099696c5964f977be8e104bbbb440d8c0821bf4f',
+		id: userInfo[0],
+		userLogin: userInfo[1],
+		avatarUrl: userInfo[2],
+		accessToken: userInfo[3],
 	};
 }
 
@@ -101,7 +98,7 @@ export function fetchSelectedGist(id) {
 		// Tarkistetaan onko gist käyttäjän suosikeissa.
 		dispatch(checkIfStarred(id));
 
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => dispatch(receiveSelectedGist(data)))
@@ -154,7 +151,7 @@ export function fetchSelectedGistFiles(id) {
 	return (dispatch) => {
 		dispatch(requestSelectedGistFiles(id));
 
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -188,8 +185,10 @@ export function refresh(fetchMethod, pageNumber = 1) {
 		dispatch(invalidateGist());
 		dispatch(requestGists(fetchMethod));
 
-		return sendRequest(
-				determineEndpoint(fetchMethod, pageNumber) + '?cache-bust=' + Date.now(), 'GET')
+		return read(
+				determineEndpoint(fetchMethod, pageNumber) +
+				'?cache-bust=' + Date.now()
+			)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -212,7 +211,7 @@ export function fetchLatestPublicGists(page) {
 		dispatch(invalidateGist());
 		dispatch(requestGists('discover'));
 
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -231,7 +230,7 @@ export function fetchGistsBySpecificUser(user) {
 		dispatch(invalidateGist());
 		dispatch(requestGists('search'));
 
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -251,7 +250,7 @@ export function fetchStarredGists() {
 
 		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
 		// Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
-		return sendRequest('https://api.github.com/gists/starred', 'GET')
+		return read('https://api.github.com/gists/starred')
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -309,7 +308,7 @@ export function checkIfStarred(id) {
 	const url = 'https://api.github.com/gists/' + id + '/star';
 
 	return (dispatch) => {
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then((response) => {
 				if(response.ok) {
 					dispatch(starred());
@@ -346,7 +345,7 @@ export function starGist(id) {
 
 	return (dispatch) => {
 		dispatch(starring());
-		return updatePut(url, '')
+		return update(url, '')
 			.then(checkStatus)
 			.then(() => {
 				dispatch(starred());
@@ -364,7 +363,7 @@ export function unstarGist(id) {
 
 	return (dispatch) => {
 		dispatch(starring());
-		return sendRequest(url, 'DELETE')
+		return destroy(url, 'DELETE')
 			.then(checkStatus)
 			.then(() => {
 				dispatch(notStarred());
@@ -385,10 +384,13 @@ export function forkGist(id) {
 	const url = 'https://api.github.com/gists/' + id + '/forks';
 
 	return (dispatch) => {
-		return sendRequest(url, 'POST')
+		dispatch({type: 'FORKING'});
+		return create(url)
 			.then(checkStatus)
-			.then(() => dispatch(notify('success', 'Kopioitu tilille.')))
-			.catch((error) => dispatch(notify(
+			.then(() => {
+				dispatch({type: 'FORKED'});
+				dispatch(notify('success', 'Kopioitu tilille.'));
+			}).catch((error) => dispatch(notify(
 				'failure',
 				`Kopioiminen epäonnistui (${error.message}).`
 			)));
@@ -400,7 +402,7 @@ export function checkIfForked(id) {
 	const url = 'https://api.github.com/gists/' + id + '/forks';
 
 	return (dispatch) => {
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -488,14 +490,22 @@ export function removeFilter(language) {
 // Gistin luominen////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
 
-export function createGist(gistJson) {
+export function createGist(gistJson, isPublic) {
 	const url = 'https://api.github.com/gists';
-
+	console.log('täällä');
 	return (dispatch) => {
-		return sendRequestWithContent(url, 'POST', gistJson)
+		if(isPublic) {
+			dispatch({type: 'IS_CREATING_PUBLIC'});
+		}
+		else {
+			dispatch({type: 'IS_CREATING_SECRET'});
+		}
+
+		return create(url, gistJson)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
+				dispatch({type: 'CREATED'});
 				// Asetetaan muokattu gist aktiiviseksi
 				// ja ohjataan käyttäjä luodun gistin näkymään.
 				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
@@ -518,10 +528,12 @@ export function editGist(id, editJson) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
-		return sendRequestWithContent(url, 'PATCH', editJson)
+		dispatch({type: 'IS_EDITING'});
+		return patch(url, editJson)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
+				dispatch({type: 'EDITED'});
 				dispatch(notify('success', 'Gistin muokkaaminen onnistui.'));
 				// Asetetaan muokattu gist aktiiviseksi
 				// ja ohjataan käyttäjä muokatun gistin näkymään.
@@ -543,7 +555,7 @@ export function deleteGist(id) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
-		return sendRequest(url, 'DELETE')
+		return destroy(url)
 			.then(checkStatus)
 			.then(() => {
 				// Jos poistetaan yksittäisen gistin näkymässä,
@@ -571,7 +583,7 @@ export function fetchComments(id) {
 	const url = 'https://api.github.com/gists/' + id + '/comments';
 
 	return (dispatch) => {
-		return sendRequest(url, 'GET')
+		return read(url)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -605,7 +617,7 @@ export function createComment(id) {
 	};
 
 	return (dispatch) => {
-		return sendRequestWithContent(url, 'POST', JSON.stringify(comment))
+		return create(url, comment)
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => console.log(data))

@@ -11,6 +11,8 @@ import ShowActiveGist from '../../container/ShowActiveGist';
 import {
 	fetchGists,
 	fetchSelectedGist,
+	fetchSelectedGistPartial,
+	receiveSelectedGistInfo,
 	fetchSelectedGistFiles,
 	refresh,
 	sortOldestToNewest,
@@ -40,7 +42,7 @@ class ListingPage extends React.Component {
 		const router = this.context.router;
 		const gistId = this.props.activeGist.gistId;
 		const gists = this.props.gists.items;
-
+/*
  		if(e.shiftKey && e.keyCode === 69) {
 			router.push('/opinnaytetyo/edit/' + gistId);
 		} else if(e.shiftKey && e.keyCode === 83){
@@ -74,7 +76,7 @@ class ListingPage extends React.Component {
 				this.props.gistActions.setActive(gists[activeGistIndex + 1].id);
 			}
 
-		}
+		}*/
 
 
 	}
@@ -91,7 +93,7 @@ class ListingPage extends React.Component {
 
 					<GistList
 						gists={this.props.gists}
-						activeGistId={this.props.activeGist.gistId}
+						activeGistId={this.props.activeGist.id}
 						pagination={this.props.pagination}
 						setActive={this.props.gistActions.setActive}
 						addFilter={this.props.filteringActions.addFilter}
@@ -99,12 +101,7 @@ class ListingPage extends React.Component {
 				</div>
 
 				<div className='content-right'>
-					<ShowActiveGist
-						gist={this.props.activeGist}
-						gistActions={this.props.gistActions}
-						isFetchingGists={this.props.gists.isFetching}
-						userId={this.props.userId}
-					/>
+					<ShowActiveGist	/>
 				</div>
 			</div>
 		);
@@ -116,7 +113,7 @@ let fetchParams;
 //Luetaan listausnäkymän tarvitsema tiladata
 //ja määritellään miten data muutetaan attribuuttidataksi.
 function mapStateToProps(state) {
-	activeId = state.activeGist.gistId;
+	activeId = state.activeGist.id;
 	fetchParams = {
 		method: state.gists.fetchMethod,
 		page: state.pagination.currentPage
@@ -157,9 +154,12 @@ function mapDispatchToProps(dispatch) {
 
 		//Aktiivisen gistin toiminnot.
 		gistActions: {
-			setActive: (id) => {
+			setActive: (id, gist) => {
 				if(id !== activeId) {
-					dispatch(fetchSelectedGist(id));
+					dispatch(fetchSelectedGistPartial(gist));
+					//dispatch(receiveSelectedGistInfo(gist));
+					//dispatch(fetchSelectedGistFiles(id));
+					//dispatch(fetchSelectedGist(id));
 				}
 			},
 			forkGist: (id) => dispatch(checkIfForked(id)),

@@ -1,5 +1,48 @@
 import {accessToken} from '../actions/useractions';
 
+
+
+const defaultParams = {
+	headers: {
+		'Accept': 'application/json',
+		'Authorization': 'token ' + accessToken,
+	},
+}
+
+export function create(url, content) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'post',
+		body: content,
+	});
+}
+
+export function read(url) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'get',
+	});
+}
+
+export function update(url, content) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'patch',
+		body: content,
+	});
+}
+
+export function updatePut(url, content) {
+	return fetch(url, {
+		...defaultParams,
+		method: 'put',
+		body: content,
+	});
+}
+
+
+
+
 // Muodostetaan pyyntö ilman sisältöä.
 export function sendRequest(url, httpMethod) {
 	const fetchInit = {

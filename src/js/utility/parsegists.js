@@ -1,8 +1,18 @@
 export function parseSingleGistJson(gistJson) {
-	let gist = Object.assign({}, gistJson, {
+	console.log(gistJson);
+	let gist = {
+		id: gistJson.id,
+		description: gistJson.description,
+		files: parseFilesWithSource(gistJson.files),
+		owner: parseOwnerInfo(gistJson.owner),
+		isPublic: gistJson.isPublic,
+	};
+
+	/* let gist = Object.assign({}, gistJson, {
 		files: parseFilesWithSource(gistJson.files),
 		formattedTime: formatTime(gistJson.updated_at),
-	});
+		owner: parseOwnerInfo(gistJson.owner),
+	});*/
 
 	return gist;
 }
@@ -28,6 +38,7 @@ export function parseMultipleGistsJson(gistsJson) {
 				formattedTime: formatTime(gist.created_at),
 				files: parseFiles(gist.files),
 				owner: parseOwnerInfo(gist.owner),
+				isPublic: gist.public,
 			});
 		}
 	});
@@ -43,7 +54,7 @@ function parseFiles(json) {
 		let singleFile = {};
 		singleFile['filename'] = json[key].filename;
 		singleFile['language'] = json[key].language;
-
+		singleFile['size'] = json[key].size;
 		files.push(singleFile);
 	}
 
@@ -51,7 +62,7 @@ function parseFiles(json) {
 }
 
 
-function parseFilesWithSource(json) {
+export function parseFilesWithSource(json) {
 	let files = [];
 
 	for (let key in json) {
@@ -76,7 +87,6 @@ function parseOwnerInfo(ownerJson) {
 			owner['id'] = ownerJson.id;
 			owner['login'] = ownerJson.login;
 			owner['avatarUrl'] = ownerJson.avatar_url;
-
 			return owner;
 		}
 	} finally {

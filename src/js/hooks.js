@@ -26,6 +26,7 @@ export function fetchGistsOnEnter(nextState) {
 			return store.dispatch(fetchStarredGists());
 		} else {
 			return store.dispatch(fetchGists());
+			//return store.dispatch(fetchGists(fetchMethod, page, user));
 		}
 
 	// }
@@ -34,12 +35,12 @@ export function fetchGistsOnEnter(nextState) {
 // Haetaan gist näkymään saavuttaessa.
 export function fetchSelectedGistOnEnter(nextState) {
 	let requestedGistId = nextState.params.gistId;
-	let state = store.getState();
+//	let state = store.getState();
 
 	// Haetaan gist, jos tilaan ei ole tallennettu gistiä
 	// tai käyttäjän pyytämä gist ei vastaa tilaan tallennettua gist.
-	if(!state.activeGist.gist.hasOwnProperty('id') ||
-			state.activeGist.gistId !== requestedGistId) {
-		return store.dispatch(fetchSelectedGist(requestedGistId));
-	}
+//	if(!state.activeGist.hasOwnProperty('id') ||
+		//	state.activeGist.id !== requestedGistId) {
+	return store.dispatch(fetchSelectedGist(requestedGistId));
+
 }

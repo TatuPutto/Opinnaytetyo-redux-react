@@ -14,12 +14,7 @@ class SearchBar extends React.Component {
 		super();
 		this.getInput = this.getInput.bind(this);
 		this.doSearch = this.doSearch.bind(this);
-			this.clear = this.clear.bind(this);
-		this.state = {input: '', suggestions: []};
-	}
-
-	clear() {
-		localStorage.clear();
+		this.state = {input: ''};
 	}
 
 	getInput(e) {
@@ -45,12 +40,7 @@ class SearchBar extends React.Component {
 				<button className='do-search' onClick={this.doSearch}>
 					<i class="fa fa-search" />
 				</button>
-				<button className='do-search' onClick={this.clear}>
-					<i class="fa fa-search" />
-				</button>
-				{this.state.suggestions.length > 0 &&
-					<Suggestions suggestions={this.state.suggestions} />
-				}
+
 
 				{/* }<Link to={'/opinnaytetyo/search/' + this.state.input}>
 					<button className='do-search'>

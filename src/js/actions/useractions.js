@@ -1,6 +1,6 @@
 import {store} from '../createStore';
 
-export const accessToken = 'd6785ed1efeb0272cad529a2b375369350527b88';
+export const accessToken = '099696c5964f977be8e104bbbb440d8c0821bf4f';
 
 let currentState;
 // let accessToken;

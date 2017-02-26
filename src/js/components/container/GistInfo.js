@@ -17,56 +17,53 @@ import {
 class GistInfo extends React.Component {
 	render() {
 		const {
-			gist,
+			id,
+			name,
+			description,
+			isPublic,
 			isStarred,
-			isStarring,
-			toggleStarredStatus,
-			forkGist,
-			deleteGist,
-			userId,
-		} = this.props;
+			owner,
+		} = this.props.gist;
 
 		return (
 			<div className='gist-info'>
 				<span className='owner'>
-					<img id='owner-avatar' src={gist.owner.avatar_url} />
-					<Link to={'/opinnaytetyo/search/' + gist.owner.login} id='view-gist'>
-						{gist.owner.login}
+					<img id='owner-avatar' src={owner.avatarUrl} />
+					<Link to={'/opinnaytetyo/search/' + owner.login} id='view-gist'>
+						{owner.login}
 					</Link>
 				</span>
 
-				{gist.owner.id === Number(userId) &&
+				{owner.id === this.props.userId &&
 					<GistActionsOwner
-						id={gist.id}
+						id={id}
 						isStarred={isStarred}
-						isStarring={isStarring}
-						starGist={toggleStarredStatus}
-						deleteGist={deleteGist}
+						starGist={this.props.toggleStarredStatus}
+						deleteGist={this.props.deleteGist}
 					/>
 				}
 
-				{gist.owner.id !== Number(userId) &&
+				{owner.id !== this.props.userId &&
 					<GistActions
-						id={gist.id}
+						id={id}
 						isStarred={isStarred}
-						isStarring={isStarring}
-						starGist={toggleStarredStatus}
-						forkGist={forkGist}
+						starGist={this.props.toggleStarredStatus}
+						forkGist={this.props.forkGist}
 					/>
 				}
 
 				<div className='active-gist-info'>
-					<Link to={'/opinnaytetyo/gist/' + gist.id}>
+					<Link to={'/opinnaytetyo/gist/' + id}>
 						<h2 className='active-gist-name'>
-							{gist.files[0].filename}
+							{name}
 						</h2>
 					</Link>
 
 					<span>
-						{gist.public ? 'Julkinen' : 'Salainen'}
+						{isPublic ? 'Julkinen' : 'Salainen'}
 					</span>
 					<div className='active-gist-description'>
-						<p>{gist.description}</p>
+						<p>{description}</p>
 					</div>
 				</div>
 			</div>
@@ -84,10 +81,8 @@ GistInfo.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		gist: state.activeGist.gist,
-		isStarred: state.activeGist.isStarred,
-		isStarring: state.activeGist.isStarring,
-		userId: state.user.id,
+		gist: state.activeGist,
+		userId: Number(state.user.id),
 	};
 }
 

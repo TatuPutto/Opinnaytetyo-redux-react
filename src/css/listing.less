@@ -104,6 +104,33 @@ button:hover {
 	height: 28px;
 }
 
+.change-gist-type {
+	button:nth-child(1) {
+   		border-top-right-radius: 0px;
+   		border-bottom-right-radius: 0px;
+	}
+	button:nth-child(2) {
+		border-radius: 0px;
+	}
+	button:nth-child(3) {
+   		border-top-left-radius: 0px;
+   		border-bottom-left-radius: 0px;
+	}
+}
+
+.change-gist-type button {
+	margin-right: 0px;
+	padding: 0px 6px;
+	border-radius: 4px;
+}
+
+
+.change-gist-type .active-type {
+	background-image: linear-gradient(to bottom, #c9ccd0, #f0f0f1);
+}
+
+
+
 .filtering-options {
 	height: 40px;
     padding: 8px 2%;
@@ -171,7 +198,7 @@ button:hover {
 	overflow-y: auto;
 	position: absolute;
 	margin-top: -1px;
-	margin-left: 4px;
+	//margin-left: 4px;
 	max-height: 400px;
 	z-index: 1;
 }
@@ -241,13 +268,52 @@ button:hover {
 	min-height: 130px;
 }
 
-.gist-list .description {
-	display: block;
-	min-height: 40px;
+.title-wrapper {
+	width: calc(~'100% - 50px');
 }
 
+.title {
+	width: 100%;
+}
+
+.title h2 {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.owner-avatar {
+	vertical-align: top;
+	margin-right: 10px;
+}
+
+.owner-avatar img{
+	height: 40px;
+	width: 40px;
+}
+
+.creation-info {
+    vertical-align: top;
+	font-size: 12px;
+}
+
+
+.gist-list .description {
+//	min-height: 40px;
+	margin-bottom: 15px;
+    margin-top: 15px;
+    margin-left: 51px;
+    font-size: 14px;
+}
+
+.file-count {
+	margin-left: 52px;
+}
+
+
 .active {
-	background-color: wheat;
+	//background-color: wheat;
+	background-color: whitesmoke;
 }
 
 .language {
@@ -314,13 +380,14 @@ button:hover {
 .show-active-gist {
 	height: 100%;
 	overflow-y: auto;
-	padding: 10px;
+	//padding: 10px;
 }
 
 
 .gist-info {
 	//width: 98%;
 	/*height: 100px;*/
+	padding: 15px;
     margin-left: auto;
     margin-right: auto;
 //	padding-top: 10px;
@@ -339,6 +406,7 @@ button:hover {
 
 .owner {
 	font-size: 16px;
+	font-weight: bold;
 }
 
 .owner img {
@@ -359,6 +427,7 @@ button:hover {
 
 .active-gist-description p {
 	font-size: 14px;
+    margin-top: 5px;
 }
 
 .actions {
@@ -402,7 +471,9 @@ button:hover {
 }
 
 .gist-files {
-	margin-top: 10px;
+	padding: 10px;
+    height: calc(~'100% - 118px');
+    overflow-y: auto;
 }
 
 .show-active-gist .gist-file {
@@ -429,7 +500,19 @@ button:hover {
     border-radius: @default-border-radius;
 }
 
+.show-all-lines {
+	cursor: pointer;
+	margin-left: 2px;
+	padding-top: 5px;
+	padding-bottom: 2px;
+}
+
 .loading {
 	background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
 	height: 90%;
+}
+
+.loading-files {
+	background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
+	height: 20%;
 }

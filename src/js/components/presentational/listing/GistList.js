@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import $ from 'jquery';
@@ -33,14 +34,23 @@ class GistList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		//Scrollataan listan alkuun discover-toiminnallisuudessa sivua vaihdettaessa.
-	/*if(nextProps.currentPage !== this.props.currentpage
-				&& nextProps.gists.items.length > 0) {
-			ReactDOM.findDOMNode(this.refs.gistlist).scrollTop = 0;
-			this.props.setActive(nextProps.gists.items[0].id);
+		if(nextProps.currentPage !== this.props.currentPage) {
+			//ReactDOM.findDOMNode(this.refs.gistlist).scrollTop = 0;
+		}
+			//	&& nextProps.gists.items.length > 0) {
+
+		if(nextProps.gists.items.length > 0) {
+			if(this.props.activeGistId !== nextProps.activeGistId) {
+				if(this.props.activeGistId !== nextProps.activeGistId) {
+				}
+			}
 		}
 
 
-		if(nextProps.gists.items.length > 0 && nextProps.gists.items[0] )*/
+
+
+
+	//	if(nextProps.gists.items.length > 0 && nextProps.gists.items[0] )*/
 	}
 
 	/**
@@ -55,6 +65,7 @@ class GistList extends React.Component {
 		}
 		return colorCode;
 	}
+
 
 
 
@@ -75,10 +86,12 @@ class GistList extends React.Component {
 			lastPage,
 		} = this.props.pagination;
 
+
 		//luodaan jokaista taulukon sisältämää gistiä kohden yksi ilmentymä GistListItem-komponentti.
-		const listItems = gists.map(gist => {
+		const listItems = gists.map((gist) => {
 			return (
 				<GistListItem
+					gist={gist}
 					key={gist.id}
 					id={gist.id}
 					filename={gist.files[0].filename}
@@ -88,6 +101,7 @@ class GistList extends React.Component {
 					color={this.getColorCode(gist.files[0].language)}
 					updatedAt={gist.formattedTime}
 					owner={gist.owner.login}
+					ownerAvatar={gist.owner.avatarUrl}
 					activeGistId={this.props.activeGistId}
 					setActive={this.props.setActive}
 					addFilter={this.props.addFilter}
@@ -99,20 +113,19 @@ class GistList extends React.Component {
 		return (
 			<div className='gist-list' ref='gistlist'>
 				{fetchError &&
-					<p>Gistien hakemisessa tapahtui virhe.</p>
+					<p>Gistien hakemisessa tapahtui virhe. {fetchError}</p>
 				}
-				{isFetching && listItems.length === 0 && !fetchError &&
+				{isFetching && !fetchError &&
 					<div className='loading'></div>
 				}
 				{!isFetching && listItems.length === 0 && !fetchError &&
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}
-				{listItems.length > 0 && !fetchError &&
-					<div style={{opacity: isFetching ? 0.5 : 1}}>
-						<ul>
-							{listItems}
-						</ul>
-					</div>
+
+				{listItems.length > 0 && !fetchError && !isFetching &&
+					<ul>
+						{listItems}
+					</ul>
 				}
 
 				{fetchMethod === 'discover' &&
@@ -134,11 +147,11 @@ class GistList extends React.Component {
 
 let activeId;
 function mapStateToProps(state) {
-	activeId = state.activeGist.gistId;
+	activeId = state.activeGist.id;
 
 	return {
 		//gists: filterByLanguage(state.filters.language, state.gists.items),
-		activeGistId: state.activeGist.gistId,
+		activeGistId: state.activeGist.id,
 		//isFetching: state.gists.isFetching,
 		//fetchMethod: state.gists.fetchMethod,
 		currentPage: state.pagination.currentPage,

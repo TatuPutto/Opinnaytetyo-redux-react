@@ -45,7 +45,7 @@ export function sendRequestWithContent(url, httpMethod, content = null) {
 }
 
 
-//Tarkistetaan onnistuiko pyyntö.
+// Tarkistetaan onnistuiko pyyntö.
 export function checkStatus(response) {
 	if(response.ok) {
 		return Promise.resolve(response);
@@ -54,7 +54,7 @@ export function checkStatus(response) {
 	}
 }
 
-//Luetaan vastauksen sisältö.
+// Luetaan vastauksen sisältö.
 export function readJson(response) {
 	return response.json();
 }

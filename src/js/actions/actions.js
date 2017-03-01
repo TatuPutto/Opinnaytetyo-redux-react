@@ -72,7 +72,7 @@ function requestSelectedGist(id) {
 
 function receiveSelectedGist(gistJson) {
 	const parsedGist = parseSingleGistJson(gistJson);
-
+	console.log(parsedGist);
 	return {
 		type: 'RECEIVE_SELECTED_GIST',
 		// activeGist: parseSingleGistJson(gistJson),
@@ -156,7 +156,7 @@ export function fetchSelectedGistFiles(id) {
 			.then(readJson)
 			.then((data) => {
 				//console.log(data.files);
-				dispatch(receiveSelectedGistFiles(data.files));
+				//dispatch(receiveSelectedGistFiles(data.files));
 
 				// dispatch(receiveSelectedGist(parseSingleGistJson(data)));
 			})
@@ -182,7 +182,7 @@ const samplesingle = require('../../static/samplesingle.json');
 
 export function refresh(fetchMethod, pageNumber = 1) {
 	return (dispatch) => {
-		dispatch(invalidateGist());
+		//dispatch(invalidateGist());
 		dispatch(requestGists(fetchMethod));
 
 		return read(
@@ -194,6 +194,7 @@ export function refresh(fetchMethod, pageNumber = 1) {
 			.then((data) => {
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
+				//dispatch(fetchSelectedGistPartial(parsedGists[0]));
 				dispatch(fetchSelectedGist(parsedGists[0].id));
 
 				if(fetchMethod === 'discover') {
@@ -208,7 +209,7 @@ export function fetchLatestPublicGists(page) {
 	const url = 'https://api.github.com/gists/public?page=' + page + '&per_page=100';
 
 	return (dispatch) => {
-		dispatch(invalidateGist());
+	//	dispatch(invalidateGist());
 		dispatch(requestGists('discover'));
 
 		return read(url)
@@ -218,6 +219,8 @@ export function fetchLatestPublicGists(page) {
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
 				dispatch(updatePagination(page));
+				//dispatch(fetchSelectedGistPartial(parsedGists[0]));
+				dispatch(fetchSelectedGist(parsedGists[0].id));
 			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
 		};
 }
@@ -227,7 +230,7 @@ export function fetchGistsBySpecificUser(user) {
 	const url = 'https://api.github.com/users/' + user + '/gists';
 
 	return (dispatch) => {
-		dispatch(invalidateGist());
+		//dispatch(invalidateGist());
 		dispatch(requestGists('search'));
 
 		return read(url)
@@ -236,6 +239,8 @@ export function fetchGistsBySpecificUser(user) {
 			.then((data) => {
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
+				//dispatch(fetchSelectedGistPartial(parsedGists[0]));
+				dispatch(fetchSelectedGist(parsedGists[0].id));
 			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
 		};
 }
@@ -244,7 +249,7 @@ export function fetchGistsBySpecificUser(user) {
 export function fetchStarredGists() {
 	return (dispatch) => {
 		// Mitätöidään aktiivinen gist.
-		dispatch(invalidateGist());
+		//dispatch(invalidateGist());
 		// Ilmoitetaan haun alkamisesta.
 		dispatch(requestGists('starred'));
 
@@ -257,6 +262,8 @@ export function fetchStarredGists() {
 				// Parsitaan vastauksen sisältö ja lähetetään parsittu data varastolle.
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
+				//dispatch(fetchSelectedGistPartial(parsedGists[0]));
+				dispatch(fetchSelectedGist(parsedGists[0].id));
 			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
 		};
 }
@@ -271,7 +278,7 @@ const samplesingle = require('../../static/samplesingle.json');
 export function fetchGists() {
 	return (dispatch) => {
 		// Mitätöidään aktiivinen gist.
-		dispatch(invalidateGist());
+		//dispatch(invalidateGist());
 		// Ilmoitetaan haun alkamisesta.
 		dispatch(requestGists('gists'));
 
@@ -291,7 +298,8 @@ export function fetchGists() {
 				// Parsitaan vastauksen sisältö ja lähetetään parsittu data varastolle.
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
-				dispatch(fetchSelectedGistPartial(parsedGists[0]));
+				dispatch(fetchSelectedGist(parsedGists[0].id));
+				//dispatch(fetchSelectedGistPartial(parsedGists[0]));
 			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
 		};
 }
@@ -511,10 +519,11 @@ export function createGist(gistJson, isPublic) {
 				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
 				dispatch(notify('success', 'Gistin luominen onnistui.'));
 				browserHistory.push('/opinnaytetyo/gist/' + data.id);
-			}).catch((error) => dispatch(notify(
-				'failure',
-				`Gistin luominen epäonnistui (${error.message}).`
-			)));
+			}).catch((error) => {
+				dispatch({type: 'CREATION_FAILED'});
+				dispatch(notify('failure',
+						`Gistin luominen epäonnistui (${error.message}).`));
+			});
 	};
 }
 
@@ -537,12 +546,16 @@ export function editGist(id, editJson) {
 				dispatch(notify('success', 'Gistin muokkaaminen onnistui.'));
 				// Asetetaan muokattu gist aktiiviseksi
 				// ja ohjataan käyttäjä muokatun gistin näkymään.
-				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
+
+				//const parsedGist = parseSingleGistJson(data);
+				//console.log(parsedGist);
+				dispatch(receiveSelectedGist(data));
 				browserHistory.push('/opinnaytetyo/gist/' + data.id);
-			}).catch((error) => dispatch(notify(
-				'failure',
-				`Gistin muokkaaminen ei onnistunut (${error.message}).`
-			)));
+			}).catch((error) => {
+				dispatch({type: 'EDIT_FAILED'});
+				dispatch(notify('failure',
+						`Gistin muokkaaminen ei onnistunut (${error.message}).`))
+			});
 	};
 }
 

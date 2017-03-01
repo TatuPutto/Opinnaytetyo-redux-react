@@ -34,13 +34,15 @@ export function fetchGistsOnEnter(nextState) {
 
 // Haetaan gist näkymään saavuttaessa.
 export function fetchSelectedGistOnEnter(nextState) {
-	let requestedGistId = nextState.params.gistId;
-//	let state = store.getState();
+	const state = store.getState();
+	const activeGistId = state.activeGist.id;
+	const requestedGistId = nextState.params.gistId;
+
+
 
 	// Haetaan gist, jos tilaan ei ole tallennettu gistiä
 	// tai käyttäjän pyytämä gist ei vastaa tilaan tallennettua gist.
-//	if(!state.activeGist.hasOwnProperty('id') ||
-		//	state.activeGist.id !== requestedGistId) {
-	return store.dispatch(fetchSelectedGist(requestedGistId));
-
+	if(activeGistId === null || activeGistId !== requestedGistId) {
+		return store.dispatch(fetchSelectedGist(requestedGistId));
+	}
 }

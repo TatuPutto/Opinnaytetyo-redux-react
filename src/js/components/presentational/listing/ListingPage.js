@@ -148,10 +148,11 @@ function mapDispatchToProps(dispatch) {
 		gistActions: {
 			setActive: (id, gist) => {
 				if(id !== activeId) {
-					dispatch(fetchSelectedGistPartial(gist));
+
+					//dispatch(fetchSelectedGistPartial(gist));
 					//dispatch(receiveSelectedGistInfo(gist));
 					//dispatch(fetchSelectedGistFiles(id));
-					//dispatch(fetchSelectedGist(id));
+					dispatch(fetchSelectedGist(id));
 				}
 			},
 			forkGist: (id) => dispatch(checkIfForked(id)),

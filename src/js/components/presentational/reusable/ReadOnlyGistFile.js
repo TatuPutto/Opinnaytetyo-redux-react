@@ -51,7 +51,7 @@ class ReadOnlyGistFile extends React.Component {
 	}
 
 	copySource() {
-		clipboard.copy(this.props.value);
+		clipboard.copy(this.state.originalValue);
 	}
 
 	minimizeEditor() {
@@ -81,12 +81,12 @@ class ReadOnlyGistFile extends React.Component {
 			<div className='gist-file'>
 				<div className='file-info'>
 					<h3>{filename}</h3>
-					<button className='copy-source'>
-						<i className='fa fa-copy' />
-					</button>
-					<button className='copy-source' onClick={this.minimizeEditor}>
+					<button className='minimize-editor' onClick={this.minimizeEditor}>
 						<i className={isMinimized ?
 								'fa fa-window-maximize' : 'fa fa-window-minimize'} /> &nbsp;
+					</button>
+					<button className='copy-source' onClick={this.copySource}>
+						<i className='fa fa-copy' />
 					</button>
 				</div>
 

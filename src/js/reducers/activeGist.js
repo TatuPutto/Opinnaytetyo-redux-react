@@ -4,10 +4,15 @@ export function activeGist(state = {
 	id: null,
 	name: null,
 	description: null,
+	createdAt: null,
+	updatedAt: null,
+	createdAtUnformatted: null,
+	updatedAtUnformatted: null,
 	files: [],
 	//comments: [],
 	owner: null,
 	isPublic: null,
+	forkInfo: null,
 	isStarred: null,
 	isFetching: false,
 	isFetchingFiles: false,
@@ -17,11 +22,42 @@ export function activeGist(state = {
 	switch(action.type) {
 		//Mitätöidään aktiivinen gist.
 		case 'INVALIDATE_GIST':
-			return {...state, gist: {}, id: null};
+			return {
+				id: null,
+				name: null,
+				description: null,
+				createdAt: null,
+				updatedAt: null,
+				createdAtUnformatted: null,
+				updatedAtUnformatted: null,
+				files: [],
+				owner: null,
+				createdAt: null,
+				updatedAt: null,
+				isPublic: null,
+				forkInfo: null,
+				isFetching: false,
+			};
 			break;
 		//Aktiivisen gistin hakeminen aloitettiin.
 		case 'REQUEST_SELECTED_GIST':
-			return {...state, id: action.id, isFetching: true};
+			return {
+				...state,
+				id: action.id,
+				isFetching: true,
+				name: null,
+				description: null,
+				createdAt: null,
+				updatedAt: null,
+				createdAtUnformatted: null,
+				updatedAtUnformatted: null,
+				files: [],
+				owner: null,
+				createdAt: null,
+				updatedAt: null,
+				isPublic: null,
+				forkInfo: null,
+			};
 			break;
 		//Aktiivisen gistin hakeminen onnistui.
 		case 'RECEIVE_SELECTED_GIST':
@@ -31,10 +67,16 @@ export function activeGist(state = {
 				description: action.gist.description,
 				files: action.gist.files,
 				owner: action.gist.owner,
+				createdAt: action.gist.createdAt,
+				updatedAt: action.gist.updatedAt,
+				createdAtUnformatted: action.gist.createdAtUnformatted,
+				updatedAtUnformatted: action.gist.updatedAtUnformatted,
+				isPublic: action.gist.isPublic,
+				forkInfo: action.gist.forkInfo,
 				isFetching: false,
 			};
 			break;
-
+/*
 		case 'RECEIVE_SELECTED_GIST_INFO':
 			return {
 				...state,
@@ -55,7 +97,7 @@ export function activeGist(state = {
 			return {...state, files: action.files, isFetchingFiles: false};
 			break;
 
-
+*/
 		//Aktiivisen gistin hakeminen onnistui.
 		case 'GIST_FETCH_FAILED':
 			return {...state, gist: {}, isFetching: false, fetchError: action.error};

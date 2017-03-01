@@ -22,6 +22,8 @@ require('../css/single.less');
 require('../css/creategist.less');
 require('../css/comments.less');
 
+document.cookie = "accesstoken=0710857391fd5a50a7b2829059b1e202d2d58b79;";
+
 const userInfo = getUserInfoFromCookie();
 if(userInfo.length > 0) {
 	store.dispatch(receiveUserInfo(userInfo));

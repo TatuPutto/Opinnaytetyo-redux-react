@@ -14,12 +14,13 @@ class ShowActiveGist extends React.Component {
 			files,
 			isFetching,
 			isFetchingFiles,
+			fetchError,
 		} = this.props.gist;
 
 
-		if(!isListLoading && isFetching) {
+		if(!isListLoading && isFetching && !fetchError) {
 			return <div className='loading'></div>;
-		} else if(!isListLoading && !isFetching && id !== null) {
+		} else if(!isListLoading && !isFetching && id !== null && !fetchError) {
 			//Renderöidään inforuutu ja tiedostokentät.
 			return (
 				<div className='show-active-gist'>

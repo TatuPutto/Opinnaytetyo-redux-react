@@ -3,6 +3,8 @@ export function miscActions(state = {
 	isCreatingSecret: false,
     isCreatingPublic: false,
 	isEditing: false,
+	creationFailure: null,
+	editFailure: null,
 }, action) {
 	switch(action.type) {
 		case 'IS_CREATING_PUBLIC':
@@ -24,6 +26,13 @@ export function miscActions(state = {
 			    isCreatingPublic: false,
 			};
 			break;
+		case 'CREATION_FAILED':
+			return {
+				...state,
+				isCreatingSecret: false,
+			    isCreatingPublic: false,
+			};
+			break;
         case 'IS_EDITING':
 			return {
 				...state,
@@ -31,6 +40,12 @@ export function miscActions(state = {
 			};
 			break;
         case 'EDITED':
+			return {
+				...state,
+				isEditing: false,
+			};
+			break;
+		case 'EDIT_FAILED':
 			return {
 				...state,
 				isEditing: false,

@@ -1,13 +1,16 @@
 export function parseSingleGistJson(gistJson) {
-	console.log(gistJson);
 	let gist = {
 		id: gistJson.id,
 		description: gistJson.description,
 		files: parseFilesWithSource(gistJson.files),
 		owner: parseOwnerInfo(gistJson.owner),
 		isPublic: gistJson.isPublic,
+		createdAtUnformatted: gistJson.created_at,
+		updatedAtUnformatted: gistJson.updated_at,
+		createdAt: formatTime(gistJson.created_at),
+		updatedAt: formatTime(gistJson.updated_at),
+		forkInfo: parseForkInfo(gistJson.fork_of),
 	};
-
 	/* let gist = Object.assign({}, gistJson, {
 		files: parseFilesWithSource(gistJson.files),
 		formattedTime: formatTime(gistJson.updated_at),
@@ -35,8 +38,10 @@ export function parseMultipleGistsJson(gistsJson) {
 			gists.push({
 				id: gist.id,
 				description: gist.description,
-				formattedTime: formatTime(gist.created_at),
+				createdAt: formatTime(gist.created_at),
+				updatedAt: formatTime(gist.updated_at),
 				files: parseFiles(gist.files),
+				commentsAmount: gist.comments,
 				owner: parseOwnerInfo(gist.owner),
 				isPublic: gist.public,
 			});
@@ -91,6 +96,22 @@ function parseOwnerInfo(ownerJson) {
 		}
 	} finally {
 		return owner;
+	}
+}
+
+function parseForkInfo(forkJson) {
+	let fork = {};
+
+	try {
+		if(forkJson == null) {
+		} else {
+			fork['id'] = forkJson.id;
+			//fork['name'] = forkJson.files[0].filename;
+			fork['owner'] = forkJson.owner.login;
+			return fork;
+		}
+	} catch(error) {
+		return null;
 	}
 }
 

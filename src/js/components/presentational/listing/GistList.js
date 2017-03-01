@@ -97,9 +97,10 @@ class GistList extends React.Component {
 					filename={gist.files[0].filename}
 					description={gist.description}
 					fileCount={gist.files.length}
+					commentsAmount={gist.commentsAmount}
 					language={gist.files[0].language}
 					color={this.getColorCode(gist.files[0].language)}
-					updatedAt={gist.formattedTime}
+					createdAt={gist.createdAt}
 					owner={gist.owner.login}
 					ownerAvatar={gist.owner.avatarUrl}
 					activeGistId={this.props.activeGistId}

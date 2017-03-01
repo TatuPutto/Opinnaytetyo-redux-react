@@ -21,7 +21,6 @@ class SingleGist extends React.Component {
 
 
 	componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
 		if(nextProps.gist.hasOwnProperty('comments')) {
 			if(nextProps.gist.comments > 0 && this.props.comments.length === 0) {
 				this.props.fetchComments(nextProps.gist.id);
@@ -32,6 +31,8 @@ class SingleGist extends React.Component {
 
 	render() {
 		const {isFetching, fetchError, gist, comments} = this.props;
+
+		//console.log(gist);
 
 		if(this.props.isFetching || gist.id === null && !fetchError) {
 			return (
@@ -88,7 +89,7 @@ function mapStateToProps(state) {
 		gist: state.activeGist,
 		comments: state.activeGist.comments,
 		isFetching: state.activeGist.isFetching,
-		fetchError: state.activeGist.fetchError
+		fetchError: state.activeGist.fetchError,
 	};
 }
 
@@ -111,7 +112,7 @@ function mapDispatchToProps(dispatch) {
 			if (confirm('Haluatko varmasti poistaa tämän gistin?')) {
 				dispatch(deleteGist(id));
 			}
-		}
+		},
 	};
 }
 

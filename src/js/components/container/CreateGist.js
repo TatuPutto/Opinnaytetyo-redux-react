@@ -75,6 +75,8 @@ class CreateGist extends React.Component {
 		const isCreating = isCreatingSecret || isCreatingPublic ?
 				true : false;
 
+
+
 		// Jos tiedosto-kenttiä on enemmän kuin 1,
 		// mahdollistetaan kenttien poistaminen
 		const isRemovable = editors.length === 1 ? false : true;
@@ -116,7 +118,7 @@ class CreateGist extends React.Component {
 							onClick={() => this.getGistInfo(false)}
 							disabled={isCreating}
 						>
-							<i className={isCreating ?
+							<i className={isCreatingSecret ?
 									'fa fa-spinner fa-spin' : 'fa fa-paper-plane'} />
 									&nbsp;{creationStatusSecret}
 						</button>
@@ -126,7 +128,7 @@ class CreateGist extends React.Component {
 							onClick={() => this.getGistInfo(true)}
 							disabled={isCreating}
 						>
-							<i className={isCreating ?
+							<i className={isCreatingPublic ?
 									'fa fa-spinner fa-spin' : 'fa fa-paper-plane-o'} />
 									&nbsp;{creationStatusPublic}
 						</button>

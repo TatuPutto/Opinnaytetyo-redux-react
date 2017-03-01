@@ -9,24 +9,16 @@ class GistListItem extends React.Component {
 			owner,
 			ownerAvatar,
 			activeGistId,
-			updatedAt,
+			createdAt,
 			language,
 			setActive,
 			addFilter,
 			color,
 			fileCount,
+			commentsAmount,
 		} = this.props;
 
 		let {filename, description} = this.props;
-
-		if(filename) {
-			// Lyhennetään gistin nimeä, jos nimi on yli 80 merkkiä pitkä
-			/*filename = ((owner.length + filename.length) < 80) ?
-					filename : filename.substring(0, 80) + '...';*/
-			/*filename = filename.length > 57 ?
-					filename.substring(0, 57) + '...' : filename;
-					console.log(filename);*/
-		}
 
 		if(description) {
 			// Lyhennetään kuvausta, jos kuvaus on yli 150 merkkiä pitkä
@@ -47,27 +39,23 @@ class GistListItem extends React.Component {
 					<span className={'owner-avatar'}>
 						<img src={ownerAvatar} />
 					</span>
-
-
-				<span className='title-wrapper'>
-					<span className={'title'}>
-						<h2>
-						 {/*}&nbsp;/&nbsp;*/}
-							<Link to={'/opinnaytetyo/gist/' + id}>
-								{filename}
+					<span className='title-wrapper'>
+						<span className={'title'}>
+							<h2>
+								<Link to={'/opinnaytetyo/gist/' + id}>
+									{filename}
+								</Link>
+							</h2>
+						</span>
+						<br />
+						<span className={'creation-info'}>
+							<Link to={'/opinnaytetyo/search/' + owner}>
+								{owner}
 							</Link>
-						</h2>
-					</span>
-					<br />
-					<span className={'creation-info'}>
-						<Link to={'/opinnaytetyo/search/' + owner}>
-							{owner}
-						</Link>
 
-						&nbsp;| {updatedAt}
+							&nbsp;| {createdAt}
+						</span>
 					</span>
-				</span>
-
 				</div>
 
 
@@ -82,6 +70,9 @@ class GistListItem extends React.Component {
 						<i className='fa fa-file-code-o' /> {fileCount}
 					</span>
 
+					<span className='comments-amount'>
+						<i className='fa fa-comments-o' /> {commentsAmount}
+					</span>
 
 					{language &&
 						<span

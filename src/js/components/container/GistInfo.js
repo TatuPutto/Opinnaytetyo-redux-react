@@ -23,11 +23,110 @@ class GistInfo extends React.Component {
 			isPublic,
 			isStarred,
 			owner,
+			createdAt,
+			updatedAt,
+			createdAtUnformatted,
+			updatedAtUnformatted,
+			forkInfo,
 			isForking,
 		} = this.props.gist;
 
 		return (
 			<div className='gist-info'>
+				<div className='active-gist-title'>
+					<span className={'owner-avatar'}>
+						<img src={owner.avatarUrl} />
+					</span>
+					<span className='title-wrapper'>
+						<span className={'title'}>
+							<h2>
+								<Link to={'/opinnaytetyo/gist/' + id}>
+									{name}
+								</Link>
+							</h2>
+						</span>
+						<br />
+						<span className={'creation-info'}>
+							<Link to={'/opinnaytetyo/search/' + owner.login}>
+								{owner.login}
+							</Link>
+
+							{createdAtUnformatted === updatedAtUnformatted && !forkInfo &&
+								<p>&nbsp;| luotu {createdAt}</p>
+							}
+
+							{createdAtUnformatted !== updatedAtUnformatted && !forkInfo &&
+								<p>&nbsp;| luotu {createdAt} &ndash; päivitetty {updatedAt}</p>
+							}
+
+							{createdAtUnformatted === updatedAtUnformatted && forkInfo &&
+								<p>&nbsp;| luotu {createdAt} &ndash; forkattu kohteesta
+									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+										&nbsp;{forkInfo.owner}
+									</Link>&nbsp;/&nbsp;
+									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+										{name}
+									</Link>
+								</p>
+							}
+
+							{createdAtUnformatted !== updatedAtUnformatted && forkInfo &&
+								<p>&nbsp;| päivitetty {updatedAt} &ndash; forkattu kohteesta
+									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+										&nbsp;{forkInfo.owner}
+									</Link>&nbsp;/&nbsp;
+									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+										{name}
+									</Link>
+								</p>
+							}
+
+
+
+							{/*}
+							{forkInfo &&
+								<p>&nbsp;| Luotu {createdAt} &ndash; forkattu kohteesta
+									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+										&nbsp;{forkInfo.owner}
+									</Link>&nbsp;/&nbsp;
+									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+										{name}
+									</Link>
+								</p>
+							}*/}
+
+						</span>
+					</span>
+
+					{/*}{forkInfo !== null &&
+						&nbsp;| Luotu {createdAt} &ndash forkattu kohteesta {forkInfo.owner} / {name};
+					}*/}
+
+					{owner.id === this.props.userId &&
+						<GistActionsOwner
+							id={id}
+							isStarred={isStarred}
+							starGist={this.props.toggleStarredStatus}
+							deleteGist={this.props.deleteGist}
+						/>
+					}
+
+					{owner.id !== this.props.userId &&
+						<GistActions
+							id={id}
+							isStarred={isStarred}
+							isForking={isForking}
+							starGist={this.props.toggleStarredStatus}
+							forkGist={this.props.forkGist}
+						/>
+					}
+				</div>
+				<div className='active-gist-description'>
+					<p>{description}</p>
+				</div>
+
+			 {/*}
+
 				<span className='owner'>
 					<img id='owner-avatar' src={owner.avatarUrl} />
 					<Link to={'/opinnaytetyo/search/' + owner.login} id='view-gist'>
@@ -68,6 +167,7 @@ class GistInfo extends React.Component {
 						<p>{description}</p>
 					</div>
 				</div>
+				*/}
 			</div>
 		);
 	}

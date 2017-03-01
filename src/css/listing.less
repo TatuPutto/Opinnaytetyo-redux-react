@@ -23,7 +23,7 @@ button:hover {
 
 
 .notification {
-	max-width: 500px;
+	max-width: 1000px;
 	word-break: break-word;
 	position: fixed;
 	background: white;
@@ -236,10 +236,12 @@ button:hover {
 	height:calc(~'100% - 20px');
 	width: 30%;
 	margin-top: 10px;
-	margin-right: 10px;
-	margin-left: 10px;
+	//margin-right: 10px;
+	//margin-left: 10px;
+	margin-right: 0.5%;
+	margin-left: 0.5%;
 	border-radius: 2px;
-	//box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     /*padding-top: 4px;*/
 }
 
@@ -276,6 +278,7 @@ button:hover {
 	width: calc(~'100% - 50px');
 }
 
+
 .title {
 	width: 100%;
 }
@@ -303,15 +306,24 @@ button:hover {
 
 
 .gist-list .description {
-//	min-height: 40px;
-	margin-bottom: 15px;
+	/*min-height: 40px;
+	//margin-bottom: 15px;
     margin-top: 15px;
     margin-left: 51px;
-    font-size: 14px;
+    font-size: 14px;*/
+	margin-bottom: 15px;
+	margin-top: 15px;
+	margin-left: 51px;
+	font-size: 14px;
+	min-height: 20px;
 }
 
 .file-count {
 	margin-left: 52px;
+}
+
+.comments-amount {
+    margin-left: 10px;
 }
 
 
@@ -372,13 +384,13 @@ button:hover {
 	border-style: solid;
 	border-width: 1px;
 	border-color: @default-border-color;
-	width: 68%;
+	width: 68.5%;
 	//height: 100%;
 	height:calc(~'100% - 20px');
 	float: left;
     margin-top: 10px;
 	border-radius: 2px;
-	//box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 
@@ -401,7 +413,7 @@ button:hover {
 	//width: 98%;
 	/*height: 100px;*/
 	//flex: 0 1 auto;
-	padding: 15px;
+	padding: 10px;
     //margin-left: auto;
     //margin-right: auto;
 //	padding-top: 10px;
@@ -409,8 +421,28 @@ button:hover {
 	border-bottom: 1px solid @default-border-color;
 }
 
+
+
+.gist-info .title-wrapper {
+	//width: 65%;
+	width: calc(~'100% - 440px');
+}
+
+.gist-info .title {
+    vertical-align: middle;
+}
+
+.gist-info h2 {
+	font-size: 18px;
+}
+
+.gist-info .creation-info {
+	font-size: 14px;
+}
+
 .listing .gist-info {
 	flex: 0 1 auto;
+	padding-bottom: 0px;
 }
 
 
@@ -420,7 +452,7 @@ button:hover {
 }
 
 .active-gist-info {
-	padding-top: 5px;
+	//padding-top: 5px;
 }
 
 .owner {
@@ -444,9 +476,20 @@ button:hover {
 	display: inline;
 }
 
+.active-gist-title {
+	padding-bottom: 10px;
+}
+
+.active-gist-description {
+	//border-top: 1px solid rgb(212, 206, 206);
+//	padding: 15px 0px
+	padding-bottom: 10px;
+}
+
 .active-gist-description p {
-	font-size: 14px;
-    margin-top: 5px;
+	//font-size: 14px;
+    //margin-top: 5px;
+    font-size: 16px;
 }
 
 .actions {
@@ -472,8 +515,9 @@ button:hover {
 }
 
 
-.file-info {
-	padding: 4px;
+.listing .file-info {
+	//padding: 4px;
+	padding: 6px 4px;
 }
 
 .copy-source {
@@ -483,11 +527,24 @@ button:hover {
     cursor: pointer;
 	border-style: none;
 	padding: 0px;
+	margin-right: 6px;
 }
 
 .copy-source:hover {
 	background: whitesmoke;
 }
+
+.minimize-editor {
+	background: whitesmoke;
+	height: 18px;
+    width: 18px;
+    float: right;
+    cursor: pointer;
+	border-style: none;
+	padding: 0px;
+	margin-right: 0px;
+}
+
 
 .gist-files {
 	padding: 10px;

@@ -100,6 +100,12 @@ function parseOwnerInfo(ownerJson) {
 }
 
 function parseForkInfo(forkJson) {
+	if(!forkJson) {
+		console.log(forkJson);
+		console.log('täällä näin');
+		return null;
+	}
+
 	let fork = {};
 
 	try {

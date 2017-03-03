@@ -81,26 +81,8 @@ class GistInfo extends React.Component {
 								</p>
 							}
 
-
-
-							{/*}
-							{forkInfo &&
-								<p>&nbsp;| Luotu {createdAt} &ndash; forkattu kohteesta
-									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
-										&nbsp;{forkInfo.owner}
-									</Link>&nbsp;/&nbsp;
-									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
-										{name}
-									</Link>
-								</p>
-							}*/}
-
 						</span>
 					</span>
-
-					{/*}{forkInfo !== null &&
-						&nbsp;| Luotu {createdAt} &ndash forkattu kohteesta {forkInfo.owner} / {name};
-					}*/}
 
 					{owner.id === this.props.userId &&
 						<GistActionsOwner
@@ -121,10 +103,12 @@ class GistInfo extends React.Component {
 						/>
 					}
 				</div>
-				<div className='active-gist-description'>
-					<p>{description}</p>
-				</div>
 
+				{description &&
+					<div className='active-gist-description'>
+						<p>{description}</p>
+						</div>
+				}
 			 {/*}
 
 				<span className='owner'>

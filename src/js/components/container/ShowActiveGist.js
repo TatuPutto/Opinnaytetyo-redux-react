@@ -5,6 +5,9 @@ import $ from 'jquery';
 import GistInfo from './GistInfo';
 import ReadOnlyGistFile from '../presentational/reusable/ReadOnlyGistFile';
 import GistFiles from '../presentational/listing/GistFiles';
+import Comments from '../presentational/commentsection/Comments';
+
+import {fetchComments} from '../../actions/actions';
 
 class ShowActiveGist extends React.Component {
 	render() {
@@ -15,8 +18,10 @@ class ShowActiveGist extends React.Component {
 			isFetching,
 			isFetchingFiles,
 			fetchError,
+			comments,
+			commentsAmount,
 		} = this.props.gist;
-
+		console.log(this.props.fetchComments);
 
 		if(!isListLoading && isFetching && !fetchError) {
 			return <div className='loading'></div>;
@@ -25,16 +30,23 @@ class ShowActiveGist extends React.Component {
 			return (
 				<div className='show-active-gist'>
 					<GistInfo />
-					{!isFetchingFiles &&
-						<GistFiles files={files} />
+					<GistFiles files={files} />
+
+					{commentsAmount === 0 &&
+						<p>Ei kommentteja</p>
 					}
-					{isFetchingFiles &&
-						<div className='loading-files'></div>
+					{commentsAmount > 0 && comments.length < 1 &&
+						<p onClick={() => this.props.fetchComments(id)}>
+							Näytä kommentit ({commentsAmount})
+						</p>
+					}
+					{commentsAmount > 0 && comments.length > 0 &&
+						<Comments comments={comments} />
 					}
 				</div>
 	   	 	);
 		} else {
-			return <div></div>;
+			return <div>{fetchError}</div>;
 		}
 	}
 }
@@ -44,8 +56,13 @@ function mapStateToProps(state) {
 	return {
 		gist: state.activeGist,
 		isListLoading: state.gists.isFetching,
-
-	}
+	};
 }
 
-export default connect(mapStateToProps)(ShowActiveGist);
+function mapDispatchToProps(dispatch) {
+	return {fetchComments: (id) => dispatch(fetchComments(id))};
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowActiveGist);

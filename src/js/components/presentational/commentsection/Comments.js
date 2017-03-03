@@ -4,11 +4,9 @@ import CommentBody from './CommentBody';
 
 class Comments extends React.Component {
     render() {
-
         const {comments} = this.props.comments;
-        console.log(comments);
+
         const commentContainers = this.props.comments.map((comment) => {
-            console.log(comment);
             return (
                 <div className='comment-container' key={comment.body}>
                     <CommentHeadline
@@ -20,15 +18,9 @@ class Comments extends React.Component {
             );
         });
 
-
-
-        console.log(commentContainers);
-
         return (
             <div className='comment-section'>
-
-                    {commentContainers}
-
+                {commentContainers}
             </div>
         );
     }

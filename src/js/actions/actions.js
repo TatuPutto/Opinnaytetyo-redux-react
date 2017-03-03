@@ -72,7 +72,7 @@ function requestSelectedGist(id) {
 
 function receiveSelectedGist(gistJson) {
 	const parsedGist = parseSingleGistJson(gistJson);
-	console.log(parsedGist);
+
 	return {
 		type: 'RECEIVE_SELECTED_GIST',
 		// activeGist: parseSingleGistJson(gistJson),
@@ -599,10 +599,7 @@ export function fetchComments(id) {
 		return read(url)
 			.then(checkStatus)
 			.then(readJson)
-			.then((data) => {
-				dispatch(receiveComments(data));
-				// dispatch(createComment(id));
-			})
+			.then((data) => dispatch(receiveComments(data)))
 			.catch((error) => dispatch(notify(error.message)));
 	};
 }

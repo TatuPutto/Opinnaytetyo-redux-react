@@ -9,6 +9,10 @@ import {fetchUserInfo, receiveUserInfo} from './actions/actions';
 import {getUserInfoFromCookie} from './utility/persistUserInfo';
 
 
+import {read} from './utility/fetchmethods';
+import {checkStatus, readJson} from './utility/handleresponse'
+import {parseSingleGistJson} from './utility/parsegists'
+
 import Root from './components/container/Root';
 import ListingPage from './components/presentational/listing/ListingPage';
 import SingleGist from './components/container/SingleGist';
@@ -22,7 +26,6 @@ require('../css/single.less');
 require('../css/creategist.less');
 require('../css/comments.less');
 
-document.cookie ="accesstoken=900656288fa3945a8b5e3f8565f58799dcf45a51";
 
 const userInfo = getUserInfoFromCookie();
 if(userInfo.length > 0) {
@@ -30,9 +33,6 @@ if(userInfo.length > 0) {
 } else {
 	window.location.href = "/opinnaytetyo/login";
 }
-
-//store.dispatch(fetchUserInfo());
-
 
 ReactDOM.render(
 	<Provider store={store}>

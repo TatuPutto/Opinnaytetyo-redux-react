@@ -73,7 +73,7 @@ export function getUserInfoFromCookie() {
 				userInfo[1] = value;
 				break;
 			case 'avatarurl':
-				userInfo[2] = value
+				userInfo[2] = value.substring(1, value.length - 1);
 				break;
 			case 'accesstoken':
 				userInfo[3] = value;

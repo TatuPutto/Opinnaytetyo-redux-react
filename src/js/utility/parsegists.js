@@ -10,6 +10,7 @@ export function parseSingleGistJson(gistJson) {
 		createdAt: formatTime(gistJson.created_at),
 		updatedAt: formatTime(gistJson.updated_at),
 		forkInfo: parseForkInfo(gistJson.fork_of),
+		comments: gistJson.comments,
 	};
 	/* let gist = Object.assign({}, gistJson, {
 		files: parseFilesWithSource(gistJson.files),
@@ -84,38 +85,28 @@ export function parseFilesWithSource(json) {
 
 
 function parseOwnerInfo(ownerJson) {
-	let owner = {};
-
 	try {
-		if(ownerJson == null) {
-		} else {
-			owner['id'] = ownerJson.id;
-			owner['login'] = ownerJson.login;
-			owner['avatarUrl'] = ownerJson.avatar_url;
-			return owner;
-		}
-	} finally {
+		let owner = {};
+		owner['id'] = ownerJson.id;
+		owner['login'] = ownerJson.login;
+		owner['avatarUrl'] = ownerJson.avatar_url;
 		return owner;
+	} catch(error) {
+		return null;
 	}
 }
 
 function parseForkInfo(forkJson) {
 	if(!forkJson) {
-		console.log(forkJson);
-		console.log('täällä näin');
 		return null;
 	}
 
-	let fork = {};
-
 	try {
-		if(forkJson == null) {
-		} else {
-			fork['id'] = forkJson.id;
-			//fork['name'] = forkJson.files[0].filename;
-			fork['owner'] = forkJson.owner.login;
-			return fork;
-		}
+		let fork = {};
+		fork['id'] = forkJson.id;
+		//fork['name'] = forkJson.files[0].filename;
+		fork['owner'] = forkJson.owner.login;
+		return fork;
 	} catch(error) {
 		return null;
 	}
@@ -123,16 +114,10 @@ function parseForkInfo(forkJson) {
 
 
 function formatTime(time) {
-	let date = new Date(time);
-
-	let day = date.getDate();
-	let month = date.getMonth() + 1;
-	let year = date.getFullYear();
-	let hours = date.getHours();
-	let minutes = date.getMinutes();
+	const date = new Date(time);
+	const day = date.getDate();
+	const month = date.getMonth() + 1;
+	const year = date.getFullYear();
 
 	return day + '.' + month + '.' + year;
-
-	// return day + '.' + month + '.' + year +
-	//		', ' + hours + ':' + minutes;
 }

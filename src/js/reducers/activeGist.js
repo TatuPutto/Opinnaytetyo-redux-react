@@ -9,7 +9,8 @@ export function activeGist(state = {
 	createdAtUnformatted: null,
 	updatedAtUnformatted: null,
 	files: [],
-	//comments: [],
+	comments: [],
+	commentsAmount: null,
 	owner: null,
 	isPublic: null,
 	forkInfo: null,
@@ -31,6 +32,7 @@ export function activeGist(state = {
 				createdAtUnformatted: null,
 				updatedAtUnformatted: null,
 				files: [],
+				comments: [],
 				owner: null,
 				createdAt: null,
 				updatedAt: null,
@@ -52,6 +54,7 @@ export function activeGist(state = {
 				createdAtUnformatted: null,
 				updatedAtUnformatted: null,
 				files: [],
+				comments: [],
 				owner: null,
 				createdAt: null,
 				updatedAt: null,
@@ -66,6 +69,7 @@ export function activeGist(state = {
 				name: action.gist.files[0].filename,
 				description: action.gist.description,
 				files: action.gist.files,
+				commentsAmount: action.gist.comments,
 				owner: action.gist.owner,
 				createdAt: action.gist.createdAt,
 				updatedAt: action.gist.updatedAt,
@@ -126,9 +130,9 @@ export function activeGist(state = {
 				isForking: false,
 			};
 			break;
-	/*	case 'RECEIVE_COMMENTS':
+		case 'RECEIVE_COMMENTS':
 			return {...state, comments: action.comments};
-			break;*/
+			break;
 		default:
 			return state;
 	}

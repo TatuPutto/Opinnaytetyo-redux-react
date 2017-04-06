@@ -34,6 +34,7 @@ class ListingPage extends React.Component {
 	}
 
 	componentDidMount() {
+		$('.header-content').removeClass('narrow');
 		$(document.body).on('keydown', this.moveToEdit);
 	}
 

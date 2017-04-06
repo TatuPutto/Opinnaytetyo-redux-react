@@ -16,19 +16,16 @@ class Editor extends React.Component {
 		editor.getSession().setUseWorker(false);
 		editor.setShowPrintMargin(false);
 		editor.setReadOnly(isReadOnly);
-		editor.setOptions({fontSize: '14px'});
-
+		editor.setOptions({fontSize: '13px'});
 
 
 		if(value) {
 			const lines = value.split('\n').length + 1;
 			if(value.endsWith('\n')) {
 				editor.setValue(value);
-			}
-			else {
+			} else {
 				editor.setValue(value + '\n');
 			}
-
 
 			if(isReadOnly) {
 				editor.setOptions({maxLines: lines});

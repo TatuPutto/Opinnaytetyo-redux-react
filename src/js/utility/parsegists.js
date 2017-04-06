@@ -24,18 +24,8 @@ export function parseSingleGistJson(gistJson) {
 export function parseMultipleGistsJson(gistsJson) {
 	let gists = [];
 
-	gistsJson.forEach((gist, i) => {
-		let files = parseFiles(gist.files);
-		let gistOwner = parseOwnerInfo(gist.owner);
-
-		if(files != null && gistOwner.login != null) {
-			/* gists.push(Object.assign({}, gist, {
-				files: parseFiles(gist.files),
-				owner: parseOwnerInfo(gist.owner),
-				//formattedTime: formatTime(gist.updated_at),
-				formattedTime: formatTime(gist.created_at),
-			}));*/
-
+	gistsJson.forEach((gist) => {
+		if(gist.files != null && gist.owner != null) {
 			gists.push({
 				id: gist.id,
 				description: gist.description,
@@ -71,7 +61,7 @@ function parseFiles(json) {
 export function parseFilesWithSource(json) {
 	let files = [];
 
-	for (let key in json) {
+	for(let key in json) {
 		let file = {};
 		file['filename'] = json[key].filename;
 		file['description'] = json[key].language;
@@ -85,15 +75,15 @@ export function parseFilesWithSource(json) {
 
 
 function parseOwnerInfo(ownerJson) {
-	try {
-		let owner = {};
-		owner['id'] = ownerJson.id;
-		owner['login'] = ownerJson.login;
-		owner['avatarUrl'] = ownerJson.avatar_url;
-		return owner;
-	} catch(error) {
+    if(!ownerJson) {
 		return null;
 	}
+
+	let owner = {};
+	owner['id'] = ownerJson.id;
+	owner['login'] = ownerJson.login;
+	owner['avatarUrl'] = ownerJson.avatar_url;
+	return owner;
 }
 
 function parseForkInfo(forkJson) {
@@ -101,15 +91,11 @@ function parseForkInfo(forkJson) {
 		return null;
 	}
 
-	try {
-		let fork = {};
-		fork['id'] = forkJson.id;
-		//fork['name'] = forkJson.files[0].filename;
-		fork['owner'] = forkJson.owner.login;
-		return fork;
-	} catch(error) {
-		return null;
-	}
+	let fork = {};
+	fork['id'] = forkJson.id;
+	//fork['name'] = forkJson.files[0].filename;
+	fork['owner'] = forkJson.owner.login;
+	return fork;
 }
 
 

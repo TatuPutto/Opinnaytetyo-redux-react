@@ -2,12 +2,13 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import $ from 'jquery';
 
-import GistInfo from './GistInfo';
-import ReadOnlyGistFile from '../presentational/reusable/ReadOnlyGistFile';
-import GistFiles from '../presentational/listing/GistFiles';
-import Comments from '../presentational/commentsection/Comments';
+//import GistInfo from '../../../components/container/GistInfo';
+import GistInfo from '../../../sharedcomponents/GistInfo';
+import ReadOnlyGistFile from '../../../components/presentational/reusable/ReadOnlyGistFile';
+import GistFiles from '../../../components/presentational/listing/GistFiles';
+import Comments from '../../../components/presentational/commentsection/Comments';
 
-import {fetchComments} from '../../actions/actions';
+//import {fetchComments} from '../../actions/actions';
 
 class ShowActiveGist extends React.Component {
 	render() {
@@ -21,7 +22,7 @@ class ShowActiveGist extends React.Component {
 			comments,
 			commentsAmount,
 		} = this.props.gist;
-	
+
 
 		if(!isListLoading && isFetching && !fetchError) {
 			return <div className='loading'></div>;
@@ -29,9 +30,13 @@ class ShowActiveGist extends React.Component {
 			//Renderöidään inforuutu ja tiedostokentät.
 			return (
 				<div className='show-active-gist'>
-					<GistInfo />
+					<GistInfo
+						actions={this.props.actions}
+						gist={this.props.gist}
+						userId={this.props.userId}
+					/>
 					<GistFiles files={files} />
-
+					{/*}
 					{commentsAmount === 0 &&
 						<p>Ei kommentteja</p>
 					}
@@ -42,7 +47,7 @@ class ShowActiveGist extends React.Component {
 					}
 					{commentsAmount > 0 && comments.length > 0 &&
 						<Comments comments={comments} />
-					}
+					}*/}
 				</div>
 	   	 	);
 		} else {
@@ -51,18 +56,20 @@ class ShowActiveGist extends React.Component {
 	}
 }
 
-
+/*
 function mapStateToProps(state) {
 	return {
 		gist: state.activeGist,
 		isListLoading: state.gists.isFetching,
 	};
-}
-
+}*/
+/*
 function mapDispatchToProps(dispatch) {
 	return {fetchComments: (id) => dispatch(fetchComments(id))};
 }
+*/
 
 
+//export default connect(mapStateToProps)(ShowActiveGist);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowActiveGist);
+export default ShowActiveGist;

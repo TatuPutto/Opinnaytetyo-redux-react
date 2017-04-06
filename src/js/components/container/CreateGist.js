@@ -19,6 +19,11 @@ class CreateGist extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+		$('.header-content').addClass('narrow');
+	}
+
+
 	// Lisätään uusi tiedostokenttä.
 	addFile() {
 		this.setState({

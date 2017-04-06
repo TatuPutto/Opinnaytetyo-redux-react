@@ -20,6 +20,8 @@ class EditGist extends React.Component {
 
 	// Gist on ladattu välimuistista näkymään saavuttaessa.
 	componentDidMount() {
+		$('.header-content').addClass('narrow');
+
 		if(this.props.gist.id !== null) {
 			this.initializeFiles(this.props.gist.files);
 		}

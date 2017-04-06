@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import $ from 'jquery';
 
-import {closeNotification} from '../../actions/actions';
+import {closeNotification} from '../duck';
 
 class Notification extends React.Component {
 	componentDidUpdate() {

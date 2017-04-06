@@ -1,24 +1,26 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import $ from 'jquery';
 
-import GistInfo from './GistInfo';
-import ReadOnlyGistFile from '../presentational/reusable/ReadOnlyGistFile';
-import Comments from '../presentational/commentsection/Comments';
+import GistInfo from '../../../components/container/GistInfo';
+import GistFiles from '../../../components/presentational/listing/GistFiles';
+import Comments from '../../../components/presentational/commentsection/Comments';
+import Loading from '../../../sharedcomponents/Loading';
+
 
 import {
-	fetchUserInfo,
-	fetchGists,
 	fetchSelectedGist,
 	fetchComments
-} from '../../actions/actions';
+} from '../../../actions/actions';
 
 
 class SingleGist extends React.Component {
-	static propTypes = {
-		gist: PropTypes.object.isRequired,
-		isFetchingSelectedGist: PropTypes.bool.isRequired
-	};
+	static propTypes = {gist: PropTypes.object.isRequired};
 
+	componentDidMount() {
+		$('.header-content').addClass('narrow');
+	}
 
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.gist.hasOwnProperty('comments')) {
@@ -30,44 +32,33 @@ class SingleGist extends React.Component {
 
 
 	render() {
-		const {isFetching, fetchError, gist, comments} = this.props;
+		const {
+			id,
+			files,
+			isFetching,
+			fetchError,
+		} = this.props.gist;
 
-		//console.log(gist);
 
-		if(this.props.isFetching || gist.id === null && !fetchError) {
-			return (
-				<div className='single'>
-					<div className='loading'></div>
-				</div>
-			);
-		} else if(!isFetching && gist.id !== null) {
-			const files = gist.files.map((file, i) => {
-				return (
-					<ReadOnlyGistFile
-						key={file.filename}
-						filename={file.filename}
-						value={file.content}
-						editorId={'editor' + i}
-						isReadOnly={true}
-					/>
-				);
-			});
-
+		if(isFetching || id === null && !fetchError) {
+			return <div className='single'><Loading /></div>;
+		} else if(!isFetching && id !== null && !fetchError) {
 			return (
 				<div className='single'>
 					<div className='show-active-gist'>
 						<GistInfo />
-						<div className='gist-files'>
-							{files}
-						</div>
+						<GistFiles files={files} />
+
+						{/*
 						<div className='gist-comments'>
-							{/*}{comments.length === 0 &&
+							}{comments.length === 0 &&
 								<p>Ei kommentteja</p>
 							}
 							{comments.length > 0 &&
 								<Comments comments={comments} />
-							}*/}
+							}
 						</div>
+						*/}
 					</div>
 				</div>
 	   	 	);
@@ -75,7 +66,7 @@ class SingleGist extends React.Component {
 			return (
 				<div className='single'>
 					<div className='error'>
-						Etsimääsi gistiä ei löytynyt tai sitä ei pystytty lataamaan ({fetchError}).
+						Etsimääsi gistiä ei löytynyt ({fetchError}).
 					</div>
 				</div>
 			);
@@ -85,12 +76,7 @@ class SingleGist extends React.Component {
 
 
 function mapStateToProps(state) {
-	return {
-		gist: state.activeGist,
-		comments: state.activeGist.comments,
-		isFetching: state.activeGist.isFetching,
-		fetchError: state.activeGist.fetchError,
-	};
+	return {gist: state.activeGist};
 }
 
 //Määritellään yksittäisen gistin näkymän toiminnot.

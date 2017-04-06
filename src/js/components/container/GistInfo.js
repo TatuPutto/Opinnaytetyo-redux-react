@@ -60,9 +60,9 @@ class GistInfo extends React.Component {
 							}
 
 							{createdAtUnformatted === updatedAtUnformatted && forkInfo &&
-								<p>&nbsp;| luotu {createdAt} &ndash; forkattu kohteesta
+								<p>&nbsp;| luotu {createdAt} &ndash; forkattu kohteesta&nbsp;
 									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
-										&nbsp;{forkInfo.owner}
+										{forkInfo.owner}
 									</Link>&nbsp;/&nbsp;
 									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
 										{name}
@@ -71,9 +71,9 @@ class GistInfo extends React.Component {
 							}
 
 							{createdAtUnformatted !== updatedAtUnformatted && forkInfo &&
-								<p>&nbsp;| päivitetty {updatedAt} &ndash; forkattu kohteesta
+								<p>&nbsp;| päivitetty {updatedAt} &ndash; forkattu kohteesta&nbsp;
 									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
-										&nbsp;{forkInfo.owner}
+										{forkInfo.owner}
 									</Link>&nbsp;/&nbsp;
 									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
 										{name}

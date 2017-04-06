@@ -19,16 +19,9 @@ import {
 	setAcccessToken,
 } from '../utility/fetchmethods';
 
-import {checkStatus, readJson} from '../utility/handleresponse'
+import {checkStatus, readJson} from '../utility/handleresponse';
 
-
-function notify(notificationType = 'success', message) {
-	return {type: 'SHOW_NOTIFICATION', notificationType, message};
-}
-
-export function closeNotification() {
-	return {type: 'CLOSE_NOTIFICATION'};
-}
+import {notify} from '../features/notification/duck';
 
 
 // ///////////////////////////////////////////////////////////////////////
@@ -65,7 +58,7 @@ export function fetchUserInfo() {
 // ///////////////////////////////////////////////////////////////////////
 // Aktiivisen gistin hakeminen////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
-
+/*
 function requestSelectedGist(id) {
 	return {type: 'REQUEST_SELECTED_GIST', id};
 }
@@ -78,7 +71,6 @@ function receiveSelectedGist(gistJson) {
 		// activeGist: parseSingleGistJson(gistJson),
 	//	fetchError: null,
 		gist: parsedGist,
-
 	};
 }
 
@@ -106,66 +98,7 @@ export function fetchSelectedGist(id) {
 	};
 }
 
-
-
-export function receiveSelectedGistInfo(gistJson) {
-	return {
-		type: 'RECEIVE_SELECTED_GIST_INFO',
-		gist: gistJson,
-	};
-}
-
-/* Hyödynnetään gistin infot listasta,
-// aloitetaan aktiivisen gistin tiedostojen hakeminen  ja
-   tarkistaan onko aktiivinen gist jo käyttäjän suosikeissa*/
-export function fetchSelectedGistPartial(gistJson) {
-	return (dispatch) => {
-		dispatch(receiveSelectedGistInfo(gistJson));
-		dispatch(fetchSelectedGistFiles(gistJson.id));
-		dispatch(checkIfStarred(gistJson.id));
-	};
-}
-
-// Latausindikaattori tiedostokenttien paikalle.
-function requestSelectedGistFiles(id) {
-	return {type: 'REQUEST_SELECTED_GIST_FILES'};
-}
-
-
-import {parseFilesWithSource} from '../utility/parsegists';
-
-// Otetaan aktiivisen gistin tiedostot vastaan.
-function receiveSelectedGistFiles(files) {
-	const parsedFiles = parseFilesWithSource(files);
-
-	return {
-		type: 'RECEIVE_SELECTED_GIST_FILES',
-		files: parsedFiles,
-	};
-}
-
-// Aloitetaan aktiivisen gistin tiedostojen hakeminen.
-export function fetchSelectedGistFiles(id) {
-	const url = 'https://api.github.com/gists/' + id;
-
-	return (dispatch) => {
-		dispatch(requestSelectedGistFiles(id));
-
-		return read(url)
-			.then(checkStatus)
-			.then(readJson)
-			.then((data) => {
-				//console.log(data.files);
-				//dispatch(receiveSelectedGistFiles(data.files));
-
-				// dispatch(receiveSelectedGist(parseSingleGistJson(data)));
-			})
-			.catch((error) => dispatch(gistFetchFailed(error.message)));
-	};
-}
-
-
-
+*/
 
 /*
 const sampledata = require('../../static/sampledata.json');
@@ -178,8 +111,7 @@ const samplesingle = require('../../static/samplesingle.json');
 //setTimeout(() => dispatch(notify('success', 'Gistien hakeminen onnistui.'), 200));
 // dispatch(receiveGists(parseMultipleGistsJson(sampledata)));
 */
-
-
+/*
 export function refresh(fetchMethod, pageNumber = 1) {
 	return (dispatch) => {
 		//dispatch(invalidateGist());
@@ -201,10 +133,10 @@ export function refresh(fetchMethod, pageNumber = 1) {
 					dispatch(updatePagination(pageNumber));
 				}
 			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
-		};
+	};
 }
-
-
+*/
+/*
 export function fetchLatestPublicGists(page) {
 	const url = 'https://api.github.com/gists/public?page=' + page + '&per_page=100';
 
@@ -271,27 +203,18 @@ export function fetchStarredGists() {
 const sampledata = require('../../static/sampledata.json');
 const samplesingle = require('../../static/samplesingle.json');
 // console.log(sampledata);
+*/
 
 
-
-
-export function fetchGists() {
+/*
+export function fetchGists(fetchMethod, page = 1, user) {
 	return (dispatch) => {
-		// Mitätöidään aktiivinen gist.
-		//dispatch(invalidateGist());
 		// Ilmoitetaan haun alkamisesta.
-		dispatch(requestGists('gists'));
-
-		// setTimeout(() => dispatch(receiveSelectedGist(parseSingleGistJson(samplesingle))), 200);
-		/*setTimeout(() =>  {
-			const parsedGists = parseMultipleGistsJson(sampledata);
-			dispatch(receiveGists(parsedGists));
-		}, 1000);*/
-
+		dispatch(requestGists(fetchMethod));
 
 		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
 		// Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
-		return read('https://api.github.com/gists')
+		return read(determineEndpoint(fetchMethod, page, user))
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -299,19 +222,24 @@ export function fetchGists() {
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
 				dispatch(fetchSelectedGist(parsedGists[0].id));
+				console.log(parsedGists);
 				//dispatch(fetchSelectedGistPartial(parsedGists[0]));
-			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
-		};
+				if(fetchMethod === 'discover') {
+					dispatch(updatePagination(page));
+				}
+			}).catch((error) => dispatch(gistsFetchFailed(error.message))
+		);
+	};
 }
 
-
+*/
 // ///////////////////////////////////////////////////////////////////////
 // Gistin tähdittäminen///////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////
 
 // Tarkistetaan onko gist asetettu suosikkeihin
 
-
+/*
 export function checkIfStarred(id) {
 	const url = 'https://api.github.com/gists/' + id + '/star';
 
@@ -432,63 +360,15 @@ export function checkIfForked(id) {
 		}).catch((error) => dispatch(notify('failure', error.message)));
 	};
 }
-
+*/
 
 export function addFilter(language) {
 	return {type: 'ADD_FILTER', language};
 }
 
 
-// Ilmoitetaan gistien haun alkamisesta
-function requestGists(fetchMethod) {
-	return {type: 'FETCH_GISTS_REQUEST', fetchMethod};
-}
 
 
-function receiveGists(gists) {
-	return {
-		type: 'FETCH_GISTS_SUCCESS',
-		gists,
-		fetchedAt: new Date().getTime() / 1000,
-	};
-}
-
-function gistsFetchFailed(error) {
-	return {
-		type: 'GISTS_FETCH_FAILURE',
-		isFetching: false,
-		error,
-	};
-}
-
-
-// Päivitetäänkö lista.
-export function shouldFetch(state, fetchMethod, requestedPage = 1) {
-	const fetchedAt = state.gists.fetchedAt;
-	const previousFetchMethod = state.gists.fetchMethod;
-	const currentPage = state.pagination.currentPage;
-
-	// Kuinka kauan gistien hakemisesta on kulunut.
-	const timeSinceFetch = Date.now() / 1000 - fetchedAt;
-
-	// Mikäli hausta on kulunut vähemmän kuin minuutti, uusia tuloksia ei ladata.
-	if(timeSinceFetch < 60 && previousFetchMethod === fetchMethod &&
-			currentPage === requestedPage) {
-		return false;
-	}
-
-	return true;
-}
-
-// Määritetään seuraava ja viimeinen discover-sivu
-function updatePagination(current = 1) {
-	return {
-		type: 'UPDATE_PAGINATION',
-		current,
-		next: current + 1,
-		last: 30,
-	};
-}
 
 export function removeFilter(language) {
 	return {type: 'REMOVE_FILTER', language: language.trim()};

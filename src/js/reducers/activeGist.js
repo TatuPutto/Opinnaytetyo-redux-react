@@ -78,6 +78,7 @@ export function activeGist(state = {
 				isPublic: action.gist.isPublic,
 				forkInfo: action.gist.forkInfo,
 				isFetching: false,
+				fetchError: null,
 			};
 			break;
 /*

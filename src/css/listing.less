@@ -247,6 +247,7 @@ button:hover {
 
 .gist-list {
 	flex: 1 1 auto;
+	position: relative;
 	height: 100%;
 	width: 100%;
 	overflow-y: auto;
@@ -444,6 +445,7 @@ button:hover {
 
 .gist-info .creation-info {
 	font-size: 14px;
+	margin-top: 2px;
 }
 
 .listing .gist-info {
@@ -594,12 +596,34 @@ button:hover {
 	padding-bottom: 2px;
 }
 
+/*
 .loading {
-	background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
+	//background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
 	height: 90%;
 }
 
 .loading-files {
-	background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
+	//background: url(http://localhost:9090/images/loading.gif) no-repeat center center;
 	height: 20%;
+}*/
+
+.listing .loading {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 80%;
+	margin-bottom: 100%;
+	text-align: center;
+	width: 100%;
+
+}
+
+.listing .loading-indicator {
+	height: 30px;
+}
+
+.listing .loading-text {
+	font-size: 20px;
+    vertical-align: middle;
+	margin-left: 10px;
 }

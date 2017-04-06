@@ -5,17 +5,14 @@ import {Provider} from 'react-redux';
 
 import {store} from './createStore';
 import {fetchSelectedGistOnEnter, fetchGistsOnEnter} from './hooks';
-import {fetchUserInfo, receiveUserInfo} from './actions/actions';
+import {receiveUserInfo} from './actions/actions';
 import {getUserInfoFromCookie} from './utility/persistUserInfo';
 
 
-import {read} from './utility/fetchmethods';
-import {checkStatus, readJson} from './utility/handleresponse'
-import {parseSingleGistJson} from './utility/parsegists'
-
 import Root from './components/container/Root';
-import ListingPage from './components/presentational/listing/ListingPage';
-import SingleGist from './components/container/SingleGist';
+//import ListingPage from './components/presentational/listing/ListingPage';
+import ListingView from './features/listing/components/ListingView';
+import SingleGist from './features/single/components/SingleGist';
 import CreateGist from './components/container/CreateGist';
 import EditGist from './components/container/EditGist';
 
@@ -28,21 +25,22 @@ require('../css/comments.less');
 
 
 const userInfo = getUserInfoFromCookie();
-if(userInfo.length > 0) {
+/*if(userInfo.length > 0) {
 	store.dispatch(receiveUserInfo(userInfo));
 } else {
-	window.location.href = "/opinnaytetyo/login";
-}
+	window.location.href = '/opinnaytetyo/login';
+}*/
+
 
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path='opinnaytetyo' component={Root}>
-				<IndexRoute component={ListingPage} onEnter={fetchGistsOnEnter} />
-				<Route path='gists' component={ListingPage} onEnter={fetchGistsOnEnter} />
-				<Route path='starred' component={ListingPage} onEnter={fetchGistsOnEnter} />
-				<Route path='discover(/:page)' component={ListingPage} onEnter={fetchGistsOnEnter} />
-				<Route path='search(/:user)' component={ListingPage} onEnter={fetchGistsOnEnter} />
+				<IndexRoute component={ListingView} onEnter={fetchGistsOnEnter} />
+				<Route path='gists' component={ListingView} onEnter={fetchGistsOnEnter} />
+				<Route path='starred' component={ListingView} onEnter={fetchGistsOnEnter} />
+				<Route path='discover(/:page)' component={ListingView} onEnter={fetchGistsOnEnter} />
+				<Route path='search(/:user)' component={ListingView} onEnter={fetchGistsOnEnter} />
 				<Route path='gist/:gistId' component={SingleGist} onEnter={fetchSelectedGistOnEnter} />
 				<Route path='edit/:gistId' component={EditGist} onEnter={fetchSelectedGistOnEnter} />
 				<Route path='create' component={CreateGist} />

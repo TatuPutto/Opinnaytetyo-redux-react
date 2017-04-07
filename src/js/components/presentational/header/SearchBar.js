@@ -24,7 +24,7 @@ class SearchBar extends React.Component {
 
 	doSearch() {
 		storeSearchQuery(this.state.input);
-		this.context.router.push('/opinnaytetyo/search/' + this.state.input);
+		this.context.router.push('/search/' + this.state.input);
 	}
 
 	render() {

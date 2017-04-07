@@ -25,17 +25,18 @@ require('../css/comments.less');
 
 
 const userInfo = getUserInfoFromCookie();
-/*if(userInfo.length > 0) {
+if(userInfo.length > 0) {
+	console.log(userInfo)
 	store.dispatch(receiveUserInfo(userInfo));
 } else {
-	window.location.href = '/opinnaytetyo/login';
-}*/
+	window.location.href = '/login';
+}
 
 
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
-			<Route path='opinnaytetyo' component={Root}>
+			<Route path='/' component={Root}>
 				<IndexRoute component={ListingView} onEnter={fetchGistsOnEnter} />
 				<Route path='gists' component={ListingView} onEnter={fetchGistsOnEnter} />
 				<Route path='starred' component={ListingView} onEnter={fetchGistsOnEnter} />

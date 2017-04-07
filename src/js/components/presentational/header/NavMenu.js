@@ -6,8 +6,8 @@ function NavMenu(props) {
 	return (
 		<div className='nav-menu'>
 			<ul>
-				<li><Link to='/opinnaytetyo'>Listaa gistit</Link></li>
-				<li><Link to='/opinnaytetyo/create'>Luo uusi gist</Link></li>
+				<li><Link to='/'>Listaa gistit</Link></li>
+				<li><Link to='/create'>Luo uusi gist</Link></li>
 			</ul>
 		</div>
 	);

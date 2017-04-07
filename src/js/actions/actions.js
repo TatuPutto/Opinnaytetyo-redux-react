@@ -398,7 +398,7 @@ export function createGist(gistJson, isPublic) {
 				// ja ohjataan käyttäjä luodun gistin näkymään.
 				dispatch(receiveSelectedGist(parseSingleGistJson(data)));
 				dispatch(notify('success', 'Gistin luominen onnistui.'));
-				browserHistory.push('/opinnaytetyo/gist/' + data.id);
+				browserHistory.push('/gist/' + data.id);
 			}).catch((error) => {
 				dispatch({type: 'CREATION_FAILED'});
 				dispatch(notify('failure',
@@ -430,7 +430,7 @@ export function editGist(id, editJson) {
 				//const parsedGist = parseSingleGistJson(data);
 				//console.log(parsedGist);
 				dispatch(receiveSelectedGist(data));
-				browserHistory.push('/opinnaytetyo/gist/' + data.id);
+				browserHistory.push('/gist/' + data.id);
 			}).catch((error) => {
 				dispatch({type: 'EDIT_FAILED'});
 				dispatch(notify('failure',
@@ -453,8 +453,8 @@ export function deleteGist(id) {
 			.then(() => {
 				// Jos poistetaan yksittäisen gistin näkymässä,
 				// ohjataan käyttäjä takaisin listausnäkymään.
-				if(location.pathname === '/opinnaytetyo/gist/' + id) {
-					browserHistory.push('/opinnaytetyo');
+				if(location.pathname === '/gist/' + id) {
+					browserHistory.push('/');
 				}
 
 				dispatch(invalidateGist());

@@ -42,14 +42,14 @@ class GistListItem extends React.Component {
 					<span className='title-wrapper'>
 						<span className={'title'}>
 							<h2>
-								<Link to={'/opinnaytetyo/gist/' + id}>
+								<Link to={'/gist/' + id}>
 									{filename}
 								</Link>
 							</h2>
 						</span>
 						<br />
 						<span className={'creation-info'}>
-							<Link to={'/opinnaytetyo/search/' + owner}>
+							<Link to={'/search/' + owner}>
 								{owner}
 							</Link>
 

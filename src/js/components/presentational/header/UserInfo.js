@@ -6,7 +6,7 @@ export default function UserInfo(props) {
 			<div className='user-info-details'>
 				<img className='user-avatar' src={props.avatarUrl} />
 				<p>{props.userLogin}</p>
-				<a href="/opinnaytetyo/logout">Kirjaudu ulos</a>
+				<a href="/logout">Kirjaudu ulos</a>
 			</div>
 		</div>
 	);

@@ -35,7 +35,7 @@ class Filters extends React.Component {
 
 	fetch(e) {
 		const fetchMethod = e.target.value;
-		this.context.router.push('/opinnaytetyo/' + fetchMethod);
+		this.context.router.push('/' + fetchMethod);
 	}
 
 

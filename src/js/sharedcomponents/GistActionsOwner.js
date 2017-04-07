@@ -21,7 +21,7 @@ class GistActions extends React.Component {
 					<i className={starIcon}/> {starredStatus}
 				</button>
 
-				<Link to={'/opinnaytetyo/edit/' + id}>
+				<Link to={'/edit/' + id}>
 					<button className='edit'>
 						<i className='fa fa-edit' /> Muokkaa
 					</button>

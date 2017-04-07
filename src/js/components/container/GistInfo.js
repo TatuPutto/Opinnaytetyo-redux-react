@@ -40,14 +40,14 @@ class GistInfo extends React.Component {
 					<span className='title-wrapper'>
 						<span className={'title'}>
 							<h2>
-								<Link to={'/opinnaytetyo/gist/' + id}>
+								<Link to={'/gist/' + id}>
 									{name}
 								</Link>
 							</h2>
 						</span>
 						<br />
 						<span className={'creation-info'}>
-							<Link to={'/opinnaytetyo/search/' + owner.login}>
+							<Link to={'/search/' + owner.login}>
 								{owner.login}
 							</Link>
 
@@ -61,10 +61,10 @@ class GistInfo extends React.Component {
 
 							{createdAtUnformatted === updatedAtUnformatted && forkInfo &&
 								<p>&nbsp;| luotu {createdAt} &ndash; forkattu kohteesta&nbsp;
-									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+									<Link to={'/search/' + forkInfo.owner}>
 										{forkInfo.owner}
 									</Link>&nbsp;/&nbsp;
-									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+									<Link to={'/gist/' + forkInfo.id}>
 										{name}
 									</Link>
 								</p>
@@ -72,10 +72,10 @@ class GistInfo extends React.Component {
 
 							{createdAtUnformatted !== updatedAtUnformatted && forkInfo &&
 								<p>&nbsp;| päivitetty {updatedAt} &ndash; forkattu kohteesta&nbsp;
-									<Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+									<Link to={'/search/' + forkInfo.owner}>
 										{forkInfo.owner}
 									</Link>&nbsp;/&nbsp;
-									<Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+									<Link to={'/gist/' + forkInfo.id}>
 										{name}
 									</Link>
 								</p>
@@ -113,7 +113,7 @@ class GistInfo extends React.Component {
 
 				<span className='owner'>
 					<img id='owner-avatar' src={owner.avatarUrl} />
-					<Link to={'/opinnaytetyo/search/' + owner.login} id='view-gist'>
+					<Link to={'/search/' + owner.login} id='view-gist'>
 						{owner.login}
 					</Link>
 				</span>
@@ -138,7 +138,7 @@ class GistInfo extends React.Component {
 				}
 
 				<div className='active-gist-info'>
-					<Link to={'/opinnaytetyo/gist/' + id}>
+					<Link to={'/gist/' + id}>
 						<h2 className='active-gist-name'>
 							{name}
 						</h2>

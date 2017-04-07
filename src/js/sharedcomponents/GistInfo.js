@@ -38,7 +38,7 @@ export default function GistInfo(props) {
 				<span className='title-wrapper'>
 					<span className={'title'}>
 						<h2>
-							<Link to={'/opinnaytetyo/gist/' + id}>
+							<Link to={'/gist/' + id}>
 								{name}
 							</Link>
 						</h2>

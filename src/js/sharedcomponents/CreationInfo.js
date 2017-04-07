@@ -14,7 +14,7 @@ export default function CreationInfo(props) {
 
     return (
         <span className={'creation-info'}>
-            <Link to={'/opinnaytetyo/search/' + owner.login}>
+            <Link to={'/search/' + owner.login}>
                 {owner.login}
             </Link>
 
@@ -28,10 +28,10 @@ export default function CreationInfo(props) {
 
             {createdAtUnformatted === updatedAtUnformatted && forkInfo &&
                 <p>&nbsp;| luotu {createdAt} &ndash; forkattu kohteesta&nbsp;
-                    <Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+                    <Link to={'/search/' + forkInfo.owner}>
                         {forkInfo.owner}
                     </Link>&nbsp;/&nbsp;
-                    <Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+                    <Link to={'/gist/' + forkInfo.id}>
                         {name}
                     </Link>
                 </p>
@@ -39,10 +39,10 @@ export default function CreationInfo(props) {
 
             {createdAtUnformatted !== updatedAtUnformatted && forkInfo &&
                 <p>&nbsp;| päivitetty {updatedAt} &ndash; forkattu kohteesta&nbsp;
-                    <Link to={'/opinnaytetyo/search/' + forkInfo.owner}>
+                    <Link to={'/search/' + forkInfo.owner}>
                         {forkInfo.owner}
                     </Link>&nbsp;/&nbsp;
-                    <Link to={'/opinnaytetyo/gist/' + forkInfo.id}>
+                    <Link to={'/gist/' + forkInfo.id}>
                         {name}
                     </Link>
                 </p>

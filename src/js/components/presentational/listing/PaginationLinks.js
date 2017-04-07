@@ -8,14 +8,14 @@ class PaginationLinks extends React.Component {
 		let links = [];
 
 		if(currentPage > 1) {
-			const link = <Link key={'previousPage'} to={'/opinnaytetyo/discover/' + previousPage}>
+			const link = <Link key={'previousPage'} to={'/discover/' + previousPage}>
 				<button><i className='fa fa-chevron-left'></i></button>
 			</Link>
 			links.push(link);
 		}
 
 		if(currentPage > 3) {
-			const link = <Link key={1} to='/opinnaytetyo/discover'>
+			const link = <Link key={1} to='/discover'>
 				<button>1</button>
 			</Link>
 			links.push(link);
@@ -27,7 +27,7 @@ class PaginationLinks extends React.Component {
 			const isCurrentPageClass = isCurrentPage ? 'current-page' : null;
 
 			if(page > 0 && page < 30) {
-				const link = <Link key={page} to={'/opinnaytetyo/discover/' + page}>
+				const link = <Link key={page} to={'/discover/' + page}>
 					<button className={isCurrentPageClass} disabled={isCurrentPage}>
 						{page}
 					</button>
@@ -37,7 +37,7 @@ class PaginationLinks extends React.Component {
 		}
 
 		if(currentPage < 28) {
-			const link = <Link key={30} to='/opinnaytetyo/discover/30'>
+			const link = <Link key={30} to='/discover/30'>
 				<button>30</button>
 			</Link>
 			links.push(link);
@@ -45,7 +45,7 @@ class PaginationLinks extends React.Component {
 
 		if(currentPage < 30) {
 			const page = Number(currentPage) + 1;
-			const link = <Link key={'nextPage'} to={'/opinnaytetyo/discover/' + page}>
+			const link = <Link key={'nextPage'} to={'/discover/' + page}>
 				<button><i className='fa fa-chevron-right'></i></button>
 			</Link>
 			links.push(link);

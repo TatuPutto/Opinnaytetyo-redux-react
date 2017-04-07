@@ -7,7 +7,7 @@ import GistInfo from '../../../sharedcomponents/GistInfo';
 import ReadOnlyGistFile from '../../../components/presentational/reusable/ReadOnlyGistFile';
 import GistFiles from '../../../components/presentational/listing/GistFiles';
 import Comments from '../../../components/presentational/commentsection/Comments';
-
+import Loading from '../../../sharedcomponents/Loading';
 //import {fetchComments} from '../../actions/actions';
 
 class ShowActiveGist extends React.Component {
@@ -25,7 +25,11 @@ class ShowActiveGist extends React.Component {
 
 
 		if(!isListLoading && isFetching && !fetchError) {
-			return <div className='loading'></div>;
+			return (
+				<div className='show-active-gist'>
+					<Loading />;
+				</div>
+			);
 		} else if(!isListLoading && !isFetching && id !== null && !fetchError) {
 			//Renderöidään inforuutu ja tiedostokentät.
 			return (

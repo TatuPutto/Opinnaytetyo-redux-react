@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import {storeSearchQuery, getSearchQueries} from '../../../utility/persistUserInfo';
+//import {storeSearchQuery, getSearchQueries} from '../../../utility/persistUserInfo';
 import Suggestions from '../listing/FilterByLanguage/Suggestions';
 
 

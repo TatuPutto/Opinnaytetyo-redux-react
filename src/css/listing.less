@@ -270,11 +270,6 @@ button:hover {
 	//margin-bottom: 1px;
 }
 
-.single-gist:hover {
-	background-color: whitesmoke;
-}
-
-
 .content-wrapper {
 	position: relative;
 	padding: 10px;
@@ -526,33 +521,73 @@ button:hover {
 .listing .file-info {
 	//padding: 4px;
 	padding: 6px 4px;
+	//border-bottom: 1px solid @default-border-color;
 }
 
-.copy-source {
-	background: whitesmoke;
+
+/*.copy-source {
+	//background: whitesmoke;
 	height: 18px;
     float: right;
     cursor: pointer;
 	border-style: none;
 	padding: 0px;
-	margin-right: 6px;
-}
-
+	margin-right: 0px;
+}*/
+/*
 .copy-source:hover {
 	background: whitesmoke;
-}
+}*/
 
+/*
 .minimize-editor {
-	background: whitesmoke;
+	//background: whitesmoke;
 	height: 18px;
     width: 18px;
     float: right;
     cursor: pointer;
 	border-style: none;
 	padding: 0px;
-	margin-right: 0px;
+	margin-right: 4px;
+	transition: transform 0.2s;
+}
+*/
+
+.copy-source {
+	height: 24px;
+	float: right;
+	padding: 0 6px;
+	margin-right: 0;
+	//transition: transform 0.2s;
+	position: relative;
+	bottom: 2px;
 }
 
+.minimize-editor {
+	//background: whitesmoke;
+	height: 24px;
+    float: right;
+	padding: 0 6px;
+	margin-right: 4px;
+	//transition: transform 0.2s;
+	position: relative;
+	bottom: 2px;
+}
+
+.is-minimized-indicator {
+	position: relative;
+	top: 0;
+	transition: all 0.2s;
+}
+
+.is-minimized-indicator.open {
+	transform: rotate(0deg);
+}
+
+.is-minimized-indicator.minimized {
+	top: 1px;
+	transform: rotate(90deg);
+}
 
 .gist-files {
 	padding: 10px;
@@ -566,7 +601,7 @@ button:hover {
 
 
 .show-active-gist .gist-file {
-	background-color: whitesmoke;
+	//background-color: whitesmoke;
 	border-style: solid;
     border-width: 1px;
     border-color: @default-border-color;
@@ -575,18 +610,19 @@ button:hover {
 	margin-right: auto;
     margin-left: auto;
 	margin-bottom: 10px;
-    padding: 0px 2px 2px 2px;
+    //padding: 0px 2px 2px 2px;
 }
 
 
 .show-active-gist div[id^="editor"] {
+	border-top: 1px solid @default-border-color;
 	//width: 99.5%;
-    margin-left: auto;
-    margin-right: auto;
-	border-color: @default-border-color;
-	border-style: solid;
-	border-width: 1px;
-    border-radius: @default-border-radius;
+    //margin-left: auto;
+    //margin-right: auto;
+	//border-color: @default-border-color;
+	//border-style: solid;
+	//border-width: 1px;
+    //border-radius: @default-border-radius;
 }
 
 .show-all-lines {
@@ -616,6 +652,10 @@ button:hover {
 	text-align: center;
 	width: 100%;
 
+}
+
+.listing .show-active-gist .loading {
+	margin-top: 10%;
 }
 
 .listing .loading-indicator {

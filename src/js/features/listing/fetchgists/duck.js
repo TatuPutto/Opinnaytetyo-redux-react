@@ -40,6 +40,9 @@ export default function gists(state = {
 	}
 }
 
+const sampledata = require('../../../../static/sampledata');
+const samplesingle = require('../../../../static/samplesingle2');
+
 
 export function fetchGists(fetchMethod, page = 1, user) {
 	return (dispatch) => {
@@ -48,7 +51,7 @@ export function fetchGists(fetchMethod, page = 1, user) {
 
 		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
 		// Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
-		return read(determineEndpoint(fetchMethod, page, user))
+		/*return read(determineEndpoint(fetchMethod, page, user))
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -57,9 +60,18 @@ export function fetchGists(fetchMethod, page = 1, user) {
 				dispatch(fetchSelectedGist(parsedGists[0].id));
 				dispatch(updatePagination(page));
 			}).catch((error) => dispatch(gistsFetchFailed(error.message))
-		);
+		);*/
+
+		setTimeout(() => {
+			const parsedGists = parseMultipleGistsJson(sampledata);
+			dispatch(receiveGists(parsedGists));
+			setTimeout(() => {
+				dispatch(fetchSelectedGist(parsedGists[0].id));
+			}, 10);
+		}, 10);
 	};
 }
+
 
 export function refresh(fetchMethod, page = 1) {
 	return (dispatch) => {

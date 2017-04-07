@@ -1,48 +1,3 @@
-// Tallennetaan käyttäjätiedot local storageen
-export function storeUserInfo(userInfo, accessToken) {
-	if(typeof(Storage) !== 'undefined') {
-		// localStorage.setItem('userLogin', userInfo.user.login);
-		// localStorage.setItem('userAvatar', userInfo.user.avatar_url);
-		localStorage.setItem('id', '5699778');
-		localStorage.setItem('userLogin', 'TatuPutto');
-		localStorage.setItem('userAvatar', 'https://avatars3.githubusercontent.com/u/5699778?v=3&s=40');
-		localStorage.setItem('accessToken', '');
-	} else {
-		alert('Selaimesi ei tue HTML5 local storage toiminnallisuutta.');
-	}
-}
-
-// Haetaan käyttäjätiedot local storagesta
-export function getUserInfoFromStorage() {
-	if(typeof(Storage) !== 'undefined') {
-		let userInfo = {};
-		userInfo['user'] = {};
-
-		userInfo.user['id'] = localStorage.getItem('id');
-		userInfo.user['login'] = localStorage.getItem('userLogin');
-		userInfo.user['avatar_url'] = localStorage.getItem('userAvatar');
-		userInfo.user['accessToken'] = localStorage.getItem('accessToken');
-
-		if(userInfo !== null) {
-			return userInfo;
-		}		else {
-			return null;
-		}
-	} else {
-		alert('Selaimesi ei tue HTML5 local storage toiminnallisuutta.');
-	}
-}
-
-export function removeUserInfoFromStorage() {
-	if(typeof(Storage) !== 'undefined') {
-		localStorage.removeItem('userLogin');
-		localStorage.removeItem('userAvatar');
-	} else {
-		alert('Selaimesi ei tue HTML5 local storage toiminnallisuutta.');
-	}
-}
-
-
 export function doesUserInfoCookieExist() {
 	let cookies = document.cookie.split(';');
 
@@ -69,11 +24,11 @@ export function getUserInfoFromCookie() {
 			case 'id':
 				userInfo[0] = value;
 				break;
-			case 'login':
+			case 'username':
 				userInfo[1] = value;
 				break;
-			case 'avatarurl':
-				userInfo[2] = value.substring(1, value.length - 1);
+			case 'avatar_url':
+				userInfo[2] = value;
 				break;
 			case 'access_token':
 				userInfo[3] = value;
@@ -83,6 +38,7 @@ export function getUserInfoFromCookie() {
 	return userInfo;
 }
 
+/*
 export function storeSearchQuery(searchTerm) {
 	if(typeof(Storage) !== 'undefined') {
 		let searchHistory = localStorage.getItem('searchHistory');
@@ -139,4 +95,4 @@ function sortAlphabetically(suggestions) {
 		if(a > b) return 1;
 	});
 	return sortedSuggestions;
-}
+}*/

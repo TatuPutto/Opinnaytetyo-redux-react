@@ -122,7 +122,7 @@ export default function activeGist(state = {
 
 
 
-export function fetchSelectedGist(id) {
+/*export function fetchSelectedGist(id) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
@@ -136,8 +136,27 @@ export function fetchSelectedGist(id) {
 			.then((data) => dispatch(receiveSelectedGist(data)))
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
-}
+}*/
+const samplesingle = require('../../../static/samplesingle2');
+export function fetchSelectedGist(id) {
+	const url = 'https://api.github.com/gists/' + id;
 
+	return (dispatch) => {
+		dispatch(requestSelectedGist(id));
+		// Tarkistetaan onko gist käyttäjän suosikeissa.
+		/*dispatch(checkIfStarred(id));
+
+		return read(url)
+			.then(checkStatus)
+			.then(readJson)
+			.then((data) => dispatch(receiveSelectedGist(data)))
+			.catch((error) => dispatch(gistFetchFailed(error.message)));*/
+
+			setTimeout(() => {
+				dispatch(receiveSelectedGist(samplesingle));
+			}, 10);
+	};
+}
 
 function requestSelectedGist(id) {
 	return {type: 'REQUEST_SELECTED_GIST', id};
@@ -145,7 +164,7 @@ function requestSelectedGist(id) {
 
 function receiveSelectedGist(gistJson) {
 	const parsedGist = parseSingleGistJson(gistJson);
-
+	console.log(parsedGist);
 	return {
 		type: 'RECEIVE_SELECTED_GIST',
 		// activeGist: parseSingleGistJson(gistJson),

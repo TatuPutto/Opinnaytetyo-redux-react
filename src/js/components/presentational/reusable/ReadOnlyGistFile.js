@@ -76,17 +76,19 @@ class ReadOnlyGistFile extends React.Component {
 		} = this.state;
 
 		const value = isValueShortened ? shortenedValue : originalValue;
+		const minimized = isMinimized ? 'minimized' : 'open';
 
 		return (
 			<div className='gist-file'>
 				<div className='file-info'>
 					<h3>{filename}</h3>
-					<button className='minimize-editor' onClick={this.minimizeEditor}>
-						<i className={isMinimized ?
-								'fa fa-window-maximize' : 'fa fa-window-minimize'} /> &nbsp;
-					</button>
 					<button className='copy-source' onClick={this.copySource}>
-						<i className='fa fa-copy' />
+						<i className='fa fa-copy' /> Kopioi
+					</button>
+					<button className={'minimize-editor'}
+							onClick={this.minimizeEditor}>
+						<i className={'is-minimized-indicator fa fa-chevron-down ' + minimized} />
+						{isMinimized ? ' Avaa' : ' Sulje'}
 					</button>
 				</div>
 

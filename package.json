@@ -37,7 +37,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server --content-base src --port 9090 --hot --inline --history-api-fallback",
+    "dev": "webpack-dev-server --content-base src --port 8000 --hot --inline --history-api-fallback",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

@@ -40,7 +40,7 @@ module.exports = {
     },
     output: {
 		path: __dirname + '/src/js',
-		publicPath: 'http://localhost:9090/',
+		publicPath: 'http://localhost:8000/',
     	filename: 'client.min.js',
     },
     plugins: debug ? [] : [

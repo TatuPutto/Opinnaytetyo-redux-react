@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {store} from './createStore';
 import {fetchSelectedGistOnEnter, fetchGistsOnEnter} from './hooks';
 import {receiveUserInfo} from './actions/actions';
-import {getUserInfoFromCookie} from './utility/persistUserInfo';
+import {getUserInfoFromCookie} from './utility/getuserinfofromstorage';
 
 
 import Root from './components/container/Root';

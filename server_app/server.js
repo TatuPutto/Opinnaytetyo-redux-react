@@ -41,4 +41,4 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen('8000', () => console.log('Listening at port 8000'));
+app.listen(app.get('port'), () => console.log('Listening at port ' + app.get('port')));

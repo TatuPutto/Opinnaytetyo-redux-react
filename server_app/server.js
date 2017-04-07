@@ -12,6 +12,8 @@ app.use(cookieParser());
 
 app.use(express.static(__dirname + '/../src/js'))
 
+app.set('port', (process.env.PORT || 8000));
+
 app.get('/login', (req, res) => {
     const authURL = `https://github.com/login/oauth/authorize?` +
             `client_id=${clientId}&scope=gist`;

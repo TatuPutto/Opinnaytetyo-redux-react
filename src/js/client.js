@@ -24,15 +24,6 @@ require('../css/creategist.less');
 require('../css/comments.less');
 
 
-const userInfo = getUserInfoFromCookie();
-if(userInfo.length > 0) {
-	console.log(userInfo)
-	store.dispatch(receiveUserInfo(userInfo));
-} else {
-	window.location.href = '/login';
-}
-
-
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>

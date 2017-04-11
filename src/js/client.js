@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {store} from './createStore';
 import {fetchSelectedGistOnEnter, fetchGistsOnEnter} from './hooks';
 import {receiveUserInfo} from './actions/actions';
-import {getUserInfoFromCookie} from './utility/getuserinfofromstorage';
+import getUserInfoFromCookie from './utility/getuserinfofromstorage';
 
 
 import Root from './components/container/Root';
@@ -23,18 +23,27 @@ require('../css/single.less');
 require('../css/creategist.less');
 require('../css/comments.less');
 
+const userInfo = getUserInfoFromCookie();
+store.dispatch(receiveUserInfo(userInfo));
 
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path='/' component={Root}>
-				<IndexRoute component={ListingView} onEnter={fetchGistsOnEnter} />
-				<Route path='gists' component={ListingView} onEnter={fetchGistsOnEnter} />
-				<Route path='starred' component={ListingView} onEnter={fetchGistsOnEnter} />
-				<Route path='discover(/:page)' component={ListingView} onEnter={fetchGistsOnEnter} />
-				<Route path='search(/:user)' component={ListingView} onEnter={fetchGistsOnEnter} />
-				<Route path='gist/:gistId' component={SingleGist} onEnter={fetchSelectedGistOnEnter} />
-				<Route path='edit/:gistId' component={EditGist} onEnter={fetchSelectedGistOnEnter} />
+				<IndexRoute component={ListingView}
+						onEnter={fetchGistsOnEnter} />
+				<Route path='gists' component={ListingView}
+						onEnter={fetchGistsOnEnter} />
+				<Route path='starred' component={ListingView}
+						onEnter={fetchGistsOnEnter} />
+				<Route path='discover(/:page)' component={ListingView}
+						onEnter={fetchGistsOnEnter} />
+				<Route path='search(/:user)' component={ListingView}
+						onEnter={fetchGistsOnEnter} />
+				<Route path='gist/:gistId' component={SingleGist}
+						onEnter={fetchSelectedGistOnEnter} />
+				<Route path='edit/:gistId' component={EditGist}
+						onEnter={fetchSelectedGistOnEnter} />
 				<Route path='create' component={CreateGist} />
 			</Route>
 		</Router>

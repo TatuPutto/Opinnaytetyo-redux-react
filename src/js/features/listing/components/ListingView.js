@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import ListingLayout from './ListingLayout';
 import {fetchGists, refresh} from '../fetchgists/duck';
+import {addFilter, removeFilter} from '../filtering/duck';
 import {filterByLanguage} from '../../../utility/filterByLanguage';
 import {
 	fetchSelectedGist,

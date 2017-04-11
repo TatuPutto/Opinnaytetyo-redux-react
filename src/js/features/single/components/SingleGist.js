@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 import $ from 'jquery';
 
 import GistInfo from '../../../components/container/GistInfo';
-import GistFiles from '../../../components/presentational/listing/GistFiles';
+import GistFiles from '../../../sharedcomponents/GistFiles';
 import Comments from '../../../components/presentational/commentsection/Comments';
 import Loading from '../../../sharedcomponents/Loading';
 
@@ -41,7 +41,11 @@ class SingleGist extends React.Component {
 
 
 		if(isFetching || id === null && !fetchError) {
-			return <div className='single'><Loading /></div>;
+			return (
+				<div className='single'>
+					<Loading />
+				</div>
+			);
 		} else if(!isFetching && id !== null && !fetchError) {
 			return (
 				<div className='single'>

@@ -39,28 +39,14 @@ export default function gists(state = {
 			return state;
 	}
 }
-
+/*
 const sampledata = require('../../../../static/sampledata');
 const samplesingle = require('../../../../static/samplesingle2');
-
 
 export function fetchGists(fetchMethod, page = 1, user) {
 	return (dispatch) => {
 		// Ilmoitetaan haun alkamisesta.
 		dispatch(requestGists(fetchMethod));
-
-		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
-		// Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
-		/*return read(determineEndpoint(fetchMethod, page, user))
-			.then(checkStatus)
-			.then(readJson)
-			.then((data) => {
-				const parsedGists = parseMultipleGistsJson(data);
-				dispatch(receiveGists(parsedGists));
-				dispatch(fetchSelectedGist(parsedGists[0].id));
-				dispatch(updatePagination(page));
-			}).catch((error) => dispatch(gistsFetchFailed(error.message))
-		);*/
 
 		setTimeout(() => {
 			const parsedGists = parseMultipleGistsJson(sampledata);
@@ -69,6 +55,27 @@ export function fetchGists(fetchMethod, page = 1, user) {
 				dispatch(fetchSelectedGist(parsedGists[0].id));
 			}, 10);
 		}, 10);
+	};
+}
+*/
+
+export function fetchGists(fetchMethod, page = 1, user) {
+	return (dispatch) => {
+		// Ilmoitetaan haun alkamisesta.
+		dispatch(requestGists(fetchMethod));
+
+		// Lähetetetään pyyntö ja jäädään odottamaan vastausta.
+		// Päätepisteenä voi olla: /gists, /gists/starred, /gists/public tai /users/:user/gists.
+		return read(determineEndpoint(fetchMethod, page, user))
+			.then(checkStatus)
+			.then(readJson)
+			.then((data) => {
+				const parsedGists = parseMultipleGistsJson(data);
+				dispatch(receiveGists(parsedGists));
+				dispatch(fetchSelectedGist(parsedGists[0].id));
+				dispatch(updatePagination(page));
+			}).catch((error) => dispatch(gistsFetchFailed(error.message))
+		);
 	};
 }
 

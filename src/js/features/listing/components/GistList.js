@@ -19,7 +19,7 @@ class GistList extends React.Component {
 		activeGistId: PropTypes.string.isRequired,
 		isFetching: PropTypes.bool.isRequired,
 		setActive: PropTypes.func.isRequired
-	};
+	};b
 */
 	static contextTypes = {
 		router: React.PropTypes.object.isRequired
@@ -64,9 +64,6 @@ class GistList extends React.Component {
 
 
 	render() {
-		/*const { gists, fetchMethod, isFetching, activeGistId, setActive,
-				fetchMore, currentPage, nextPage, previousPage, lastPage } = this.props;*/
-
 		const {
 			items: gists,
 			fetchMethod,
@@ -123,7 +120,7 @@ class GistList extends React.Component {
 					</ul>
 				}
 
-				{fetchMethod === 'discover' &&
+				{fetchMethod === 'discover' && !isFetching &&
 					<PaginationLinks
 						currentPage={currentPage}
 						nextPage={nextPage}

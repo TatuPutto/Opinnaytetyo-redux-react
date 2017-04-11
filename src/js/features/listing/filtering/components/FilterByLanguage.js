@@ -1,8 +1,8 @@
 import React from 'react';
 import $ from 'jquery';
 
-import Suggestions from './FilterByLanguage/Suggestions';
-import {setSuggestions} from '../../../utility/suggestions';
+import Suggestions from './Suggestions';
+import getSuggestions from '../../../../utility/getsuggestions';
 
 
 class FilterByLanguage extends React.Component {
@@ -32,7 +32,7 @@ class FilterByLanguage extends React.Component {
 
 	getSuggestions(e) {
 		const input = e.target.value;
-		const suggestions = setSuggestions(input, this.props.activeFilters);
+		const suggestions = getSuggestions(input, this.props.activeFilters);
 		this.setState({suggestions, suggestionsVisible: true});
 	}
 

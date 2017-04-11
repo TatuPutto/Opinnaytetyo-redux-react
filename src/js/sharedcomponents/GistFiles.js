@@ -1,5 +1,5 @@
 import React from 'react';
-import ReadOnlyGistFile from '../reusable/ReadOnlyGistFile';
+import ReadOnlyGistFile from './ReadOnlyGistFile';
 
 function GistFiles(props) {
     return (

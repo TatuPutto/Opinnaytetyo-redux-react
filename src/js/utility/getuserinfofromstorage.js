@@ -1,18 +1,4 @@
-export function doesUserInfoCookieExist() {
-	let cookies = document.cookie.split(';');
-
-	for(let i = 0; i < cookies.length; i++) {
-		let name = cookies[i].split('=')[0].trim();
-
-		if(name === 'accesstoken') {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-export function getUserInfoFromCookie() {
+export default function getUserInfoFromCookie() {
 	const cookies = document.cookie.split(';');
 	let userInfo = [];
 

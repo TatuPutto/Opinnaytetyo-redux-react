@@ -1,6 +1,6 @@
 const languages = require('../../static/colors.json');
 
-export function setSuggestions(input, activeFilters) {
+export default function getSuggestions(input, activeFilters) {
 	let suggestions = [];
 
 	if(input) {

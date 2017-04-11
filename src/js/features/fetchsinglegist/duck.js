@@ -122,7 +122,7 @@ export default function activeGist(state = {
 
 
 
-/*export function fetchSelectedGist(id) {
+export function fetchSelectedGist(id) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
@@ -136,27 +136,16 @@ export default function activeGist(state = {
 			.then((data) => dispatch(receiveSelectedGist(data)))
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
-}*/
+}
+/*
 const samplesingle = require('../../../static/samplesingle2');
 export function fetchSelectedGist(id) {
-	const url = 'https://api.github.com/gists/' + id;
-
 	return (dispatch) => {
-		dispatch(requestSelectedGist(id));
-		// Tarkistetaan onko gist käyttäjän suosikeissa.
-		/*dispatch(checkIfStarred(id));
-
-		return read(url)
-			.then(checkStatus)
-			.then(readJson)
-			.then((data) => dispatch(receiveSelectedGist(data)))
-			.catch((error) => dispatch(gistFetchFailed(error.message)));*/
-
-			setTimeout(() => {
-				dispatch(receiveSelectedGist(samplesingle));
-			}, 10);
+		setTimeout(() => {
+			dispatch(receiveSelectedGist(samplesingle));
+		}, 10);
 	};
-}
+}*/
 
 function requestSelectedGist(id) {
 	return {type: 'REQUEST_SELECTED_GIST', id};
@@ -299,5 +288,33 @@ export function checkIfForked(id) {
 				dispatch(forkGist(id));
 			}
 		}).catch((error) => dispatch(notify('failure', error.message)));
+	};
+}
+
+
+function removeGistFromList(id) {
+	return {type: 'REMOVE_GIST_FROM_LIST', id};
+}
+
+
+export function deleteGist(id) {
+	const url = 'https://api.github.com/gists/' + id;
+
+	return (dispatch) => {
+		return destroy(url)
+			.then(checkStatus)
+			.then(() => {
+				// Jos poistetaan yksittäisen gistin näkymässä,
+				// ohjataan käyttäjä takaisin listausnäkymään.
+				if(location.pathname === '/gist/' + id) {
+					browserHistory.push('/');
+				}
+
+				dispatch(invalidateGist());
+				dispatch(removeGistFromList(id));
+			}).catch((error) => dispatch(notify(
+				'failure',
+				`Poistaminen epäonnistui (${error.message}).`
+			)));
 	};
 }

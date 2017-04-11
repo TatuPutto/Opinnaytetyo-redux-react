@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-
+/*
 import {
 	fetchGists,
 	sortOldestToNewest,
@@ -12,8 +12,8 @@ import {
 	setFilters,
 	removeFilter,
 } from '../../actions/actions';
-
-import FilterByLanguage from '../presentational/listing/FilterByLanguage';
+*/
+import FilterByLanguage from './FilterByLanguage';
 
 
 class Filters extends React.Component {
@@ -52,7 +52,6 @@ class Filters extends React.Component {
 
 
 	useFilters(language) {
-		// this.props.filterByLanguage(language, this.props.gists);
 		this.props.filteringActions.addFilter(language);
 	}
 
@@ -71,7 +70,6 @@ class Filters extends React.Component {
 						<i className='fa fa-refresh' />
 					</button>
 
-
 					<select
 						className='select-fetch-method'
 						value={this.props.fetchMethod}
@@ -82,16 +80,7 @@ class Filters extends React.Component {
 						<option value='discover'>Discover</option>
 						<option value='search' disabled>Haku</option>
 					</select>
-{/*
-					<div className='change-gist-type'>
-						<button className={this.props.fetchMethod === 'gists' ? 'active-type': ''}
-								onClick={() => this.fetch('gists')}>Omat gistit</button>
-						<button className={this.props.fetchMethod === 'starred' ? 'active-type': ''}
-								onClick={() => this.fetch('starred')}>Suosikit</button>
-						<button className={this.props.fetchMethod === 'discover' ? 'active-type': ''}
-								onClick={() => this.fetch('discover')}>Discover</button>
-					</div>
-*/}
+
 					<FilterByLanguage
 						actions={this.props.filteringActions}
 						activeFilters={languages}
@@ -99,11 +88,14 @@ class Filters extends React.Component {
 				</div>
 
 
-
 				{languages &&
 					<div className='active-filters'>
 						{languages.map((language) =>
-							<p key={language} className='language-filter' onClick={this.removeFilter}>
+							<p
+								key={language}
+								className='language-filter'
+								onClick={this.removeFilter}
+							>
 								{language} <i className='fa fa-remove' />
 							</p>
 						)}

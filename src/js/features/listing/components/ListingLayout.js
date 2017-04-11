@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 import GistList from './GistList';
-import Filters from '../../../components/container/Filters';
+import Filters from '../filtering/components/Filters';
 import ShowActiveGist from './ShowActiveGist';
 
 

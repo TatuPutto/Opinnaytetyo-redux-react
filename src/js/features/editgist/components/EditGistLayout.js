@@ -1,13 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import $ from 'jquery';
-
-import GistFile from '../presentational/reusable/GistFile';
-import {editGist} from '../../actions/actions';
+import GistFile from '../../../sharedcomponents/GistFile';
 
 
-class EditGist extends React.Component {
-
+class EditGistLayout extends React.Component {
 	constructor() {
 		super();
 		this.initializeFiles = this.initializeFiles.bind(this);
@@ -214,19 +210,4 @@ class EditGist extends React.Component {
 	}
 }
 
-
-function mapStateToProps(state) {
-	return {
-		gist: state.activeGist,
-		isFetching: state.activeGist.isFetching,
-		isEditing: state.miscActions.isEditing,
-		fetchError: state.activeGist.fetchError,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {sendDataToEdit: (id, gistJson) => dispatch(editGist(id, gistJson))};
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditGist);
+export default EditGistLayout;

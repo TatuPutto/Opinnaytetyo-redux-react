@@ -4,7 +4,7 @@ import {parseSingleGistJson} from '../../utility/parsegists';
 import {notify} from '../notification/duck';
 
 
-export default function activeGist(state = {
+export default function reducer(state = {
 	id: null,
 	name: null,
 	description: null,
@@ -147,26 +147,20 @@ export function fetchSelectedGist(id) {
 	};
 }*/
 
-function requestSelectedGist(id) {
+export function requestSelectedGist(id) {
 	return {type: 'REQUEST_SELECTED_GIST', id};
 }
 
-function receiveSelectedGist(gistJson) {
+export function receiveSelectedGist(gistJson) {
 	const parsedGist = parseSingleGistJson(gistJson);
-	console.log(parsedGist);
-	return {
-		type: 'RECEIVE_SELECTED_GIST',
-		// activeGist: parseSingleGistJson(gistJson),
-	//	fetchError: null,
-		gist: parsedGist,
-	};
+	return {type: 'RECEIVE_SELECTED_GIST', gist: parsedGist};
 }
 
-function gistFetchFailed(error) {
+export function gistFetchFailed(error) {
 	return {type: 'GIST_FETCH_FAILED', error};
 }
 
-function invalidateGist() {
+export function invalidateGist() {
 	return {type: 'INVALIDATE_GIST'};
 }
 
@@ -189,18 +183,11 @@ export function checkIfStarred(id) {
 	};
 }
 
-
-function starring() {
-	return {type: 'STARRING'};
-}
-
-
-function starred() {
+export function starred() {
 	return {type: 'STARRED'};
 }
 
-
-function notStarred() {
+export function notStarred() {
 	return {type: 'NOT_STARRED'};
 }
 
@@ -221,6 +208,10 @@ export function starGist(id) {
 				`Suosikkeihin lisääminen epäonnistui (${error.message}).`
 			)));
 	};
+}
+
+export function starring() {
+	return {type: 'STARRING'};
 }
 
 // Poistetaan gist suosikeista.
@@ -250,11 +241,11 @@ export function forkGist(id) {
 	const url = 'https://api.github.com/gists/' + id + '/forks';
 
 	return (dispatch) => {
-		dispatch({type: 'FORKING'});
+		dispatch(forking());
 		return create(url)
 			.then(checkStatus)
 			.then(() => {
-				dispatch({type: 'FORKED'});
+				dispatch(forked());
 				dispatch(notify('success', 'Kopioitu tilille.'));
 			}).catch((error) => dispatch(notify(
 				'failure',
@@ -263,6 +254,13 @@ export function forkGist(id) {
 	};
 }
 
+export function forking() {
+	return {type: 'FORKING'};
+}
+
+export function forked() {
+	return {type: 'FORKING'};
+}
 
 export function checkIfForked(id) {
 	const url = 'https://api.github.com/gists/' + id + '/forks';

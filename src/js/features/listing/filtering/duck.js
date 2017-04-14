@@ -1,5 +1,5 @@
 // Käsittelijä-funktio gistien suodattamille.
-export default function filters(state = {languages: []}, action) {
+export default function reducer(state = {languages: []}, action) {
 	switch(action.type) {
 		case 'ADD_FILTER':
 			return {languages: state.languages.concat(action.language)};

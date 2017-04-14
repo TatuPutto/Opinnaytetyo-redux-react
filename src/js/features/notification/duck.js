@@ -1,4 +1,4 @@
-export default function notification(state = {
+export default function reducer(state = {
 	isOpen: false,
 	notificationType: null,
 	message: null
@@ -22,7 +22,6 @@ export default function notification(state = {
 	    	return state;
 	}
 }
-
 
 export function notify(notificationType = 'success', message) {
 	return {type: 'SHOW_NOTIFICATION', notificationType, message};

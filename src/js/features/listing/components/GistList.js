@@ -7,7 +7,6 @@ import $ from 'jquery';
 import GistListItem from './GistListItem';
 import PaginationLinks from './PaginationLinks';
 import Loading from '../../../sharedcomponents/Loading';
-import {fetchSelectedGist, fetchMoreGists} from '../../../actions/actions';
 import {filterByLanguage} from '../../../utility/filterByLanguage';
 
 const colors = require("../../../../static/colors.json");

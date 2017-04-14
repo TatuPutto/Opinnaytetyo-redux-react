@@ -5,7 +5,7 @@ import {parseMultipleGistsJson} from '../../../utility/parsegists';
 import {fetchSelectedGist} from '../../fetchsinglegist/duck';
 
 //Käsittelijä-funktio gistien hallintaan.
-export default function gists(state = {
+export default function reducer(state = {
 	fetchMethod: 'gists',
 	fetchError: null,
 	isFetching: true,

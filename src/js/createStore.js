@@ -2,25 +2,25 @@ import {combineReducers} from 'redux';
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import {activeGist}  from './reducers/activegist';
-import {filters}  from './reducers/filters';
-import {gists}  from './reducers/gists';
-//import {notifications} from './reducers/notifications';
-import notification from './features/notification/duck';
+import activeGist  from './features/fetchsinglegist/duck';
+import filters  from './features/listing/filtering/duck';
+import gists  from './features/listing/fetchgists/duck';
+import notifications from './features/notification/duck';
 import {pagination}  from './reducers/pagination';
-import {user}  from './reducers/user';
-import {miscActions}  from './reducers/miscactions';
+import user from './features/user/duck';
+import createGist from './features/creategist/duck';
+import editGist from './features/editgist/duck';
 
-function rootReducer(state = {}, action) {
-	return {
-		activeGist: activeGist(state.activeGist, action),
-		filters: filters(state.filters, action),
-		gists: gists(state.gists, action),
-		notifications: notification(state.notification, action),
-		pagination: pagination(state.pagination, action),
-		user: user(state.user, action),
-		miscActions: miscActions(state.miscActions, action),
-	};
-}
+
+const rootReducer = combineReducers({
+	activeGist,
+	filters,
+	gists,
+	pagination,
+	user,
+	notifications,
+	createGist,
+	editGist
+});
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

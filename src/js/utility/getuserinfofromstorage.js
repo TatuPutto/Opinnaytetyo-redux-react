@@ -3,8 +3,8 @@ export default function getUserInfoFromCookie() {
 	let userInfo = [];
 
 	for(let i = 0; i < cookies.length; i++) {
-		let key = cookies[i].split('=')[0].trim();
-		let value = cookies[i].split('=')[1];
+		const key = cookies[i].split('=')[0].trim();
+		const value = cookies[i].split('=')[1];
 
 		switch(key) {
 			case 'id':

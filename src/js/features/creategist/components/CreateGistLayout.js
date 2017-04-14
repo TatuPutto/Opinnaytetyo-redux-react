@@ -2,12 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import $ from 'jquery';
 
+import GistFile from '../../../sharedcomponents/GistFile';
 
-import GistFile from '../presentational/reusable/GistFile';
-import {createGist} from '../../actions/actions';
-
-
-class CreateGist extends React.Component {
+class CreateGistLayout extends React.Component {
 	constructor() {
 		super();
 		this.addFile = this.addFile.bind(this);
@@ -23,8 +20,6 @@ class CreateGist extends React.Component {
 		$('.header-content').addClass('narrow');
 	}
 
-
-	// Lisätään uusi tiedostokenttä.
 	addFile() {
 		this.setState({
 			editors: this.state.editors.concat(['editor' + this.state.editorsCreated]),
@@ -32,7 +27,6 @@ class CreateGist extends React.Component {
 		});
 	}
 
-	// Poistetaan valittu tiedostokenttä.
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
 			let editors = this.state.editors;
@@ -42,8 +36,6 @@ class CreateGist extends React.Component {
 		}
 	}
 
-
-	// Koostetaan tiedot yhdeksi olioksi ja lähetetään se eteenpäin.
 	getGistInfo(isPublic) {
 		let gist = {};
 		let files = {};
@@ -51,7 +43,6 @@ class CreateGist extends React.Component {
 		const fileFields = $('.gist-file');
 		const editors = this.state.editors;
 
-		// Kerätään tiedostonimet ja lähdekoodit tiedostokentistä.
 		for(let i = 0; i < fileFields.length; i++) {
 			const filename = $(fileFields[i]).find('input:text').val();
 			const content = ace.edit(editors[i]).getValue();
@@ -59,12 +50,10 @@ class CreateGist extends React.Component {
 			files[filename] = file;
 		}
 
-		// Koostetaan olio.
 		gist['description'] = description;
 		gist['ispublic'] = isPublic;
 		gist['files'] = files;
 
-		// Lähetetään koostettu olio JSON-muodossa eteenpäin.
 		this.props.create(gist, isPublic);
 	}
 
@@ -79,8 +68,7 @@ class CreateGist extends React.Component {
 				'Luodaan julkista gistiä...' : 'Luo julkinen gist';
 		const isCreating = isCreatingSecret || isCreatingPublic ?
 				true : false;
-
-
+				console.log(this.props);
 
 		// Jos tiedosto-kenttiä on enemmän kuin 1,
 		// mahdollistetaan kenttien poistaminen
@@ -138,24 +126,10 @@ class CreateGist extends React.Component {
 									&nbsp;{creationStatusPublic}
 						</button>
 					</div>
-
 				</div>
 			</div>
 		);
-
 	}
 }
 
-
-function mapStateToProps(state) {
-	return {
-		isCreatingSecret: state.miscActions.isCreatingSecret,
-		isCreatingPublic: state.miscActions.isCreatingPublic,
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {create: (gistJson, isPublic) => dispatch(createGist(gistJson, isPublic))};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateGist);
+export default CreateGistLayout;

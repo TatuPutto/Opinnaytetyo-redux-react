@@ -5,8 +5,7 @@ export function setAcccessToken(accessToken) {
 		headers: {
 			'Accept': 'application/json',
 			'Content-type': 'application/json',
-			'Authorization': 'token ' + accessToken,
-
+			'Authorization': 'token ' + accessToken
 		},
 	}
 }

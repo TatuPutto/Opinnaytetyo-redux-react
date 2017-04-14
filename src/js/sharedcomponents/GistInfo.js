@@ -8,6 +8,7 @@ import GistActionsOwner from './GistActionsOwner';
 
 export default function GistInfo(props) {
 	const userId = Number(props.userId);
+	const {toggleStarredStatus, forkGist, deleteGist} = props;
 	const {
 		id,
 		name,
@@ -22,11 +23,6 @@ export default function GistInfo(props) {
 		forkInfo,
 		isForking,
 	} = props.gist;
-	const {
-		toggleStarredStatus,
-		forkGist,
-		deleteGist,
-	} = props.actions;
 
 
 	return (

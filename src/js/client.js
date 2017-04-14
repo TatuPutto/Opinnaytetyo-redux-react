@@ -5,16 +5,14 @@ import {Provider} from 'react-redux';
 
 import {store} from './createStore';
 import {fetchSelectedGistOnEnter, fetchGistsOnEnter} from './hooks';
-import {receiveUserInfo} from './actions/actions';
+import {receiveUserInfo} from './features/user/duck';
 import getUserInfoFromCookie from './utility/getuserinfofromstorage';
 
-
-import Root from './components/container/Root';
-//import ListingPage from './components/presentational/listing/ListingPage';
-import ListingView from './features/listing/components/ListingView';
-import SingleGist from './features/single/components/SingleGist';
-import CreateGist from './components/container/CreateGist';
-import EditGist from './components/container/EditGist';
+import Root from './Root';
+import Listing from './features/listing/components/ListingView';
+import SingleGist from './features/single/components/SingleGistView';
+import CreateGist from './features/creategist/components/CreateGistView';
+import EditGist from './features/editgist/components/EditGistView';
 
 require('../css/basicrules.less');
 require('../css/header.less');
@@ -30,15 +28,15 @@ ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path='/' component={Root}>
-				<IndexRoute component={ListingView}
+				<IndexRoute component={Listing}
 						onEnter={fetchGistsOnEnter} />
-				<Route path='gists' component={ListingView}
+				<Route path='gists' component={Listing}
 						onEnter={fetchGistsOnEnter} />
-				<Route path='starred' component={ListingView}
+				<Route path='starred' component={Listing}
 						onEnter={fetchGistsOnEnter} />
-				<Route path='discover(/:page)' component={ListingView}
+				<Route path='discover(/:page)' component={Listing}
 						onEnter={fetchGistsOnEnter} />
-				<Route path='search(/:user)' component={ListingView}
+				<Route path='search(/:user)' component={Listing}
 						onEnter={fetchGistsOnEnter} />
 				<Route path='gist/:gistId' component={SingleGist}
 						onEnter={fetchSelectedGistOnEnter} />

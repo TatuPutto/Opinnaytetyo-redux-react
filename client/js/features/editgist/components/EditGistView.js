@@ -5,7 +5,7 @@ import {editGist} from '../duck';
 
 function mapStateToProps(state) {
 	return {
-		gist: state.activeGist,
+		gist: state.activeGist.item,
 		isFetching: state.activeGist.isFetching,
 		isEditing: state.editGist.isEditing,
 		fetchError: state.activeGist.fetchError

@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import GistFile from '../../../sharedcomponents/GistFile';
-
+import Loading from '../../../sharedcomponents/Loading';
 
 class EditGistLayout extends React.Component {
 	constructor() {
@@ -18,7 +18,7 @@ class EditGistLayout extends React.Component {
 	componentDidMount() {
 		$('.header-content').addClass('narrow');
 
-		if(this.props.gist.id !== null) {
+		if(this.props.gist.hasOwnProperty('id')) {
 			this.initializeFiles(this.props.gist.files);
 		}
 	}
@@ -62,7 +62,7 @@ class EditGistLayout extends React.Component {
 	// Poistetaan tiedostokenttä.
 	removeFile(id) {
 		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
-			let files = this.state.files;
+			let files = JSON.parse(JSON.stringify(this.state.files));
 
 			for(let i = 0; i < files.length; i++) {
 				if(files[i].editorId === id) {
@@ -147,7 +147,7 @@ class EditGistLayout extends React.Component {
 		if(isFetching || gist.id === null && !fetchError) {
 			return (
 				<div className='create'>
-					<div className='loading'></div>
+					<Loading />
 				</div>
 			);
 		} else if(!isFetching && gist.id !== null) {

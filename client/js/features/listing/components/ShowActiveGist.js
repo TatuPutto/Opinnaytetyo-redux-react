@@ -4,32 +4,32 @@ import ReadOnlyGistFile from '../../../sharedcomponents/ReadOnlyGistFile';
 import GistFiles from '../../../sharedcomponents/GistFiles';
 import Loading from '../../../sharedcomponents/Loading';
 
-class ShowActiveGist extends React.Component {
-	render() {
-		const isListLoading = this.props.isListLoading;
-		const {item, isFetching, fetchError} = this.props.activeGist;
+function ShowActiveGist(props) {
+	const isListLoading = props.isListLoading;
+	const {item, isFetching, fetchError} = props.activeGist;
 
-		if(!isListLoading && isFetching && !fetchError) {
-			return (
-				<div className='show-active-gist'>
-					<Loading />
-				</div>
-			);
-		} else if(!isListLoading && !isFetching && !fetchError) {
-			return (
-				<div className='show-active-gist'>
+	return (
+		<div className='show-active-gist'>
+			{!isListLoading && isFetching &&
+				<Loading />
+			}
+			{!isListLoading && !isFetching && !fetchError && item.hasOwnProperty('id') &&
+				<div>
 					<GistInfo
-						gist={this.props.activeGist}
-						userId={this.props.userId}
-						actions={this.props.actions}
+						gist={props.activeGist}
+						userId={props.userId}
+						actions={props.actions}
 					/>
 					<GistFiles files={item.files} />
 				</div>
-	   	 	);
-		} else {
-			return <div>{fetchError}</div>;
-		}
-	}
+			}
+			{fetchError &&
+				<div className='error'>
+					Gistin lataaminen ei onnistunut.
+				</div>
+			}
+		</div>
+	);
 }
 
 export default ShowActiveGist;

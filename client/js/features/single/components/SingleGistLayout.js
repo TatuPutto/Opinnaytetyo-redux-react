@@ -1,22 +1,23 @@
 import React, {PropTypes} from 'react';
+import $ from 'jquery';
 import GistInfo from '../../../sharedcomponents/GistInfo';
 import GistFiles from '../../../sharedcomponents/GistFiles';
 import Loading from '../../../sharedcomponents/Loading';
 
 class SingleGistLayout extends React.Component {
+	componentDidMount() {
+		$('.header-content').addClass('narrow');
+	}
+
 	render() {
 		const {item, isFetching, fetchError} = this.props.activeGist;
 
-		console.log(isFetching + '\n' + fetchError);
-		if(isFetching) {
-			return (
-				<div className='single'>
+		return (
+			<div className='single'>
+				{isFetching &&
 					<Loading />
-				</div>
-			);
-		} else if(!isFetching && !fetchError) {
-			return (
-				<div className='single'>
+				}
+				{!isFetching && !fetchError &&
 					<div className='show-active-gist'>
 						<GistInfo
 							gist={this.props.activeGist}
@@ -25,17 +26,14 @@ class SingleGistLayout extends React.Component {
 						/>
 						<GistFiles files={item.files} />
 					</div>
-				</div>
-	   	 	);
-		} else {
-			return (
-				<div className='single'>
+				}
+				{fetchError &&
 					<div className='error'>
 						Etsimääsi gistiä ei löytynyt.
 					</div>
-				</div>
-			);
-		}
+				}
+			</div>
+   	 	);
 	}
 }
 

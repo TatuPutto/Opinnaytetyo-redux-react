@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Loading(props) {
+function Loading(props) {
     return (
         <div className='loading'>
             <div className='loading-center'>
@@ -10,3 +10,5 @@ export default function Loading(props) {
         </div>
     );
 }
+
+export default Loading;

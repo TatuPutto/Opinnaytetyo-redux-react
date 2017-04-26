@@ -8,9 +8,9 @@ module.exports = {
 	context: path.join(__dirname),
     devtool: debug ? 'inline-sourcemap' : null,
     entry: {
-        javascript: './src/js/client.js',
+        javascript: './client/js/client.js',
         //html: './server/public/index.html',
-		html: './src/index.html'
+		html: './client/index.html'
     },
     module: {
         loaders: [{
@@ -41,7 +41,7 @@ module.exports = {
     },
     output: {
 		//path: __dirname + '/server/public',
-		path: __dirname + '/src/js',
+		path: __dirname + '/client/js',
 		//publicPath: 'http://localhost:8000/public',
     	filename: 'client.min.js'
     },

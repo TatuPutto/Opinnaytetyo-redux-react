@@ -9,7 +9,8 @@ export default function reducer(state = {
 	fetchMethod: 'gists',
 	fetchError: null,
 	isFetching: true,
-	items: []
+	items: [],
+	page: 1
 }, action) {
 	switch(action.type) {
 		case 'REMOVE_GIST_FROM_LIST':
@@ -32,6 +33,9 @@ export default function reducer(state = {
 			break;
 		case 'GISTS_FETCH_FAILURE':
 			return {...state, items: [], fetchError: action.error, isFetching: false};
+			break;
+		case 'UPDATE_PAGINATION':
+			return {...state, page: action.page};
 			break;
 		//Palautetaan vakioarvot tai nykyinen tila gistien osalta,
 		//jos action ei vastannut yhtäkään case-tapausta
@@ -73,9 +77,8 @@ export function fetchGists(fetchMethod, page = 1, user) {
 				const parsedGists = parseMultipleGistsJson(data);
 				dispatch(receiveGists(parsedGists));
 				dispatch(fetchSelectedGist(parsedGists[0].id));
-				dispatch(updatePagination(page));
-			}).catch((error) => dispatch(gistsFetchFailed(error.message))
-		);
+				dispatch(updatePagination(Number(page)));
+			}).catch((error) => dispatch(gistsFetchFailed(error.message)));
 	};
 }
 
@@ -86,8 +89,7 @@ export function refresh(fetchMethod, page = 1) {
 
 		return read(
 				determineEndpoint(fetchMethod, page) +
-				'?cache-bust=' + Date.now()
-			)
+				'?cache-bust=' + Date.now())
 			.then(checkStatus)
 			.then(readJson)
 			.then((data) => {
@@ -120,11 +122,6 @@ function gistsFetchFailed(error) {
 	};
 }
 
-function updatePagination(current = 1) {
-	return {
-		type: 'UPDATE_PAGINATION',
-		current,
-		next: current + 1,
-		last: 30,
-	};
+function updatePagination(page = 1) {
+	return {type: 'UPDATE_PAGINATION', page};
 }

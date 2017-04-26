@@ -5,11 +5,12 @@ let webpack = require('webpack');
 let path = require('path');
 
 module.exports = {
-	context: path.join(__dirname, '/src'),
+	context: path.join(__dirname),
     devtool: debug ? 'inline-sourcemap' : null,
     entry: {
-        javascript: './js/client.js',
-        html: './index.html',
+        javascript: './src/js/client.js',
+        //html: './server/public/index.html',
+		html: './src/index.html'
     },
     module: {
         loaders: [{
@@ -36,16 +37,17 @@ module.exports = {
 	  	{
 			test: /\.json$/,
 			loader: 'json',
-	  	}],
+	  	}]
     },
     output: {
+		//path: __dirname + '/server/public',
 		path: __dirname + '/src/js',
-		publicPath: 'http://localhost:8000/',
-    	filename: 'client.min.js',
+		//publicPath: 'http://localhost:8000/public',
+    	filename: 'client.min.js'
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}),
-    ],
+    ]
 };

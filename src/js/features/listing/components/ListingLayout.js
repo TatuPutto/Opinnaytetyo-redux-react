@@ -22,8 +22,7 @@ class ListingLayout extends React.Component {
 					/>
 					<GistList
 						gists={this.props.gists}
-						activeGistId={this.props.activeGist.id}
-						pagination={this.props.pagination}
+						activeGistId={this.props.activeGist.gistId}
 						setActive={this.props.gistActions.setActive}
 						addFilter={this.props.filteringActions.addFilter}
 					/>

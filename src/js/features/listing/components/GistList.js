@@ -1,11 +1,6 @@
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
-import $ from 'jquery';
-
 import GistListItem from './GistListItem';
-import PaginationLinks from './PaginationLinks';
+import Pagination from './Pagination';
 import Loading from '../../../sharedcomponents/Loading';
 import {filterByLanguage} from '../../../utility/filterByLanguage';
 
@@ -18,24 +13,22 @@ class GistList extends React.Component {
 		activeGistId: PropTypes.string.isRequired,
 		isFetching: PropTypes.bool.isRequired,
 		setActive: PropTypes.func.isRequired
-	};b
+	};
 */
 	static contextTypes = {
 		router: React.PropTypes.object.isRequired
 	};
 
-
 	constructor() {
 		super();
-		//this.setActive = this.setActive.bind(this);
 		this.getColorCode = this.getColorCode.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		//Scrollataan listan alkuun discover-toiminnallisuudessa sivua vaihdettaessa.
-		if(nextProps.currentPage !== this.props.currentPage) {
+		//if(nextProps.currentPage !== this.props.currentPage) {
 			//ReactDOM.findDOMNode(this.refs.gistlist).scrollTop = 0;
-		}
+		//}
 			//	&& nextProps.gists.items.length > 0) {
 
 		if(nextProps.gists.items.length > 0) {
@@ -46,9 +39,6 @@ class GistList extends React.Component {
 		}
 	}
 
-	/**
-	 * Haetaan kielelle määrietty värikoodi
-	 */
 	getColorCode(language) {
 		let colorCode;
 		try {
@@ -59,25 +49,16 @@ class GistList extends React.Component {
 		return colorCode;
 	}
 
-
-
-
 	render() {
 		const {
 			items: gists,
 			fetchMethod,
 			fetchError,
 			isFetching,
+			page
 		} = this.props.gists;
-		const {
-			currentPage,
-			nextPage,
-			previousPage,
-			lastPage,
-		} = this.props.pagination;
 
-
-		//luodaan jokaista taulukon sisältämää gistiä kohden yksi ilmentymä GistListItem-komponentti.
+		// luodaan jokaista taulukon sisältämää gistiä kohden yksi ilmentymä GistListItem-komponentti.
 		const listItems = gists.map((gist) => {
 			return (
 				<GistListItem
@@ -100,7 +81,7 @@ class GistList extends React.Component {
 			);
 		}, this);
 
-		//Renderöidään lista ja asetetaan GistListItem-komponentista luodut ilmentymät listan sisällöksi.
+		// renderöidään lista ja asetetaan GistListItem-komponentista luodut ilmentymät listan sisällöksi.
 		return (
 			<div className='gist-list' ref='gistlist'>
 				{fetchError &&
@@ -112,59 +93,17 @@ class GistList extends React.Component {
 				{!isFetching && listItems.length === 0 && !fetchError &&
 					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
 				}
-
 				{listItems.length > 0 && !fetchError && !isFetching &&
 					<ul>
 						{listItems}
 					</ul>
 				}
-
 				{fetchMethod === 'discover' && !isFetching &&
-					<PaginationLinks
-						currentPage={currentPage}
-						nextPage={nextPage}
-						previousPage={previousPage}
-						lastPage={lastPage}
-					/>
+					<Pagination page={page} />
 				}
 			</div>
 		);
 	}
-
 }
 
-
-
-
-let activeId;
-function mapStateToProps(state) {
-	activeId = state.activeGist.id;
-
-	return {
-		//gists: filterByLanguage(state.filters.language, state.gists.items),
-		activeGistId: state.activeGist.id,
-		//isFetching: state.gists.isFetching,
-		//fetchMethod: state.gists.fetchMethod,
-		currentPage: state.pagination.currentPage,
-		nextPage: state.pagination.nextPage,
-		previousPage: state.pagination.previousPage,
-		lastPage: state.pagination.lastPage,
-	}
-}
-
-
-function mapDispatchToProps(dispatch) {
-	return {
-		/*setActive: (id) => {
-			if(id !== activeId) {
-				dispatch(fetchSelectedGist(id));
-			}
-		},
-		fetchMore: (pageNum) => {
-			dispatch(fetchMoreGists(pageNum));
-		}*/
-	};
-}
-
-//export default GistList;
-export default connect(mapStateToProps, mapDispatchToProps)(GistList);
+export default GistList;

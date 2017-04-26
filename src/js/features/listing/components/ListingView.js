@@ -16,10 +16,10 @@ let activeId;
 let fetchParams;
 
 function mapStateToProps(state) {
-	activeId = state.activeGist.id;
+	activeId = state.activeGist.gistId;
 	fetchParams = {
 		method: state.gists.fetchMethod,
-		page: state.pagination.currentPage
+		page: state.gists.page
 	};
 
 	return {
@@ -29,7 +29,6 @@ function mapStateToProps(state) {
 		},
 		activeGist: state.activeGist,
 		filters: state.filters,
-		pagination: state.pagination,
 		userId: state.user.id,
 	};
 }

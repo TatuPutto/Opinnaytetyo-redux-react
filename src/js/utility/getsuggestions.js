@@ -17,8 +17,6 @@ export default function getSuggestions(input, activeFilters) {
 	return suggestions;
 }
 
-
-// Järjestetään ehdotukset aakkosjärjestykseen
 function sortAlphabetically(suggestions) {
 	const sortedSuggestions = suggestions.sort((a, b) => {
 		a = a.toLowerCase();

@@ -7,8 +7,8 @@ import GistActionsOwner from './GistActionsOwner';
 
 
 export default function GistInfo(props) {
+	console.log(props);
 	const userId = Number(props.userId);
-	const {toggleStarredStatus, forkGist, deleteGist} = props;
 	const {
 		id,
 		name,
@@ -22,9 +22,9 @@ export default function GistInfo(props) {
 		updatedAtUnformatted,
 		forkInfo,
 		isForking,
-	} = props.gist;
-
-
+	} = props.gist.gist;
+	const {toggleStarredStatus, forkGist, deleteGist} = props.actions;
+	console.log(toggleStarredStatus);
 	return (
 		<div className='gist-info'>
 			<div className='active-gist-title'>
@@ -35,7 +35,7 @@ export default function GistInfo(props) {
 					<span className={'title'}>
 						<h2>
 							<Link to={'/gist/' + id}>
-								{name}
+								{props.gist.gist.files[0].filename}
 							</Link>
 						</h2>
 					</span>
@@ -50,16 +50,14 @@ export default function GistInfo(props) {
 					/>
 				</span>
 
-				{owner.id === userId &&
+				{owner.id === userId ?
 					<GistActionsOwner
 						id={id}
 						isStarred={isStarred}
 						starGist={toggleStarredStatus}
 						deleteGist={deleteGist}
 					/>
-				}
-
-				{owner.id !== userId &&
+					:
 					<GistActions
 						id={id}
 						isStarred={isStarred}

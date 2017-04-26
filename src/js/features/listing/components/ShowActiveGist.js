@@ -1,19 +1,13 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
-import $ from 'jquery';
-
-//import GistInfo from '../../../components/container/GistInfo';
 import GistInfo from '../../../sharedcomponents/GistInfo';
-import ReadOnlyGistFile from '../../../components/presentational/reusable/ReadOnlyGistFile';
-import GistFiles from '../../../components/presentational/listing/GistFiles';
-import Comments from '../../../components/presentational/commentsection/Comments';
+import ReadOnlyGistFile from '../../../sharedcomponents/ReadOnlyGistFile';
+import GistFiles from '../../../sharedcomponents/GistFiles';
 import Loading from '../../../sharedcomponents/Loading';
-//import {fetchComments} from '../../actions/actions';
 
 class ShowActiveGist extends React.Component {
 	render() {
 		const isListLoading = this.props.isListLoading;
-		const {
+		/*const {
 			id,
 			files,
 			isFetching,
@@ -21,37 +15,28 @@ class ShowActiveGist extends React.Component {
 			fetchError,
 			comments,
 			commentsAmount,
-		} = this.props.gist;
+		} = this.props.gist;*/
+		console.log(this.props);
 
+		const {gist, isFetching, fetchError} = this.props.gist;
 
 		if(!isListLoading && isFetching && !fetchError) {
 			return (
 				<div className='show-active-gist'>
-					<Loading />;
+					<Loading />
 				</div>
 			);
-		} else if(!isListLoading && !isFetching && id !== null && !fetchError) {
-			//Renderöidään inforuutu ja tiedostokentät.
+		} else if(!isListLoading && !isFetching && this.props.gist.hasOwnProperty('gistId') &&
+		 		this.props.gist.gistId && !fetchError) {
+
 			return (
 				<div className='show-active-gist'>
 					<GistInfo
-						actions={this.props.actions}
 						gist={this.props.gist}
 						userId={this.props.userId}
+						actions={this.props.actions}
 					/>
-					<GistFiles files={files} />
-					{/*}
-					{commentsAmount === 0 &&
-						<p>Ei kommentteja</p>
-					}
-					{commentsAmount > 0 && comments.length < 1 &&
-						<p onClick={() => this.props.fetchComments(id)}>
-							Näytä kommentit ({commentsAmount})
-						</p>
-					}
-					{commentsAmount > 0 && comments.length > 0 &&
-						<Comments comments={comments} />
-					}*/}
+					<GistFiles files={this.props.gist.gist.files} />
 				</div>
 	   	 	);
 		} else {
@@ -59,21 +44,5 @@ class ShowActiveGist extends React.Component {
 		}
 	}
 }
-
-/*
-function mapStateToProps(state) {
-	return {
-		gist: state.activeGist,
-		isListLoading: state.gists.isFetching,
-	};
-}*/
-/*
-function mapDispatchToProps(dispatch) {
-	return {fetchComments: (id) => dispatch(fetchComments(id))};
-}
-*/
-
-
-//export default connect(mapStateToProps)(ShowActiveGist);
 
 export default ShowActiveGist;

@@ -80,8 +80,10 @@ class ReadOnlyGistFile extends React.Component {
 		return (
 			<div className='gist-file'>
 				<FileInfoWithLink
+					filename={filename}
 					copySource={this.copySource}
 					minimizeEditor={this.minimizeEditor}
+					isMinimized={isMinimized}
 					minimized={minimized}
 				/>
 

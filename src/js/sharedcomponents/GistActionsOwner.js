@@ -14,7 +14,7 @@ class GistActions extends React.Component {
 				'Poista suosikeista' : 'Lisää suosikkeihin';
 		const starIcon = isStarred ? 'fa fa-star-o' : 'fa fa-star';
 
-
+		console.log(starGist);
 		return (
 			<span className='actions'>
 				<button onClick={() => starGist(isStarred, id)}>

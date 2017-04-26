@@ -18,13 +18,14 @@ class SearchBar extends React.Component {
 	}
 
 	getInput(e) {
-		const suggestions = getSearchQueries(e.target.value);
-		this.setState({input: e.target.value, suggestions});
+		//const suggestions = getSearchQueries(e.target.value);
+		this.setState({input: e.target.value});
 	}
 
 	doSearch() {
-		storeSearchQuery(this.state.input);
+		//storeSearchQuery(this.state.input);
 		this.context.router.push('/search/' + this.state.input);
+		this.setState({input: ''});
 	}
 
 	render() {
@@ -33,7 +34,8 @@ class SearchBar extends React.Component {
 				<input
 					type='text'
 					className='search-input'
-					placeholder='Haku'
+					placeholder='Hae käyttäjän gistejä'
+					defaultValue={this.state.input}
 					onChange={this.getInput}
 				/>
 

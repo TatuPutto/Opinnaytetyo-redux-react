@@ -5,7 +5,7 @@ import {notify} from '../notification/duck';
 
 
 export default function reducer(state = {
-	id: null,
+	/*id: null,
 	name: null,
 	description: null,
 	createdAt: null,
@@ -13,14 +13,13 @@ export default function reducer(state = {
 	createdAtUnformatted: null,
 	updatedAtUnformatted: null,
 	files: [],
-	comments: [],
-	commentsAmount: null,
 	owner: null,
 	isPublic: null,
-	forkInfo: null,
+	forkInfo: null,*/
+	gistId: null,
+	gist: null,
 	isStarred: null,
 	isFetching: false,
-	isFetchingFiles: false,
 	isForking: false,
 	fetchError: null,
 }, action) {
@@ -28,7 +27,7 @@ export default function reducer(state = {
 		//Mitätöidään aktiivinen gist.
 		case 'INVALIDATE_GIST':
 			return {
-				id: null,
+			/*	id: null,
 				name: null,
 				description: null,
 				createdAt: null,
@@ -36,22 +35,24 @@ export default function reducer(state = {
 				createdAtUnformatted: null,
 				updatedAtUnformatted: null,
 				files: [],
-				comments: [],
 				owner: null,
 				createdAt: null,
 				updatedAt: null,
 				isPublic: null,
-				forkInfo: null,
-				isFetching: false,
+				forkInfo: null,*/
+				...state,
+				gistId: null,
+				gist: null,
+				isFetching: false
 			};
 			break;
 		//Aktiivisen gistin hakeminen aloitettiin.
 		case 'REQUEST_SELECTED_GIST':
 			return {
 				...state,
-				id: action.id,
+				gistId: action.id,
 				isFetching: true,
-				name: null,
+				/*name: null,
 				description: null,
 				createdAt: null,
 				updatedAt: null,
@@ -63,24 +64,24 @@ export default function reducer(state = {
 				createdAt: null,
 				updatedAt: null,
 				isPublic: null,
-				forkInfo: null,
+				forkInfo: null,*/
 			};
 			break;
 		//Aktiivisen gistin hakeminen onnistui.
 		case 'RECEIVE_SELECTED_GIST':
 			return {
 				...state,
-				name: action.gist.files[0].filename,
+				/*name: action.gist.files[0].filename,
 				description: action.gist.description,
 				files: action.gist.files,
-				commentsAmount: action.gist.comments,
 				owner: action.gist.owner,
 				createdAt: action.gist.createdAt,
 				updatedAt: action.gist.updatedAt,
 				createdAtUnformatted: action.gist.createdAtUnformatted,
 				updatedAtUnformatted: action.gist.updatedAtUnformatted,
 				isPublic: action.gist.isPublic,
-				forkInfo: action.gist.forkInfo,
+				forkInfo: action.gist.forkInfo,*/
+				gist: action.gist,
 				isFetching: false,
 				fetchError: null,
 			};
@@ -120,15 +121,13 @@ export default function reducer(state = {
 	}
 }
 
-
-
 export function fetchSelectedGist(id) {
 	const url = 'https://api.github.com/gists/' + id;
 
 	return (dispatch) => {
 		dispatch(requestSelectedGist(id));
 		// Tarkistetaan onko gist käyttäjän suosikeissa.
-		dispatch(checkIfStarred(id));
+	//	dispatch(checkIfStarred(id));
 
 		return read(url)
 			.then(checkStatus)
@@ -137,15 +136,6 @@ export function fetchSelectedGist(id) {
 			.catch((error) => dispatch(gistFetchFailed(error.message)));
 	};
 }
-/*
-const samplesingle = require('../../../static/samplesingle2');
-export function fetchSelectedGist(id) {
-	return (dispatch) => {
-		setTimeout(() => {
-			dispatch(receiveSelectedGist(samplesingle));
-		}, 10);
-	};
-}*/
 
 export function requestSelectedGist(id) {
 	return {type: 'REQUEST_SELECTED_GIST', id};
@@ -153,6 +143,9 @@ export function requestSelectedGist(id) {
 
 export function receiveSelectedGist(gistJson) {
 	const parsedGist = parseSingleGistJson(gistJson);
+
+	console.log(parsedGist);
+
 	return {type: 'RECEIVE_SELECTED_GIST', gist: parsedGist};
 }
 

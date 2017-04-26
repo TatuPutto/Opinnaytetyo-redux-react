@@ -4,7 +4,7 @@ export function parseSingleGistJson(gistJson) {
 		description: gistJson.description,
 		files: parseFilesWithSource(gistJson.files),
 		owner: parseOwnerInfo(gistJson.owner),
-		isPublic: gistJson.isPublic,
+		isPublic: gistJson.public,
 		createdAtUnformatted: gistJson.created_at,
 		updatedAtUnformatted: gistJson.updated_at,
 		createdAt: formatTime(gistJson.created_at),
@@ -12,12 +12,6 @@ export function parseSingleGistJson(gistJson) {
 		forkInfo: parseForkInfo(gistJson.fork_of),
 		comments: gistJson.comments,
 	};
-	/* let gist = Object.assign({}, gistJson, {
-		files: parseFilesWithSource(gistJson.files),
-		formattedTime: formatTime(gistJson.updated_at),
-		owner: parseOwnerInfo(gistJson.owner),
-	});*/
-
 	return gist;
 }
 
@@ -38,14 +32,12 @@ export function parseMultipleGistsJson(gistsJson) {
 			});
 		}
 	});
-
 	return gists;
 }
 
 
 function parseFiles(json) {
 	let files = [];
-
 	for(let key in json) {
 		let singleFile = {};
 		singleFile['filename'] = json[key].filename;
@@ -53,23 +45,19 @@ function parseFiles(json) {
 		singleFile['size'] = json[key].size;
 		files.push(singleFile);
 	}
-
 	return files;
 }
 
 
 export function parseFilesWithSource(json) {
 	let files = [];
-
 	for(let key in json) {
 		let file = {};
 		file['filename'] = json[key].filename;
 		file['description'] = json[key].language;
 		file['content'] = json[key].content;
-
 		files.push(file);
 	}
-
 	return files;
 }
 

@@ -10,13 +10,16 @@ class GistListItem extends React.Component {
 			ownerAvatar,
 			activeGistId,
 			createdAt,
+			updatedAt,
 			language,
 			setActive,
 			addFilter,
 			color,
 			fileCount,
-			commentsAmount,
+			comments,
 		} = this.props;
+		const isActive = activeGistId === id ?
+				'single-gist active' : 'single-gist';
 
 		let {filename, description} = this.props;
 
@@ -26,54 +29,44 @@ class GistListItem extends React.Component {
 					description : description.substring(0, 150) + '...';
 		}
 
-		// Tarkistetaan onko tämä gist asetettu aktiiviseksi.
-		const isActive = activeGistId === id ?
-				'single-gist active' : 'single-gist';
-
 		// Palautetaan gistin tietojen pohjalta muodostettu <li>-elementti.
 		return (
 			<li className={isActive} id={id} onClick={() => setActive(id, this.props.gist)}>
 				<div className='content-wrapper'>
-
-				<div className='block-level'>
-					<span className={'owner-avatar'}>
-						<img src={ownerAvatar} />
-					</span>
-					<span className='title-wrapper'>
-						<span className={'title'}>
-							<h2>
-								<Link to={'/gist/' + id}>
-									{filename}
+					<div className='block-level'>
+						<span className={'owner-avatar'}>
+							<img src={ownerAvatar} />
+						</span>
+						<span className='title-wrapper'>
+							<span className={'title'}>
+								<h2>
+									<Link to={'/gist/' + id}>
+										{filename}
+									</Link>
+								</h2>
+							</span>
+							<br />
+							<span className={'creation-info'}>
+								<Link to={'/search/' + owner}>
+									{owner}
 								</Link>
-							</h2>
+								{createdAt == updatedAt ?
+									<span>&nbsp;&bull; luotu {createdAt}</span>
+									:
+									<span>&nbsp;&bull; päivitetty {updatedAt}</span>
+								}
+							</span>
 						</span>
-						<br />
-						<span className={'creation-info'}>
-							<Link to={'/search/' + owner}>
-								{owner}
-							</Link>
-
-							&nbsp;| {createdAt}
-						</span>
-					</span>
-				</div>
-
-
+					</div>
 					<div className='description'>
 						{description}
 					</div>
-				 {/*}	<span className='created'>
-						Luotu: {updatedAt}
-					</span>*/}
-
 					<span className='file-count'>
 						<i className='fa fa-file-code-o' /> {fileCount}
 					</span>
-
 					<span className='comments-amount'>
-						<i className='fa fa-comments-o' /> {commentsAmount}
+						<i className='fa fa-comments-o' /> {comments}
 					</span>
-
 					{language &&
 						<span
 							className='language'

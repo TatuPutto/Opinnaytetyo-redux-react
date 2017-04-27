@@ -83,7 +83,6 @@ class ReadOnlyGistFile extends React.Component {
 					filename={filename}
 					copySource={this.copySource}
 					minimizeEditor={this.minimizeEditor}
-					isMinimized={isMinimized}
 					minimized={minimized}
 				/>
 

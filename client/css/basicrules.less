@@ -1,12 +1,14 @@
+@default-background-color: #fafbff;
 @default-font-family: 'Roboto', sans-serif;
-//@default-border-color: #A9A9A9;
-@default-border-color: #d4cece;
-@default-border-radius: 2px;
+@default-border-color: #d8d6e5;
+@default-border-radius: 3px;
 @default-anchor-color: #0000EE;
-
+@default-font-color: #5f0dab;
+@secondary-font-color: #808a99;
 
 body {
 	//margin: 0px;
+	background: @default-background-color;
 }
 
 h2 {
@@ -64,6 +66,7 @@ button {
     padding-left: 12px;
     margin-right: 4px;
 	vertical-align: top;
+	transition: background 0.2s;
 }
 
 button:hover {
@@ -83,24 +86,24 @@ button:disabled {
 
 a {
     //color: @default-anchor-color;
-	color: #65a2f1;
+	color: @default-font-color;
 	text-decoration: none;
 }
 
 a:hover {
     //color: @default-anchor-color;
-	color: #65a2f1;
+	color: @default-font-color;
 	text-decoration: underline;
 }
 
 a:visited {
 	//color: @default-anchor-color;
-	color: #65a2f1;
+	color: @default-font-color;
 }
 
 a:active {
     //color: @default-anchor-color;
-	color: #65a2f1;
+	color: @default-font-color;
 }
 
 ::-webkit-scrollbar {

@@ -74,7 +74,7 @@ export function fetchSelectedGist(id) {
 	return (dispatch) => {
 		dispatch(requestSelectedGist(id));
 		// Tarkistetaan onko gist käyttäjän suosikeissa.
-	//	dispatch(checkIfStarred(id));
+		dispatch(checkIfStarred(id));
 
 		return read(url)
 			.then(checkStatus)

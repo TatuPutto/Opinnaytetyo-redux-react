@@ -5,10 +5,11 @@
 /////////////////////////Ylätunniste/////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////*/
 .header {
-	background-color: #07afe6;
+	background: white;
 	height: 50px;
 	margin-right: 0px;
 	margin-left: 0px;
+	border-bottom: 2px solid #5f0dab;
 }
 
 .header-content {
@@ -37,9 +38,7 @@
 
 .user-info p {
 	margin-left: 5px;
-	color: white;
-	font-weight: bold;
-	margin-right: 8px;
+	color: @default-font-color;
 }
 
 .user-info-details {
@@ -84,7 +83,7 @@
     border-radius: 4px !important;
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
-	border-color: #b9b9b9 !important;
+	border-color: @default-border-color !important;
 	color: black;
 }
 
@@ -96,9 +95,10 @@
 	border-radius: 4px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+	border-left: none;
     background: white;
     border-left: none !important;
-    border-color: #b9b9b9 !important;
+    border-color: @default-border-color !important;
     color: black;
     margin-right: 0px;
     /* border-radius: 4px; */
@@ -107,12 +107,6 @@
 .do-search:hover {
 	background: white;
 }
-
-
-.do-search:focus {
-	background: #87cce2;
-}
-
 
 
 /*///////////////////////////////////////////////////////////////////////
@@ -139,11 +133,13 @@
     padding: 10px 10px;
     text-decoration: none;
     border-radius: 2px;
-	color: white;
-    font-weight: bold;
+	color: @default-font-color;
 }
 
 .nav-menu ul li a:hover {
-    background-color: white;
-	color: #07afe6;
+    text-decoration: underline;
+}
+
+.active-route {
+	font-weight: bold;
 }

@@ -9,7 +9,6 @@ module.exports = {
     devtool: debug ? 'inline-sourcemap' : null,
     entry: {
         javascript: './client/js/client.js',
-        //html: './server/public/index.html',
 		html: './client/index.html'
     },
     module: {
@@ -40,14 +39,12 @@ module.exports = {
 	  	}]
     },
     output: {
-		//path: __dirname + '/server/public',
 		path: __dirname + '/client/js',
-		//publicPath: 'http://localhost:8000/public',
     	filename: 'client.min.js'
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}),
+        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
     ]
 };

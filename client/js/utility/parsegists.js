@@ -26,7 +26,7 @@ export function parseMultipleGistsJson(gistsJson) {
 				createdAt: formatTime(gist.created_at),
 				updatedAt: formatTime(gist.updated_at),
 				files: parseFiles(gist.files),
-				commentsAmount: gist.comments,
+				comments: gist.comments,
 				owner: parseOwnerInfo(gist.owner),
 				isPublic: gist.public,
 			});

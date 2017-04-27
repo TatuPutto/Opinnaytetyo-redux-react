@@ -32,37 +32,43 @@
 ///////////////////////////////////////////////////////////////////////*/
 .user-info {
 	float: right;
-	margin-top: 12px;
-    //margin-right: 2%;
+	padding: 11px;
+	color: black;
 }
 
-.user-info p {
-	margin-left: 5px;
-	color: @default-font-color;
-}
 
 .user-info-details {
-	display: inline;
+    position: absolute;
+    right: 11px;
+    background: white;
+    color: @default-font-color;
+    border: 1px solid @default-border-color;
+    text-align: center;
+	z-index: 9999;
 }
 
-.user-info-details a {
-    color: white !important;
-	font-weight: bold;
-    border-left: 1px solid white;
-    padding-left: 8px;
+.user-avatar-container {
+	margin-top: 20px;
 }
 
 .user-avatar {
 	width: 26px;
 	height: 26px;
-	margin-left: 10px;
+	margin-right: 5px;
 }
 
-.logout {
-	display: inline;
-	border-left: 1px solid black;
-	margin-left: 5px;
-	padding-left: 5px;
+.user-avatar-large {
+	height: 80px;
+}
+
+.user-info-text-container {
+	padding: 10px 20px;
+}
+
+.user-info-actions {
+	border-top: 1px solid @default-font-color;
+	padding: 8px 10px;
+	text-align: left;
 }
 
 
@@ -142,4 +148,17 @@
 
 .active-route {
 	font-weight: bold;
+}
+
+.login {
+	float: right;
+    margin-top: 9px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.login:hover {
+	background-color: #4d984d;
+	border-color: #388438;
 }

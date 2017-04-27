@@ -1,4 +1,4 @@
-import {setAcccessToken} from '../../utility/fetchmethods';
+import {setAuthorizationHeader} from '../../utility/fetchmethods';
 
 export default function user(state = {
 	id: null,
@@ -21,7 +21,7 @@ export default function user(state = {
 }
 
 export function receiveUserInfo(userInfo) {
-	setAcccessToken(userInfo[3]);
+	setAuthorizationHeader(userInfo[3]);
 	return {
 		type: 'FETCH_USER_INFO_SUCCESS',
 		id: userInfo[0],

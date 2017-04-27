@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     res.clearCookie('username');
     res.clearCookie('avatar_url');
     res.clearCookie('access_token');
-    res.redirect('/login');
+    res.redirect('/');
 });
 
 module.exports = router;

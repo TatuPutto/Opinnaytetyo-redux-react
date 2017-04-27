@@ -1,4 +1,3 @@
-var cookieParser = require('cookie-parser');
 var express = require('express');
 var exchangeCodeToAccessToken = require('../util/exchangecodetoaccesstoken');
 var getUserInfo = require('../util/getuserinfo');
@@ -12,10 +11,11 @@ router.get('/', (req, res) => {
             // get user info of the account associated with the token
             getUserInfo(accessToken)
                 .then((data) => {
-                    res.cookie('id', data.user.id);
-                    res.cookie('username', data.user.login);
-                    res.cookie('avatar_url', data.user.avatar_url);
-                    res.cookie('access_token', accessToken);
+                    var expires = {maxAge: (7 * 24 * 60 * 60 * 1000)};
+                    res.cookie('id', data.user.id, expires);
+                    res.cookie('username', data.user.login, expires);
+                    res.cookie('avatar_url', data.user.avatar_url, expires);
+                    res.cookie('access_token', accessToken, expires);
                     res.redirect('/');
                 }).catch((err) => res.end(err));
         }).catch((err) => res.end(err));

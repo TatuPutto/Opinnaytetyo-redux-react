@@ -21,4 +21,6 @@ const rootReducer = combineReducers({
 	editGist
 });
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+export default store;

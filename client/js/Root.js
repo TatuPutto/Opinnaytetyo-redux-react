@@ -5,7 +5,7 @@ import Notifications from './features/notification/components/Notification';
 function Root(props) {
 	return (
 		<div className='content'>
-			<Header />
+			<Header loggedIn={props.route.loggedIn} />
 			<Notifications />
 			{props.children}
 		</div>

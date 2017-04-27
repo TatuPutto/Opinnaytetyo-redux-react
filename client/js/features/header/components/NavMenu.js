@@ -6,8 +6,13 @@ function NavMenu(props) {
 	return (
 		<div className='nav-menu'>
 			<ul>
-				<li><Link to='/'>Listaa gistit</Link></li>
-				<li><Link to='/create'>Luo uusi gist</Link></li>
+				<li className={props.loggedIn ? '' : 'disabled'}>
+					<Link to='/'>Own gists</Link>
+				</li>
+				<li className={props.loggedIn ? '' : 'disabled'}>
+					<Link to='/create'>Create new gist</Link>
+				</li>
+				<li><Link to='/discover'>Discover</Link></li>
 			</ul>
 		</div>
 	);

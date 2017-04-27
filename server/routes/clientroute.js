@@ -3,6 +3,7 @@ var cookieParser = require('cookie-parser');
 var express = require('express');
 var router = express.Router();
 
+/*
 router.use(cookieParser());
 
 // check if user is logged in
@@ -12,7 +13,7 @@ router.use((req, res, next) => {
     } else {
         res.redirect('/login');
     }
-});
+});*/
 
 // redirect all other requests client app
 router.get('/', (req, res) => {

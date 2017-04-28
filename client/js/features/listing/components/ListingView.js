@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import ListingLayout from './ListingLayout';
 import {fetchGists, refresh} from '../fetchgists/duck';
 import {addFilter, removeFilter} from '../filtering/duck';
-import {filterByLanguage} from '../../../utility/filterByLanguage';
+import filterByLanguage from '../../../utility/filterByLanguage';
 import {
 	fetchSelectedGist,
 	starGist,
@@ -48,7 +48,7 @@ function mapDispatchToProps(dispatch) {
 
 		//Aktiivisen gistin toiminnot.
 		gistActions: {
-			setActive: (id, gist) => {
+			setActive: (id) => {
 				if(id !== activeId) {
 					dispatch(fetchSelectedGist(id));
 				}

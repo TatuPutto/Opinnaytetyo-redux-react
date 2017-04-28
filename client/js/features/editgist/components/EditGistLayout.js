@@ -61,7 +61,7 @@ class EditGistLayout extends React.Component {
 
 	// Poistetaan tiedostokenttä.
 	removeFile(id) {
-		if(confirm('Haluatko varmasti poistaa tämän kentän?')) {
+		if(confirm('Are you sure you want to delete this file?')) {
 			let files = JSON.parse(JSON.stringify(this.state.files));
 
 			for(let i = 0; i < files.length; i++) {
@@ -141,8 +141,7 @@ class EditGistLayout extends React.Component {
 	render() {
 		const {gist, isFetching, isEditing, fetchError} = this.props;
 		const {originalFiles, files} = this.state;
-
-		const editingStatus = isEditing ? 'Muokataan...' : 'Muokkaa';
+		const editingStatus = isEditing ? 'Editing...' : 'Edit';
 
 		if(isFetching || gist.id === null && !fetchError) {
 			return (
@@ -172,29 +171,36 @@ class EditGistLayout extends React.Component {
 			return (
 				<div className='create'>
 					<div className='wrapper'>
-						<input type='text' className='description'
-								placeholder='Kuvaus' defaultValue={gist.description} />
+						<input
+							type='text'
+							className='description'
+							placeholder='Description'
+							defaultValue={gist.description}
+						/>
 
 						<div className='files'>
 							{fileFields}
 						</div>
 
-						<button
-							id='add-file'
-							onClick={this.addFile}
-							disabled={isEditing}
-						>
-							<i className='fa fa-file-text-o'></i> Lisää tiedosto
-						</button>
+						<div className='buttons'>
+							<button
+								id='add-file'
+								onClick={this.addFile}
+								disabled={isEditing}
+							>
+								<i className='fa fa-file-text-o'></i> Add file
+							</button>
 
-						<button
-							id='update-gist'
-							onClick={() => this.getEditInfo(false)}
-							disabled={isEditing}
-						>
-							<i className={isEditing ?
-									'fa fa-spinner fa-spin' : 'fa fa-edit'} /> {editingStatus}
-						</button>
+							<button
+								id='update-gist'
+								onClick={() => this.getEditInfo(false)}
+								disabled={isEditing}
+							>
+								<i className={isEditing ?
+										'fa fa-spinner fa-spin' : 'fa fa-edit'} />
+									{editingStatus}
+							</button>
+						</div>
 					</div>
 				</div>
 			);
@@ -202,7 +208,7 @@ class EditGistLayout extends React.Component {
 			return (
 				<div className='create'>
 					<div className='error'>
-						Gistiä ei löytynyt tai sitä ei pystytty lataamaan ({fetchError}).
+						The gist you were looking for does not exist or it could not be loaded.
 					</div>
 				</div>
 			);

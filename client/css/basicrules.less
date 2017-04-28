@@ -1,5 +1,5 @@
 @default-background-color: #fafbff;
-@default-font-family: 'Roboto', sans-serif;
+@default-font-family: sans-serif;
 @default-border-color: #d8d6e5;
 @default-border-radius: 3px;
 @default-anchor-color: #0000EE;
@@ -33,6 +33,7 @@ input:focus,
 select:focus,
 button:focus {
     //outline: none;
+	outline-color: @default-font-color;
 }
 
 
@@ -78,6 +79,11 @@ button:disabled {
 	cursor: not-allowed;
 	opacity: 0.7;
 }
+
+button i {
+	margin-right: 6px;
+}
+
 
 .disabled a {
 	cursor: not-allowed;

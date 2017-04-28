@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import Suggestions from './Suggestions';
@@ -16,8 +17,19 @@ class FilterByLanguage extends React.Component {
 		this.autoComplete = this.autoComplete.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
 		this.getValueOnEnterPress = this.getValueOnEnterPress.bind(this);
-		this.state = {suggestions: [], suggestionsVisible: false, filter: null};
+		this.state = {suggestions: [], suggestionsVisible: true, filter: null};
 	}
+
+	componentDidMount() {
+        // Suljetaan dropdown, jos klikataan komponentin ulkopuolelle.
+        $(document).on('click', () => this.props.toggleFilteringView());
+		ReactDOM.findDOMNode(this.refs.filteringInput).focus();
+    }
+
+    componentWillUnmount() {
+        // Poistetaan kuuntelija, kun komponentti irrotetaan DOM:sta.
+        $(document).off('click');
+    }
 
 	getValueOnEnterPress(e) {
 		const isEnterPressed = e.keyCode === 13;
@@ -37,17 +49,17 @@ class FilterByLanguage extends React.Component {
 	}
 
 	showSuggestions() {
-		setTimeout(() => {
+		/*setTimeout(() => {
 			if(this.state.suggestionsVisible) {
 				this.setState({suggestionsVisible: false});
 			} else {
 				this.setState({suggestionsVisible: true});
 			}
-		}, 200);
+		}, 200);*/
 	}
 
 	hideSuggestions() {
-		this.setState({suggestionsVisible: false});
+		//this.setState({suggestionsVisible: false});
 	}
 
 	filterResults() {
@@ -59,12 +71,10 @@ class FilterByLanguage extends React.Component {
 		}
 	}
 
-
 	autoComplete(e) {
 		this.addFilter(e.currentTarget.textContent);
 		this.setState({suggestions: []});
 	}
-
 
 	addFilter(language) {
 		this.props.actions.addFilter(language);
@@ -76,19 +86,19 @@ class FilterByLanguage extends React.Component {
 		this.props.actions.removeFilter();
 	}
 
-
 	render() {
 		return (
 			<div className='filter-by-language'>
 				<input
 					type='text'
-					className='filter-input'
-					placeholder='Suodata'
+					ref='filteringInput'
+					className='filtering-input'
+					placeholder='Filter by programming language...'
 					onChange={this.getSuggestions}
 					onKeyUp={this.getValueOnEnterPress}
 				/>
 
-				{this.state.suggestionsVisible && this.state.suggestions.length > 0 &&
+				{this.state.suggestionsVisible &&
 					<Suggestions
 						suggestions={this.state.suggestions}
 						autoComplete={this.autoComplete}

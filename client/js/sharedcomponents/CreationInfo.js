@@ -18,15 +18,15 @@ export default function CreationInfo(props) {
             </Link>
 
             {createdAtUnformatted === updatedAtUnformatted && !forkInfo &&
-                <p>&nbsp;<span className='bullet'>&bull;</span> luotu {createdAt}</p>
+                <p>&nbsp;<span className='bullet'>&bull;</span> created {createdAt}</p>
             }
 
             {createdAtUnformatted !== updatedAtUnformatted && !forkInfo &&
-                <p>&nbsp;<span className='bullet'>&bull;</span> luotu {createdAt} &ndash; päivitetty {updatedAt}</p>
+                <p>&nbsp;<span className='bullet'>&bull;</span> created {createdAt} &ndash; updated {updatedAt}</p>
             }
 
             {createdAtUnformatted === updatedAtUnformatted && forkInfo &&
-                <p>&nbsp;<span className='bullet'>&bull;</span> luotu {createdAt} &ndash; forkattu kohteesta&nbsp;
+                <p>&nbsp;<span className='bullet'>&bull;</span> created {createdAt} &ndash; forked from&nbsp;
                     <Link to={'/search/' + forkInfo.owner}>
                         {forkInfo.owner}
                     </Link>&nbsp;/&nbsp;
@@ -37,7 +37,7 @@ export default function CreationInfo(props) {
             }
 
             {createdAtUnformatted !== updatedAtUnformatted && forkInfo &&
-                <p>&nbsp;<span className='bullet'>&bull;</span> päivitetty {updatedAt} &ndash; forkattu kohteesta&nbsp;
+                <p>&nbsp;<span className='bullet'>&bull;</span> updated {updatedAt} &ndash; forked from&nbsp;
                     <Link to={'/search/' + forkInfo.owner}>
                         {forkInfo.owner}
                     </Link>&nbsp;/&nbsp;

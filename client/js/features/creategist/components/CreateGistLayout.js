@@ -61,14 +61,12 @@ class CreateGistLayout extends React.Component {
 	render() {
 		const editors = this.state.editors;
 		const {isCreatingSecret, isCreatingPublic} = this.props;
-
 		const creationStatusSecret = this.props.isCreatingSecret ?
-				'Luodaan salaista gistiä...' : 'Luo salainen gist';
+				'Creating secret gist...' : 'Create secret gist';
 		const creationStatusPublic = this.props.isCreatingPublic ?
-				'Luodaan julkista gistiä...' : 'Luo julkinen gist';
+				'Creating public gist...' : 'Create public gist';
 		const isCreating = isCreatingSecret || isCreatingPublic ?
 				true : false;
-				console.log(this.props);
 
 		// Jos tiedosto-kenttiä on enemmän kuin 1,
 		// mahdollistetaan kenttien poistaminen
@@ -91,7 +89,7 @@ class CreateGistLayout extends React.Component {
 		return (
 			<div className='create'>
 				<div className='wrapper'>
-					<input type='text' className='description' placeholder='kuvaus' />
+					<input type='text' className='description' placeholder='Description' />
 
 					<div className='files'>
 						{fileFields}
@@ -103,7 +101,7 @@ class CreateGistLayout extends React.Component {
 							onClick={this.addFile}
 							disabled={isCreating}
 						>
-							<i className='fa fa-file-text-o'></i> Lisää tiedosto
+							<i className='fa fa-file-text-o'></i>Add file
 						</button>
 
 						<button
@@ -113,7 +111,7 @@ class CreateGistLayout extends React.Component {
 						>
 							<i className={isCreatingSecret ?
 									'fa fa-spinner fa-spin' : 'fa fa-paper-plane'} />
-									&nbsp;{creationStatusSecret}
+									{creationStatusSecret}
 						</button>
 
 						<button
@@ -123,7 +121,7 @@ class CreateGistLayout extends React.Component {
 						>
 							<i className={isCreatingPublic ?
 									'fa fa-spinner fa-spin' : 'fa fa-paper-plane-o'} />
-									&nbsp;{creationStatusPublic}
+									{creationStatusPublic}
 						</button>
 					</div>
 				</div>

@@ -29,12 +29,15 @@ class Filters extends React.Component {
 		this.toggleFilteringView = this.toggleFilteringView.bind(this);
 		this.useFilters = this.useFilters.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
-		this.state = {filterViewOpen: false, filter: null};
+		this.state = {
+			filterViewOpen: false,
+			filter: null,
+			filteringInputExpanded: false
+		};
 	}
 
 
-	fetch(e) {
-		const fetchMethod = e.target.value;
+	fetch(fetchMethod) {
 		this.context.router.push('/' + fetchMethod);
 	}
 
@@ -45,9 +48,19 @@ class Filters extends React.Component {
 		}
 	}
 
-
 	toggleFilteringView() {
-		this.setState({filteringViewOpen: !this.state.filteringViewOpen});
+		if(!this.state.filteringInputExpanded) {
+			setTimeout(() => {
+
+			}, 100);
+
+		}
+		//this.setState({filteringViewOpen: !this.state.filteringViewOpen});
+		this.setState({
+			filteringInputExpanded: !this.state.filteringInputExpanded
+		});
+
+
 	}
 
 
@@ -62,31 +75,38 @@ class Filters extends React.Component {
 
 	render() {
 		const {languages} = this.props.filters;
+		const type = this.props.fetchMethod;
 
 		return (
-			<div className='filters'>
-				<div className='filtering-options'>
-					<button className='refresh' onClick={this.refresh}>
-						<i className='fa fa-refresh' />
-					</button>
-
-					<select
-						className='select-fetch-method'
-						value={this.props.fetchMethod}
-						onChange={this.fetch}
+			<div className='filters' style={{width: '130%'}}>
+				<button id='refresh' onClick={this.refresh}>
+					<i className='fa fa-refresh' />
+				</button>
+				<button id='filter' onClick={this.toggleFilteringView}>
+					<i className='fa fa-filter' />
+				</button>
+				<div className='gist-types'>
+					<button className={type == 'gists' ?
+							'gist-type-tab active-tab' : 'gist-type-tab'}
+						onClick={() => this.fetch('gists')}
 					>
-						<option value='gists'>Omat gistit</option>
-						<option value='starred'>Suosikit</option>
-						<option value='discover'>Discover</option>
-						<option value='search' disabled>Haku</option>
-					</select>
+						Own gists
+					</button>
+					<button className={type == 'starred' ?
+							'gist-type-tab active-tab' : 'gist-type-tab'}
+						onClick={() => this.fetch('starred')}
+					>
+						Starred
+					</button>
+				</div>
 
+				{this.state.filteringInputExpanded &&
 					<FilterByLanguage
+						toggleFilteringView={this.toggleFilteringView}
 						actions={this.props.filteringActions}
 						activeFilters={languages}
 					/>
-				</div>
-
+				}
 
 				{languages &&
 					<div className='active-filters'>

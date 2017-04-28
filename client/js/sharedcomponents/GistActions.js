@@ -3,14 +3,14 @@ import React from 'react';
 
 function GistActions(props) {
 	const {id, isStarred, isForking, starGist, forkGist} = props;
-	const starredStatus = isStarred ? 'Poista suosikeista' : 'Lisää suosikkeihin';
+	const starredStatus = isStarred ? 'Unstar' : 'Star';
 	const starIcon = isStarred ? 'fa fa-star-o' : 'fa fa-star';
-	const forkingStatus = isForking ? 'Forkataan...' : 'Fork';
+	const forkingStatus = isForking ? 'Forking...' : 'Fork';
 
 	return (
 		<span className='actions'>
 			<button onClick={() => starGist(isStarred, id)}>
-				<i className={starIcon}/> {starredStatus}
+				<i className={starIcon}/>{starredStatus}
 			</button>
 
 			<button
@@ -20,7 +20,7 @@ function GistActions(props) {
 			>
 				<i className={isForking ?
 						'fa fa-spinner fa-spin' : 'fa fa-code-fork'} />
-					&nbsp;{forkingStatus}
+					{forkingStatus}
 			</button>
 		</span>
 	);

@@ -12,7 +12,7 @@ function FileInfoWithLink(props) {
 				<i className={indicatorClass} />
 			</button>
 			<button className='copy-source' onClick={props.copySource}>
-				<i className='fa fa-copy' /> Kopioi
+				<i className='fa fa-copy' />Copy
 			</button>
 		</div>
 	);

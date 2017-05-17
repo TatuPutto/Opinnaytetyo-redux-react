@@ -1,4 +1,5 @@
 @import url("./basicrules.less");
+@import url("./filters.less");
 
 .listing {
     min-width: 1200px;
@@ -14,254 +15,6 @@ button:hover {
 	text-decoration: none;
 }
 
-.filters button:hover {
-	background: #d6d9da;
-	text-decoration: none;
-}
-
-
-.notification {
-	max-width: 1000px;
-	word-break: break-word;
-	position: fixed;
-	background: white;
-	border-width: 1px;
-    border-style: solid;
-	border-color: @default-border-color;
-	border-radius: @default-border-radius;
-	top: 0px;
-	left: 40%;
-	z-index: 5;
-}
-
-.notification-headline {
-	background: whitesmoke;
-	height: 25px;
-	width: 100%;
-}
-
-.notification-message {
-	width: 100%;
-    padding: 20px 40px;
-	font-size: 16px;
-	font-weight: bold;
-}
-
-.close-notification {
-	position: absolute;
-	right: 5px;
-	top: 5px;
-}
-
-.notification-timer {
-	background-color: black;
-	height: 2px;
-	width: 100%;
-}
-
-.notification-time-left {
-	background-color: white;
-	height: 2px;
-	width: 0%;
-}
-
-.success {
-	background-color: #aeffae;
-	color: #3b6f15;
-}
-
-.failure {
-	background-color: #ffb5b5;
-	color: #bb1111;
-}
-
-/*////////////////////////////////////////////////////////////////////
-//////////////////////////Suodatus////////////////////////////////////
-////////////////////////////////////////////////////////////////////*/
-.filters {
-	flex: 0 1 auto;
-    float: left;
-	width: 100%;
-	border-bottom: 3px solid @default-border-color;
-}
-
-.filters button {
-	background-color: white;
-	border-style: solid;
-	border-width: 1px;
-	border-radius: @default-border-radius;
-	border-color: @default-border-color;
-	vertical-align: top;
-	height: 28px;
-}
-
-
-.filtering-options {
-	height: 40px;
-    padding: 8px 2%;
-}
-
-.gist-types {
-	float: left;
-}
-
-.gist-type-tab {
-	display: inline-block;
-	background: transparent !important;
-	line-height: 31px;
-    text-align: center;
-    height: 37px !important;
-	padding: 0;
-	margin-right: 10px;
-	border: 1px solid transparent !important;
-    border-top-width: 4px !important;
-	border-top-left-radius: 4px !important;
-    border-top-right-radius: 4px !important;
-	border-bottom-left-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
-	border-bottom: none !important;
-}
-
-.gist-type-tab:focus {
-	outline: none;
-}
-
-.gist-type-tab.active-tab {
-	background: white !important;
-	border-color: @default-border-color !important;
-    border-top-color: @default-font-color !important;
-	padding: 0 10px;
-}
-
-
-.filter-input {
-	height: 28px;
-	width: 100%;
-	font-size: 14px;
-//	margin-left: 4px;
-	padding-right: 5px;
-	padding-left: 5px;
-}
-
-
-.filtering-input {
-    /*margin-top: 8px;
-	visibility: hidden;
-	width: 0%;
-	transition: visibility 0.1s, width 0.1s ease-out;*/
-	visibility: visible;
-    width: 28.5%;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    height: 35px;
-}
-/*
-.filtering-input.open {
-	visibility: visible;
-	width: 40%;
-}
-
-.filtering-input.closed {
-	visibility: hidden;
-	width: 0%;
-}
-*/
-
-#filter {
-	margin-top: 6px;
-	margin-right: 0;
-	margin-left: 0;
-	float: left;
-	border: none;
-	font-size: 16px;
-    color: #686b70;
-	background: transparent
-}
-
-#refresh {
-	margin-top: 6px;
-	margin-right: 0;
-	margin-left: 10px;
-	float: left;
-	border: none;
-	font-size: 16px;
-    color: #686b70;
-	background: transparent
-}
-
-#refresh:focus {
-	outline: none;
-}
-
-#refresh i {
-	margin-right: 0;
-}
-
-.select-fetch-method {
-	cursor: pointer;
-	height: 28px;
-//	width: 35%;
-
-	width:calc(~'100% - 38px - 52%');
-
-//	height:calc(~'100% - 65px');
-	font-size: 14px;
-	float: left;
-	//margin-right: 4px;
-	margin-right: 1%;
-}
-
-/*////////////////////////////////////////////////////////////////////
-////////////////Suodatus ohjelmointikielen perusteella////////////////
-////////////////////////////////////////////////////////////////////*/
-.filter-by-language {
-	display: inline;
-	float: left;
-	width: 50%;
-}
-
-.active-filters {
-    margin-top: 10px;
-}
-
-
-.language-filter {
-	cursor: pointer;
-	//margin-top: 5px;
-	margin-right: 5px;
-}
-
-.suggestions {
-	width: 28.5%;
-	background: #D4DDE0;
-	border: 1px solid @default-border-color;
-	border-radius: 3px;
-	overflow-y: auto;
-	position: absolute;
-	top: 50px;
-	left: 10px;
-	z-index: 1;
-    box-shadow: 2px 3px 3px #d6d4d4;
-}
-
-.suggestions ul {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-.suggestions li {
-    background: white;
-    cursor: pointer;
-    padding: 10px 10px;
-}
-
-.suggestions li:hover {
-    background-color: #f1f1f1;
-}
-
-
 /*////////////////////////////////////////////////////////////////////
 //////////////////////////Gistien listaus/////////////////////////////
 ////////////////////////////////////////////////////////////////////*/
@@ -271,7 +24,8 @@ button:hover {
 	float: left;
 	height:calc(~'100% - 15px');
 	width: 30%;
-	margin-top: 15px;
+	margin-top: 10px;
+    border-top: 1px solid #d8d6e5;
 }
 
 .gist-list {
@@ -429,11 +183,11 @@ button:hover {
 /*Oikea content - yksittainen gist*/
 .content-right {
 	width: 70%;
-	height:calc(~'100% - 52px');
+	height:calc(~'100% - 10px');
 	float: left;
-    margin-top: 52px;
+    margin-top: 10px;
 	background: white;
-	border-top: 3px solid @default-border-color;
+	border-top: 1px solid @default-border-color;
 }
 
 
@@ -602,7 +356,7 @@ button:hover {
 }
 
 .gist-files {
-	margin: 6px;
+	padding: 10px;
 	background: @default-background-color;
     //height: calc(~'100% - 118px');
 }

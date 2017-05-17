@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import Suggestions from './Suggestions';
@@ -9,6 +8,7 @@ import getSuggestions from '../../../../utility/getsuggestions';
 class FilterByLanguage extends React.Component {
 	constructor() {
 		super();
+		this.focusInput = this.focusInput.bind(this);
 		this.addFilter = this.addFilter.bind(this);
 		this.filterResults = this.filterResults.bind(this);
 		this.getSuggestions = this.getSuggestions.bind(this);
@@ -17,19 +17,17 @@ class FilterByLanguage extends React.Component {
 		this.autoComplete = this.autoComplete.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
 		this.getValueOnEnterPress = this.getValueOnEnterPress.bind(this);
-		this.state = {suggestions: [], suggestionsVisible: true, filter: null};
+		this.state = {
+			inputFocused: false,
+			suggestions: [],
+			suggestionsVisible: false,
+			filter: null
+		};
 	}
 
-	componentDidMount() {
-        // Suljetaan dropdown, jos klikataan komponentin ulkopuolelle.
-        $(document).on('click', () => this.props.toggleFilteringView());
-		ReactDOM.findDOMNode(this.refs.filteringInput).focus();
-    }
-
-    componentWillUnmount() {
-        // Poistetaan kuuntelija, kun komponentti irrotetaan DOM:sta.
-        $(document).off('click');
-    }
+	focusInput() {
+		this.setState({inputFocused: !this.state.inputFocused});
+	}
 
 	getValueOnEnterPress(e) {
 		const isEnterPressed = e.keyCode === 13;
@@ -49,17 +47,17 @@ class FilterByLanguage extends React.Component {
 	}
 
 	showSuggestions() {
-		/*setTimeout(() => {
+		setTimeout(() => {
 			if(this.state.suggestionsVisible) {
 				this.setState({suggestionsVisible: false});
 			} else {
 				this.setState({suggestionsVisible: true});
 			}
-		}, 200);*/
+		}, 200);
 	}
 
 	hideSuggestions() {
-		//this.setState({suggestionsVisible: false});
+		this.setState({suggestionsVisible: false});
 	}
 
 	filterResults() {
@@ -87,18 +85,22 @@ class FilterByLanguage extends React.Component {
 	}
 
 	render() {
+		const inputClass = 'filter-input ' +
+				(this.state.inputFocused ? 'focused' : '');
+
 		return (
 			<div className='filter-by-language'>
 				<input
 					type='text'
-					ref='filteringInput'
-					className='filtering-input'
-					placeholder='Filter by programming language...'
+					className={inputClass}
+					placeholder='Suodata'
 					onChange={this.getSuggestions}
 					onKeyUp={this.getValueOnEnterPress}
+					onFocus={this.focusInput}
+					onBlur={this.focusInput}
 				/>
 
-				{this.state.suggestionsVisible &&
+				{this.state.suggestionsVisible && this.state.suggestions.length > 0 &&
 					<Suggestions
 						suggestions={this.state.suggestions}
 						autoComplete={this.autoComplete}

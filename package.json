@@ -27,6 +27,7 @@
     "less": "^2.7.2",
     "nodemon": "^1.11.0",
     "normalizr": "^3.2.2",
+    "promise-polyfill": "^6.0.2",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
@@ -34,7 +35,8 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "dev": "webpack-dev-server --content-base src --port 8000 --hot --inline --history-api-fallback",

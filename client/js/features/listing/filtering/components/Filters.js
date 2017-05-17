@@ -29,15 +29,12 @@ class Filters extends React.Component {
 		this.toggleFilteringView = this.toggleFilteringView.bind(this);
 		this.useFilters = this.useFilters.bind(this);
 		this.removeFilter = this.removeFilter.bind(this);
-		this.state = {
-			filterViewOpen: false,
-			filter: null,
-			filteringInputExpanded: false
-		};
+		this.state = {filterViewOpen: false, filter: null};
 	}
 
 
-	fetch(fetchMethod) {
+	fetch(e) {
+		const fetchMethod = e.target.value;
 		this.context.router.push('/' + fetchMethod);
 	}
 
@@ -48,19 +45,9 @@ class Filters extends React.Component {
 		}
 	}
 
+
 	toggleFilteringView() {
-		if(!this.state.filteringInputExpanded) {
-			setTimeout(() => {
-
-			}, 100);
-
-		}
-		//this.setState({filteringViewOpen: !this.state.filteringViewOpen});
-		this.setState({
-			filteringInputExpanded: !this.state.filteringInputExpanded
-		});
-
-
+		this.setState({filteringViewOpen: !this.state.filteringViewOpen});
 	}
 
 
@@ -75,38 +62,31 @@ class Filters extends React.Component {
 
 	render() {
 		const {languages} = this.props.filters;
-		const type = this.props.fetchMethod;
 
 		return (
-			<div className='filters' style={{width: '130%'}}>
-				<button id='refresh' onClick={this.refresh}>
-					<i className='fa fa-refresh' />
-				</button>
-				<button id='filter' onClick={this.toggleFilteringView}>
-					<i className='fa fa-filter' />
-				</button>
-				<div className='gist-types'>
-					<button className={type == 'gists' ?
-							'gist-type-tab active-tab' : 'gist-type-tab'}
-						onClick={() => this.fetch('gists')}
-					>
-						Own gists
+			<div className='filters'>
+				<div className='filtering-options'>
+					<button className='refresh' onClick={this.refresh}>
+						<i className='fa fa-refresh' />
 					</button>
-					<button className={type == 'starred' ?
-							'gist-type-tab active-tab' : 'gist-type-tab'}
-						onClick={() => this.fetch('starred')}
-					>
-						Starred
-					</button>
-				</div>
 
-				{this.state.filteringInputExpanded &&
+					<select
+						className='select-fetch-method'
+						value={this.props.fetchMethod}
+						onChange={this.fetch}
+					>
+						<option value='gists'>Omat gistit</option>
+						<option value='starred'>Suosikit</option>
+						<option value='discover'>Discover</option>
+						<option value='search' disabled>Haku</option>
+					</select>
+
 					<FilterByLanguage
-						toggleFilteringView={this.toggleFilteringView}
 						actions={this.props.filteringActions}
 						activeFilters={languages}
 					/>
-				}
+				</div>
+
 
 				{languages &&
 					<div className='active-filters'>
@@ -126,53 +106,4 @@ class Filters extends React.Component {
 	}
 }
 
-/*
-function mapStateToProps(state) {
-	return {
-		gists: state.gists.items,
-		fetchMethod: state.gists.fetchMethod,
-		filter: state.gists.filter
-		//chronologicalOrder: state.gists.chronologicalOrder,
-		//filterByLanguage: state.gists.filterByLanguage
-	}
-}
-
-
-function mapDispatchToProps(dispatch) {
-	console.log(filteringActions);
-
-	return {
-		fetch: (fetchMethod) => {
-			dispatch(fetchGists(fetchMethod));
-		},
-		refresh: (fetchMethod) => {
-			dispatch(fetchGists(fetchMethod));
-		},
-		sortByDate: (gists, chronologicalOrder) => {
-			if(chronologicalOrder) {
-				dispatch(sortOldestToNewest(gists));
-			}
-			else {
-				dispatch(sortNewestToOldest(gists));
-			}
-		},
-		filterByLanguage: (language, gists) => {
-			dispatch(filterByLanguage(language, gists));
-		},
-		setFilters: (language) => {
-			dispatch(setFilters(language));
-		},
-		removeFilter: () => {
-			dispatch(removeFilter());
-		},
-		filteringActions: bindActionCreators(filteringActions, dispatch)
-	};
-	/*
-	return {
-		filteringActions: bindActionCreators(filteringActions, dispatch);
-	};*/
-
-// }
 export default Filters;
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Filters);

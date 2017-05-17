@@ -27,6 +27,17 @@ require('../css/single.less');
 require('../css/creategist.less');
 require('../css/comments.less');
 
+import Promise from 'promise-polyfill';
+
+// To add to window
+if (!window.Promise) {
+	console.log('ei promise tukea');
+  window.Promise = Promise;
+} else {
+		console.log('Tuki löytyy');
+}
+
+
 const userInfo = getUserInfoFromCookie();
 let loggedIn;
 if(userInfo.length === 0) {

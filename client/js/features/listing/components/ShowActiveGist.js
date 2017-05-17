@@ -14,7 +14,7 @@ function ShowActiveGist(props) {
 				<Loading />
 			}
 			{!isListLoading && !isFetching && !fetchError && item.hasOwnProperty('id') &&
-				<div>
+				<div style={{display: 'flex', flexDirection: 'column'}}>
 					<GistInfo
 						gist={props.activeGist}
 						userId={props.userId}

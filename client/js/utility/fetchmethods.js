@@ -1,3 +1,6 @@
+// fetch polyfill
+import 'whatwg-fetch';
+
 let fetchParams = {
 	headers: {
 		'Accept': 'application/json',

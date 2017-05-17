@@ -7,7 +7,7 @@ var getAccessToken = require('./routes/getaccesstoken');
 var clientRoute = require('./routes/clientroute');
 
 var app = express();
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 3000;
 
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/login', login);

@@ -5,6 +5,7 @@ var router = express.Router();
 
 // get accesstoken and user info
 router.get('/', (req, res) => {
+    console.log('täällä');
     exchangeCodeToAccessToken(req.query.code)
         .then((accessToken) => {
             // if access token was acquired succesfully,

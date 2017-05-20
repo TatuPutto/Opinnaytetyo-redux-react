@@ -1,3 +1,5 @@
 node_modules
 .lessrc
 .eslintrc
+./server/public/index.html
+./client/index.html

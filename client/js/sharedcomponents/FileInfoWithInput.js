@@ -27,7 +27,7 @@ function FileInfoWithInput(props) {
 
 			{isRemovable &&
 				<button className='remove-file' onClick={() => remove(id)}>
-					<i className='fa fa-trash'></i> Delete
+					<i className='fa fa-trash'></i>Delete
 				</button>
 			}
 		</div>

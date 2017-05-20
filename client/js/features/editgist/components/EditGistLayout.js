@@ -188,7 +188,7 @@ class EditGistLayout extends React.Component {
 								onClick={this.addFile}
 								disabled={isEditing}
 							>
-								<i className='fa fa-file-text-o'></i> Add file
+								<i className='fa fa-file-text-o'></i>Add file
 							</button>
 
 							<button

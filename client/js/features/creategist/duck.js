@@ -14,13 +14,13 @@ export default function reducer(state = {
 		case 'IS_CREATING_PUBLIC':
 			return {
 				...state,
-				isCreatingPublic: true,
+				isCreatingPublic: true
 			};
 			break;
         case 'IS_CREATING_SECRET':
             return {
                 ...state,
-                isCreatingSecret: true,
+                isCreatingSecret: true
             };
             break;
         case 'CREATED':
@@ -28,6 +28,7 @@ export default function reducer(state = {
 				...state,
             	isCreatingSecret: false,
 			    isCreatingPublic: false,
+				creationError: null
 			};
 			break;
 		case 'CREATION_FAILED':
@@ -72,11 +73,11 @@ export function createGist(gistJson, isPublic) {
 }
 
 export function creatingPublicGist() {
-    return {type: 'IS_CREATING_SECRET'};
+	return {type: 'IS_CREATING_PUBLIC'};
 }
 
 export function creatingSecretGist() {
-    return {type: 'IS_CREATING_PUBLIC'};
+	return {type: 'IS_CREATING_SECRET'};
 }
 
 export function createdSuccessfully() {

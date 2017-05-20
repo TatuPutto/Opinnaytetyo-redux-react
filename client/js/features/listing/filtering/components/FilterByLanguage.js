@@ -93,7 +93,7 @@ class FilterByLanguage extends React.Component {
 				<input
 					type='text'
 					className={inputClass}
-					placeholder='Suodata'
+					placeholder='Filter results'
 					onChange={this.getSuggestions}
 					onKeyUp={this.getValueOnEnterPress}
 					onFocus={this.focusInput}

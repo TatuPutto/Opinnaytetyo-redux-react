@@ -86,13 +86,13 @@ class GistList extends React.Component {
 		return (
 			<div className='gist-list' ref='gistlist'>
 				{fetchError &&
-					<p>Gistien hakemisessa tapahtui virhe. {fetchError}</p>
+					<p>Failed to fetch {fetchError}.</p>
 				}
 				{isFetching && !fetchError &&
 					 <Loading />
 				}
 				{!isFetching && listItems.length === 0 && !fetchError &&
-					<p>Hakuehtoja vastaavia gistejä ei löytynyt.</p>
+					<p>No matches.</p>
 				}
 				{listItems.length > 0 && !fetchError && !isFetching &&
 					<ul>

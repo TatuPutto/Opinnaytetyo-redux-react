@@ -33,7 +33,7 @@ export function editGist(id, editJson) {
 			.then(readJson)
 			.then((data) => {
 				dispatch(editedSuccessfully());
-				dispatch(notify('success', 'Gistin muokkaaminen onnistui.'));
+				dispatch(notify('success', 'Gist was edited successfully.'));
 				// Asetetaan muokattu gist aktiiviseksi
 				// ja ohjataan käyttäjä muokatun gistin näkymään.
 				dispatch(receiveSelectedGist(data));
@@ -41,7 +41,7 @@ export function editGist(id, editJson) {
 			}).catch((error) => {
 				dispatch(editingFailed());
 				dispatch(notify('failure',
-						`Gistin muokkaaminen ei onnistunut (${error.message}).`));
+						`Gist edit failed (${error.message}).`));
 			});
 	};
 }

@@ -75,10 +75,10 @@ class Filters extends React.Component {
 						value={this.props.fetchMethod}
 						onChange={this.fetch}
 					>
-						<option value='gists'>Omat gistit</option>
-						<option value='starred'>Suosikit</option>
+						<option value='gists'>Own gists</option>
+						<option value='starred'>Starred</option>
 						<option value='discover'>Discover</option>
-						<option value='search' disabled>Haku</option>
+						<option value='search' disabled>Search</option>
 					</select>
 
 					<FilterByLanguage

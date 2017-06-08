@@ -13,7 +13,6 @@ class Notification extends React.Component {
 
 	render() {
 		const {isOpen, notificationType, message} = this.props;
-
 		const icon = notificationType === 'success' ?
 				'fa fa-check' : 'fa fa-remove';
 

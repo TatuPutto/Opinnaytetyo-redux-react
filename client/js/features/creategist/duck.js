@@ -60,13 +60,13 @@ export function createGist(gistJson, isPublic) {
 			.then((data) => {
 				dispatch(createdSuccessfully());
 				dispatch(receiveSelectedGist(data));
-				dispatch(notify('success', 'Gistin luominen onnistui.'));
+				dispatch(notify('success', 'Gist created successfully.'));
 				browserHistory.push('/gist/' + data.id);
 			}).catch((error) => {
 				dispatch(creationFailed(error));
 				dispatch(notify(
                     'failure',
-					`Gistin luominen epäonnistui (${error.message}).`
+					`Gist creation failed (${error.message}).`
                 ));
 			});
 	};

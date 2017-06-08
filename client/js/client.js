@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
+import Promise from 'promise-polyfill';
 
 import store from './createStore';
 import {receiveUserInfo} from './features/user/duck';
@@ -27,16 +28,9 @@ require('../css/single.less');
 require('../css/creategist.less');
 require('../css/comments.less');
 
-import Promise from 'promise-polyfill';
-
-// To add to window
 if (!window.Promise) {
-	console.log('ei promise tukea');
   window.Promise = Promise;
-} else {
-		console.log('Tuki löytyy');
 }
-
 
 const userInfo = getUserInfoFromCookie();
 let loggedIn;

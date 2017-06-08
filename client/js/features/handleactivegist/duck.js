@@ -18,7 +18,7 @@ export default function reducer(state = {
 			return {
 				...state,
 				id: null,
-				activeGist: null,
+				item: {},
 				isFetching: false
 			};
 		//Aktiivisen gistin hakeminen aloitettiin.
@@ -139,10 +139,10 @@ export function starGist(id) {
 			.then(checkStatus)
 			.then(() => {
 				dispatch(starred());
-				dispatch(notify('success', 'Lisätty suosikkeihin.'));
+				dispatch(notify('success', 'Added to favorites.'));
 			}).catch((error) => dispatch(notify(
 				'failure',
-				`Suosikkeihin lisääminen epäonnistui (${error.message}).`
+				`Gist couldn\'t be added to favorites (${error.message}).`
 			)));
 	};
 }
@@ -161,10 +161,10 @@ export function unstarGist(id) {
 			.then(checkStatus)
 			.then(() => {
 				dispatch(notStarred());
-				dispatch(notify('success', 'Poistettu suosikeista.'));
+				dispatch(notify('success', 'Removed from favorites.'));
 			}).catch((error) => dispatch(notify(
 				'failure',
-				`Suosikeista poistaminen epäonnistui (${error.message}).`
+				`Gist couldn\'t be removed from favorites (${error.message}).`
 			)));
 	};
 }
@@ -183,10 +183,10 @@ export function forkGist(id) {
 			.then(checkStatus)
 			.then(() => {
 				dispatch(forked());
-				dispatch(notify('success', 'Kopioitu tilille.'));
+				dispatch(notify('success', 'Forked succesfully.'));
 			}).catch((error) => dispatch(notify(
 				'failure',
-				`Kopioiminen epäonnistui (${error.message}).`
+				`Forking failed (${error.message}).`
 			)));
 	};
 }
@@ -213,7 +213,7 @@ export function checkIfForked(id) {
 				data.forEach((fork) => {
 					// Jos kirjautuneen käyttäjän id löytyy forkkauksista, estetään forkkaus.
 					if(fork.owner.id === Number(userInfo.user.id)) {
-						dispatch(notify('failure', 'Olet jo forkannut tämän gistin.'));
+						dispatch(notify('failure', 'You have already forked this gist.'));
 						isForked = true;
 					}
 				});
@@ -249,7 +249,7 @@ export function deleteGist(id) {
 				dispatch(removeGistFromList(id));
 			}).catch((error) => dispatch(notify(
 				'failure',
-				`Poistaminen epäonnistui (${error.message}).`
+				`Gist couldn\'t be removed (${error.message}).`
 			)));
 	};
 }

@@ -1,12 +1,13 @@
 'use strict';
 
-let debug = process.env.NODE_ENV !== 'production';
+var productionEnv = 'production';
+var debug = productionEnv !== 'production';
 let webpack = require('webpack');
 let path = require('path');
 
 module.exports = {
 	context: path.join(__dirname),
-    devtool: debug ? 'inline-sourcemap' : null,
+    devtool: debug ? 'inline-sourcemap' : false,
     entry: {
         javascript: './client/js/client.js',
 		html: './client/index.html'
@@ -43,8 +44,9 @@ module.exports = {
     	filename: 'client.min.js'
     },
     plugins: debug ? [] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
+		new webpack.DefinePlugin({
+			'process.env': {NODE_ENV: JSON.stringify('production')}
+		}),
+		new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
     ]
 };
